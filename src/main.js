@@ -122,3 +122,20 @@ if (vessel && !reducedMotion) {
     { passive: true },
   );
 }
+
+document.querySelectorAll("[data-facility-film]").forEach((facility) => {
+  if (reducedMotion) return;
+
+  facility.addEventListener("pointermove", (event) => {
+    const bounds = facility.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 18;
+    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 12;
+    facility.style.setProperty("--facility-x", `${x}px`);
+    facility.style.setProperty("--facility-y", `${y}px`);
+  }, { passive: true });
+
+  facility.addEventListener("pointerleave", () => {
+    facility.style.setProperty("--facility-x", "0px");
+    facility.style.setProperty("--facility-y", "0px");
+  }, { passive: true });
+});
