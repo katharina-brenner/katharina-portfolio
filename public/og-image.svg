@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f2efdf"/>
+  <circle cx="1000" cy="100" r="230" fill="#ff6249"/>
+  <circle cx="1030" cy="80" r="138" fill="#16241f"/>
+  <path d="M0 510C250 410 330 610 610 485s410-26 590 10v135H0Z" fill="#d8e0c5"/>
+  <text x="72" y="218" fill="#16241f" font-family="Arial, sans-serif" font-size="34" letter-spacing="5">KATHARINA JULIA BRENNER</text>
+  <text x="72" y="318" fill="#16241f" font-family="Georgia, serif" font-size="70">Science into systems.</text>
+  <text x="72" y="392" fill="#16241f" font-family="Georgia, serif" font-size="70">Systems into progress.</text>
+  <text x="75" y="462" fill="#48574f" font-family="Arial, sans-serif" font-size="25">BIOPROCESS ENGINEERING · AI · CELLULAR AGRICULTURE</text>
+</svg>
+
