@@ -27,7 +27,13 @@ const mobileNavigation = [
 document.querySelector("[data-shell-header]").outerHTML = `
   <header class="site-header" data-header>
     <a class="wordmark" href="/" aria-label="Katharina Julia Brenner, home">
-      <span class="wordmark-mark" aria-hidden="true"><span>KJB</span></span>
+      <span class="wordmark-symbol" aria-hidden="true">
+        <svg viewBox="0 0 48 48" focusable="false">
+          <circle class="wordmark-star-orbit" cx="24" cy="24" r="19.5" />
+          <path class="wordmark-star-shape" d="M24 5c1.2 10.7 8.3 17.8 19 19-10.7 1.2-17.8 8.3-19 19-1.2-10.7-8.3-17.8-19-19 10.7-1.2 17.8-8.3 19-19Z" />
+          <circle class="wordmark-star-core" cx="24" cy="24" r="3.2" />
+        </svg>
+      </span>
       <span class="wordmark-role">Process systems</span>
     </a>
     <nav class="desktop-nav" aria-label="Main navigation">${navigation}</nav>
