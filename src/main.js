@@ -23,20 +23,83 @@ if (reducedMotion) {
 }
 
 const header = document.querySelector("[data-header]");
-let lastScroll = 0;
+const progress = document.querySelector("[data-scroll-progress]");
+const navLinks = [...document.querySelectorAll("[data-nav-link]")];
+const trackedSections = navLinks
+  .map((link) => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+let scrollTicking = false;
 
-window.addEventListener(
-  "scroll",
-  () => {
-    const currentScroll = window.scrollY;
-    header.classList.toggle("is-scrolled", currentScroll > 24);
-    header.classList.toggle("is-hidden", currentScroll > lastScroll && currentScroll > 180);
-    lastScroll = currentScroll;
+const updateScrollInterface = () => {
+  const currentScroll = window.scrollY;
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const ratio = scrollable > 0 ? Math.min(currentScroll / scrollable, 1) : 0;
+
+  header.classList.toggle("is-scrolled", currentScroll > 24);
+  progress.style.transform = `scaleX(${ratio})`;
+  scrollTicking = false;
+};
+
+window.addEventListener("scroll", () => {
+  if (scrollTicking) return;
+  scrollTicking = true;
+  window.requestAnimationFrame(updateScrollInterface);
+}, { passive: true });
+
+updateScrollInterface();
+
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (!visible) return;
+
+    navLinks.forEach((link) => {
+      const isActive = link.getAttribute("href") === `#${visible.target.id}`;
+      link.classList.toggle("is-active", isActive);
+      if (isActive) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
   },
-  { passive: true },
+  { rootMargin: "-24% 0px -62% 0px", threshold: [0, 0.2, 0.5] },
 );
 
+trackedSections.forEach((section) => sectionObserver.observe(section));
+
 document.querySelector("[data-year]").textContent = new Date().getFullYear();
+
+const menuToggle = document.querySelector("[data-menu-toggle]");
+const mobileMenu = document.querySelector("[data-mobile-menu]");
+const mobileLinks = document.querySelectorAll("[data-mobile-link]");
+
+const setMenuOpen = (isOpen) => {
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  mobileMenu.setAttribute("aria-hidden", String(!isOpen));
+  mobileMenu.toggleAttribute("inert", !isOpen);
+  mobileMenu.classList.toggle("is-open", isOpen);
+  document.body.classList.toggle("menu-open", isOpen);
+};
+
+menuToggle.addEventListener("click", () => {
+  setMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
+});
+
+mobileLinks.forEach((link) => {
+  link.addEventListener("click", () => setMenuOpen(false));
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setMenuOpen(false);
+});
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 820) setMenuOpen(false);
+}, { passive: true });
 
 const vessel = document.querySelector(".process-vessel");
 
@@ -52,4 +115,3 @@ if (vessel && !reducedMotion) {
     { passive: true },
   );
 }
-
