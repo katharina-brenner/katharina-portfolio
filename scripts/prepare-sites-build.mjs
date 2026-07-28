@@ -7,6 +7,7 @@ await copyFile(".openai/hosting.json", "dist/.openai/hosting.json");
 
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
+  ".gif": "image/gif",
   ".html": "text/html; charset=utf-8",
   ".jpeg": "image/jpeg",
   ".jpg": "image/jpeg",
