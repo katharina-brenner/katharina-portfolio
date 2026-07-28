@@ -100,16 +100,32 @@ h3 {
 }
 
 .wordmark-mark {
+  position: relative;
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 62px;
+  height: 36px;
   color: var(--paper);
-  border-radius: 50%;
+  border-radius: 20px;
   background: var(--ink);
   place-items: center;
   font-family: var(--serif);
-  font-size: 20px;
-  letter-spacing: 0;
+  font-size: 16px;
+  font-style: italic;
+  letter-spacing: 0.07em;
+}
+
+.wordmark-mark::after {
+  position: absolute;
+  right: 15px;
+  bottom: 5px;
+  left: 15px;
+  height: 2px;
+  background: var(--acid);
+  content: "";
+}
+
+.wordmark-mark > span {
+  transform: translateY(-2px);
 }
 
 .desktop-nav {
@@ -1212,9 +1228,10 @@ h3 {
   top: 50%;
   left: 50%;
   font-family: var(--serif);
-  font-size: 100px;
+  font-size: 64px;
   font-style: italic;
   font-weight: 300;
+  letter-spacing: -0.055em;
   transform: translate(-54%, -47%);
 }
 
@@ -1845,7 +1862,7 @@ button:focus-visible {
 }
 
 .wordmark-mark {
-  width: 38px;
+  width: 64px;
   height: 38px;
   box-shadow: inset 0 0 0 1px rgba(244, 244, 241, 0.2);
 }
