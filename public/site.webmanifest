@@ -1,0 +1,21 @@
+{
+  "name": "Katharina Julia Brenner",
+  "short_name": "KJB",
+  "description": "Industrial process modeling and bioengineering.",
+  "start_url": "/",
+  "display": "minimal-ui",
+  "background_color": "#f4f4f1",
+  "theme_color": "#06182f",
+  "icons": [
+    {
+      "src": "/favicon-kjb-v2.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

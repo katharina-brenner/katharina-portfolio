@@ -12,9 +12,13 @@ const contentTypes = {
   ".jpg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".map": "application/json; charset=utf-8",
   ".png": "image/png",
   ".svg": "image/svg+xml",
+  ".txt": "text/plain; charset=utf-8",
+  ".webmanifest": "application/manifest+json; charset=utf-8",
   ".webp": "image/webp",
+  ".xml": "application/xml; charset=utf-8",
 };
 
 async function collectAssets(directory, root = directory) {
@@ -54,26 +58,49 @@ export default {
   async fetch(request) {
     const url = new URL(request.url);
     let pathname = url.pathname;
+    let status = 200;
     if (pathname === "/") {
       pathname = "/index.html";
     } else if (pathname.endsWith("/")) {
       const directoryIndex = \`\${pathname}index.html\`;
-      pathname = assets[directoryIndex] ? directoryIndex : "/index.html";
+      if (assets[directoryIndex]) {
+        pathname = directoryIndex;
+      } else {
+        pathname = "/404.html";
+        status = 404;
+      }
     } else if (!assets[pathname] && !pathname.split("/").pop().includes(".")) {
       const directoryIndex = \`\${pathname}/index.html\`;
-      pathname = assets[directoryIndex] ? directoryIndex : "/index.html";
+      if (assets[directoryIndex]) {
+        pathname = directoryIndex;
+      } else {
+        pathname = "/404.html";
+        status = 404;
+      }
     }
 
-    const asset = assets[pathname];
+    let asset = assets[pathname];
     if (!asset) {
-      return new Response("Not found", { status: 404 });
+      pathname = "/404.html";
+      asset = assets[pathname];
+      status = 404;
+    }
+    if (!asset) {
+      return new Response("Not found", {
+        status: 404,
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
     }
 
-    const cacheControl = pathname.endsWith("/index.html")
+    const cacheControl = pathname.endsWith(".html")
+      || pathname === "/robots.txt"
+      || pathname === "/sitemap.xml"
+      || pathname === "/site.webmanifest"
       ? "public, max-age=0, must-revalidate"
       : "public, max-age=31536000, immutable";
 
-    return new Response(decode(asset.body), {
+    return new Response(request.method === "HEAD" ? null : decode(asset.body), {
+      status,
       headers: {
         "Content-Type": asset.contentType,
         "Cache-Control": cacheControl,
