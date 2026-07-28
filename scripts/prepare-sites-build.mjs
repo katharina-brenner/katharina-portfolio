@@ -50,10 +50,14 @@ export default {
   async fetch(request) {
     const url = new URL(request.url);
     let pathname = url.pathname;
-    if (pathname === "/" || pathname.endsWith("/")) {
+    if (pathname === "/") {
       pathname = "/index.html";
+    } else if (pathname.endsWith("/")) {
+      const directoryIndex = \`\${pathname}index.html\`;
+      pathname = assets[directoryIndex] ? directoryIndex : "/index.html";
     } else if (!assets[pathname] && !pathname.split("/").pop().includes(".")) {
-      pathname = "/index.html";
+      const directoryIndex = \`\${pathname}/index.html\`;
+      pathname = assets[directoryIndex] ? directoryIndex : "/index.html";
     }
 
     const asset = assets[pathname];
@@ -61,7 +65,7 @@ export default {
       return new Response("Not found", { status: 404 });
     }
 
-    const cacheControl = pathname === "/index.html"
+    const cacheControl = pathname.endsWith("/index.html")
       ? "public, max-age=0, must-revalidate"
       : "public, max-age=31536000, immutable";
 
