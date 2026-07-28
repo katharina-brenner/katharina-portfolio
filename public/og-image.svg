@@ -1,11 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#f2efdf"/>
-  <circle cx="1000" cy="100" r="230" fill="#ff6249"/>
-  <circle cx="1030" cy="80" r="138" fill="#16241f"/>
-  <path d="M0 510C250 410 330 610 610 485s410-26 590 10v135H0Z" fill="#d8e0c5"/>
-  <text x="72" y="218" fill="#16241f" font-family="Arial, sans-serif" font-size="34" letter-spacing="5">KATHARINA JULIA BRENNER</text>
-  <text x="72" y="318" fill="#16241f" font-family="Georgia, serif" font-size="70">Science into systems.</text>
-  <text x="72" y="392" fill="#16241f" font-family="Georgia, serif" font-size="70">Systems into progress.</text>
-  <text x="75" y="462" fill="#48574f" font-family="Arial, sans-serif" font-size="25">BIOPROCESS ENGINEERING · AI · CELLULAR AGRICULTURE</text>
+  <rect width="1200" height="630" fill="#edf4fb"/>
+  <circle cx="1000" cy="100" r="230" fill="#1f6eff"/>
+  <circle cx="1030" cy="80" r="138" fill="#061a33"/>
+  <path d="M0 510C250 410 330 610 610 485s410-26 590 10v135H0Z" fill="#b8d6ef"/>
+  <text x="72" y="218" fill="#061a33" font-family="Arial, sans-serif" font-size="34" letter-spacing="5">KATHARINA JULIA BRENNER</text>
+  <text x="72" y="318" fill="#061a33" font-family="Georgia, serif" font-size="70">Industrial processes.</text>
+  <text x="72" y="392" fill="#061a33" font-family="Georgia, serif" font-size="70">Engineered for scale.</text>
+  <text x="75" y="462" fill="#45617b" font-family="Arial, sans-serif" font-size="25">PROCESS MODELING · BIOENGINEERING · AI</text>
 </svg>
-

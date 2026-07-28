@@ -1,13 +1,13 @@
 :root {
-  --paper: #f2efdf;
-  --paper-deep: #e8e4d2;
-  --ink: #16241f;
-  --ink-soft: #48574f;
-  --coral: #ff6249;
-  --acid: #d9ef79;
-  --sage: #cfdac1;
-  --line: rgba(22, 36, 31, 0.18);
-  --white: #fffdf5;
+  --paper: #edf4fb;
+  --paper-deep: #dce9f5;
+  --ink: #061a33;
+  --ink-soft: #45617b;
+  --coral: #1f6eff;
+  --acid: #7ad9ff;
+  --sage: #b8d6ef;
+  --line: rgba(6, 26, 51, 0.18);
+  --white: #f8fbff;
   --serif: "Newsreader", Georgia, serif;
   --sans: "Manrope", Arial, sans-serif;
   --mono: "DM Mono", monospace;
@@ -25,7 +25,9 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background: var(--paper);
+  background:
+    radial-gradient(circle at 85% 2%, rgba(31, 110, 255, 0.09), transparent 20%),
+    var(--paper);
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -79,7 +81,7 @@ h3 {
 .site-header.is-scrolled {
   height: 68px;
   border-bottom: 1px solid var(--line);
-  background: rgba(242, 239, 223, 0.9);
+  background: rgba(237, 244, 251, 0.9);
   backdrop-filter: blur(14px);
 }
 
@@ -153,6 +155,9 @@ h3 {
   min-height: max(100svh, 900px);
   padding-top: 84px;
   overflow: hidden;
+  background:
+    radial-gradient(circle at 84% 43%, rgba(31, 110, 255, 0.14), transparent 25%),
+    linear-gradient(180deg, #f3f8fd 0%, var(--paper) 100%);
 }
 
 .hero-grid {
@@ -186,10 +191,10 @@ h3 {
 .hero h1 {
   position: relative;
   z-index: 2;
-  max-width: 1040px;
+  max-width: 1140px;
   margin-top: clamp(28px, 5vh, 64px);
   font-family: var(--serif);
-  font-size: clamp(68px, 8.4vw, 128px);
+  font-size: clamp(64px, 7.5vw, 114px);
   font-weight: 300;
   line-height: 0.86;
   letter-spacing: -0.06em;
@@ -199,6 +204,7 @@ h3 {
   position: relative;
   display: inline-block;
   font-style: italic;
+  white-space: nowrap;
 }
 
 .hero-accent::after {
@@ -273,7 +279,7 @@ h3 {
   right: max(-100px, calc((100vw - 1450px) / 2));
   width: clamp(420px, 42vw, 700px);
   aspect-ratio: 1;
-  border: 1px solid rgba(22, 36, 31, 0.12);
+  border: 1px solid rgba(6, 26, 51, 0.12);
   border-radius: 50%;
   transform: translate(var(--pointer-x), var(--pointer-y));
   transition: transform 600ms cubic-bezier(0.2, 0.75, 0.25, 1);
@@ -288,7 +294,7 @@ h3 {
 
 .process-vessel::before {
   inset: 8%;
-  border: 1px dashed rgba(22, 36, 31, 0.14);
+  border: 1px dashed rgba(6, 26, 51, 0.14);
   animation: spin 40s linear infinite;
 }
 
@@ -301,7 +307,7 @@ h3 {
 .vessel-orbit {
   position: absolute;
   z-index: 2;
-  border: 1px solid rgba(22, 36, 31, 0.25);
+  border: 1px solid rgba(6, 26, 51, 0.25);
   border-radius: 50%;
 }
 
@@ -337,14 +343,14 @@ h3 {
 .core-rings {
   position: absolute;
   inset: 12%;
-  border: 1px solid rgba(242, 239, 223, 0.25);
+  border: 1px solid rgba(237, 244, 251, 0.25);
   border-radius: 50%;
 }
 
 .core-rings::after {
   position: absolute;
   inset: 20%;
-  border: 1px solid rgba(242, 239, 223, 0.18);
+  border: 1px solid rgba(237, 244, 251, 0.18);
   border-radius: 50%;
   content: "";
 }
@@ -513,14 +519,16 @@ h3 {
 }
 
 .work {
-  background: var(--ink);
+  background:
+    radial-gradient(circle at 84% 16%, rgba(31, 110, 255, 0.2), transparent 26%),
+    linear-gradient(145deg, #061a33 0%, #082344 55%, #0a2e57 100%);
   color: var(--paper);
 }
 
 .work .section-index,
 .work .section-note,
 .contact .section-index {
-  color: rgba(242, 239, 223, 0.62);
+  color: rgba(237, 244, 251, 0.62);
 }
 
 .section-heading {
@@ -553,11 +561,11 @@ h3 {
   grid-template-columns: 1.15fr 0.85fr;
   gap: clamp(42px, 7vw, 110px);
   padding: 70px 0;
-  border-top: 1px solid rgba(242, 239, 223, 0.18);
+  border-top: 1px solid rgba(237, 244, 251, 0.18);
 }
 
 .project:last-child {
-  border-bottom: 1px solid rgba(242, 239, 223, 0.18);
+  border-bottom: 1px solid rgba(237, 244, 251, 0.18);
 }
 
 .project-visual {
@@ -573,7 +581,7 @@ h3 {
   justify-content: space-between;
   padding: 32px;
   color: var(--ink);
-  background: var(--acid);
+  background: linear-gradient(145deg, #8ee6ff 0%, #64c9ff 100%);
 }
 
 .visual-topbar {
@@ -612,7 +620,7 @@ h3 {
   padding: 12px;
   border: 1px solid var(--ink);
   border-radius: 50px 50px 14px 14px;
-  background: rgba(242, 239, 223, 0.42);
+  background: rgba(237, 244, 251, 0.42);
 }
 
 .node-str {
@@ -637,7 +645,7 @@ h3 {
 .visual-kpis {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid rgba(22, 36, 31, 0.38);
+  border-top: 1px solid rgba(6, 26, 51, 0.38);
 }
 
 .visual-kpis span {
@@ -656,13 +664,13 @@ h3 {
 
 .visual-axion {
   color: var(--paper);
-  background: #233631;
+  background: linear-gradient(145deg, #05182f 0%, #0a315d 100%);
 }
 
 .axion-grid {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(242, 239, 223, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(242, 239, 223, 0.08) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(237, 244, 251, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(237, 244, 251, 0.08) 1px, transparent 1px);
   background-size: 42px 42px;
 }
 
@@ -713,7 +721,7 @@ h3 {
   justify-content: space-between;
   padding: 34px;
   color: var(--paper);
-  background: var(--coral);
+  background: linear-gradient(145deg, #1254d7 0%, #2b7fff 58%, #54b6ff 100%);
 }
 
 .visual-hackathon::after {
@@ -722,11 +730,11 @@ h3 {
   right: -60px;
   width: 280px;
   height: 280px;
-  border: 1px solid rgba(242, 239, 223, 0.5);
+  border: 1px solid rgba(237, 244, 251, 0.5);
   border-radius: 50%;
   content: "";
   transform: translateY(-50%);
-  box-shadow: 0 0 0 48px rgba(242, 239, 223, 0.08), 0 0 0 96px rgba(242, 239, 223, 0.06);
+  box-shadow: 0 0 0 48px rgba(237, 244, 251, 0.08), 0 0 0 96px rgba(237, 244, 251, 0.06);
 }
 
 .hackathon-type {
@@ -773,7 +781,7 @@ h3 {
   display: flex;
   justify-content: space-between;
   margin-bottom: 36px;
-  color: rgba(242, 239, 223, 0.52);
+  color: rgba(237, 244, 251, 0.52);
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.11em;
@@ -792,7 +800,7 @@ h3 {
 .project-copy > p {
   max-width: 540px;
   margin-top: 25px;
-  color: rgba(242, 239, 223, 0.66);
+  color: rgba(237, 244, 251, 0.66);
   font-size: 15px;
   line-height: 1.7;
 }
@@ -806,7 +814,7 @@ h3 {
 
 .project-tags span {
   padding: 7px 10px;
-  border: 1px solid rgba(242, 239, 223, 0.22);
+  border: 1px solid rgba(237, 244, 251, 0.22);
   border-radius: 30px;
   font-family: var(--mono);
   font-size: 8px;
@@ -835,12 +843,14 @@ h3 {
 }
 
 .text-link-muted {
-  color: rgba(242, 239, 223, 0.42);
-  border-color: rgba(242, 239, 223, 0.22);
+  color: rgba(237, 244, 251, 0.42);
+  border-color: rgba(237, 244, 251, 0.22);
 }
 
 .research {
-  background: var(--paper-deep);
+  background:
+    radial-gradient(circle at 8% 74%, rgba(31, 110, 255, 0.08), transparent 25%),
+    var(--paper-deep);
 }
 
 .research-heading {
@@ -861,7 +871,7 @@ h3 {
   padding-right: 28px;
   padding-left: 28px;
   color: var(--paper);
-  background: var(--ink);
+  background: linear-gradient(135deg, #061a33, #0b3260);
 }
 
 .paper-year {
@@ -889,7 +899,7 @@ h3 {
 }
 
 .paper-card:hover .paper-main p {
-  color: rgba(242, 239, 223, 0.64);
+  color: rgba(237, 244, 251, 0.64);
 }
 
 .paper-authors {
@@ -902,7 +912,7 @@ h3 {
 }
 
 .paper-card:hover .paper-authors {
-  color: rgba(242, 239, 223, 0.52);
+  color: rgba(237, 244, 251, 0.52);
 }
 
 .paper-arrow {
@@ -913,6 +923,68 @@ h3 {
 
 .paper-card:hover .paper-arrow {
   transform: translate(7px, -7px);
+}
+
+.publication-list {
+  border-bottom: 1px solid var(--ink);
+}
+
+.publication-row {
+  display: grid;
+  grid-template-columns: 44px 180px minmax(260px, 1fr) 210px 28px;
+  gap: 22px;
+  align-items: center;
+  min-height: 108px;
+  border-top: 1px solid var(--line);
+  transition: padding 250ms ease, color 250ms ease, background 250ms ease;
+}
+
+.publication-row:hover {
+  padding-right: 20px;
+  padding-left: 20px;
+  color: var(--paper);
+  background: #0b3260;
+}
+
+.publication-index,
+.publication-journal,
+.publication-doi {
+  font-family: var(--mono);
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.publication-index {
+  color: var(--coral);
+}
+
+.publication-journal,
+.publication-doi {
+  color: var(--ink-soft);
+}
+
+.publication-row:hover .publication-journal,
+.publication-row:hover .publication-doi {
+  color: rgba(237, 244, 251, 0.58);
+}
+
+.publication-title {
+  max-width: 700px;
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.18;
+}
+
+.publication-arrow {
+  justify-self: end;
+  font-size: 19px;
+  transition: transform 200ms ease;
+}
+
+.publication-row:hover .publication-arrow {
+  transform: translate(4px, -4px);
 }
 
 .research-grid {
@@ -990,6 +1062,116 @@ h3 {
   margin-top: 0;
 }
 
+.repositories {
+  color: var(--paper);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(80, 172, 255, 0.2), transparent 24%),
+    linear-gradient(155deg, #061a33 0%, #08284e 64%, #0a3766 100%);
+}
+
+.repositories .section-index,
+.repositories .section-note {
+  color: rgba(237, 244, 251, 0.6);
+}
+
+.repositories-heading h2 em {
+  color: var(--acid);
+  font-weight: 300;
+}
+
+.repository-list {
+  border-bottom: 1px solid rgba(237, 244, 251, 0.3);
+}
+
+.repository-row {
+  display: grid;
+  grid-template-columns: 42px minmax(240px, 0.75fr) 1fr 120px 30px;
+  gap: 26px;
+  align-items: center;
+  min-height: 116px;
+  border-top: 1px solid rgba(237, 244, 251, 0.18);
+  transition: padding 250ms ease, color 250ms ease, background 250ms ease;
+}
+
+.repository-row:hover {
+  padding-right: 22px;
+  padding-left: 22px;
+  color: var(--ink);
+  background: var(--acid);
+}
+
+.repository-number,
+.repository-language {
+  color: rgba(237, 244, 251, 0.48);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.repository-row:hover .repository-number,
+.repository-row:hover .repository-language {
+  color: rgba(6, 26, 51, 0.56);
+}
+
+.repository-name {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.2vw, 34px);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.repository-description {
+  max-width: 520px;
+  color: rgba(237, 244, 251, 0.58);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.repository-row:hover .repository-description {
+  color: rgba(6, 26, 51, 0.72);
+}
+
+.repository-language {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.repository-language i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #51b8ff;
+}
+
+.repository-row:hover .repository-language i {
+  background: var(--coral);
+}
+
+.repository-arrow {
+  justify-self: end;
+  font-size: 20px;
+  transition: transform 200ms ease;
+}
+
+.repository-row:hover .repository-arrow {
+  transform: translate(4px, -4px);
+}
+
+.github-profile-link {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 58px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(237, 244, 251, 0.4);
+  border-bottom: 1px solid rgba(237, 244, 251, 0.4);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .personal {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -1021,7 +1203,7 @@ h3 {
 
 .personal-orbit::after {
   inset: 30%;
-  background: var(--sage);
+  background: linear-gradient(145deg, #b8d6ef, #75bdff);
 }
 
 .personal-monogram {
@@ -1095,7 +1277,9 @@ h3 {
 
 .contact {
   color: var(--paper);
-  background: var(--coral);
+  background:
+    radial-gradient(circle at 86% 22%, rgba(122, 217, 255, 0.24), transparent 24%),
+    linear-gradient(135deg, #0e4fc8 0%, #1f6eff 52%, #168fd8 100%);
 }
 
 .contact-top {
@@ -1128,7 +1312,7 @@ h3 {
 }
 
 .contact h2 em {
-  color: var(--ink);
+  color: #061a33;
 }
 
 .contact-bottom {
@@ -1172,7 +1356,7 @@ footer {
   align-items: center;
   min-height: 90px;
   padding: 0 max(36px, calc((100vw - 1320px) / 2));
-  color: rgba(242, 239, 223, 0.56);
+  color: rgba(237, 244, 251, 0.56);
   background: var(--ink);
   font-family: var(--mono);
   font-size: 8px;
@@ -1297,6 +1481,14 @@ footer a {
     grid-template-columns: 1fr;
   }
 
+  .publication-row {
+    grid-template-columns: 38px 160px 1fr 28px;
+  }
+
+  .publication-doi {
+    display: none;
+  }
+
   .research-topic,
   .research-topic + .research-topic {
     min-height: auto;
@@ -1307,6 +1499,27 @@ footer a {
 
   .research-topic h3 {
     margin-top: 32px;
+  }
+
+  .repository-row {
+    grid-template-columns: 34px minmax(240px, 1fr) 120px 28px;
+    gap: 18px;
+    padding: 25px 0;
+  }
+
+  .repository-description {
+    grid-column: 2 / 4;
+    grid-row: 2;
+  }
+
+  .repository-language {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .repository-arrow {
+    grid-column: 4;
+    grid-row: 1;
   }
 
   .personal {
@@ -1334,7 +1547,7 @@ footer a {
   }
 
   .hero {
-    min-height: 930px;
+    min-height: 1080px;
   }
 
   .hero-grid {
@@ -1350,6 +1563,10 @@ footer a {
     margin-top: 42px;
     font-size: clamp(58px, 17vw, 82px);
     line-height: 0.9;
+  }
+
+  .hero-accent {
+    white-space: normal;
   }
 
   .hero-bottom {
@@ -1440,12 +1657,83 @@ footer a {
     padding-left: 16px;
   }
 
+  .publication-row {
+    grid-template-columns: 26px 1fr 24px;
+    gap: 12px;
+    min-height: 0;
+    padding: 24px 0;
+  }
+
+  .publication-journal {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .publication-title {
+    grid-column: 2 / 4;
+    grid-row: 2;
+    font-size: 20px;
+  }
+
+  .publication-index {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .publication-arrow {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .publication-row:hover {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
   .research-footer {
     grid-template-columns: 1fr;
   }
 
   .personal-orbit {
     width: 86vw;
+  }
+
+  .repository-row {
+    grid-template-columns: 24px 1fr 24px;
+    gap: 12px;
+    padding: 24px 0;
+  }
+
+  .repository-number {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .repository-name {
+    grid-column: 2;
+    grid-row: 1;
+    overflow-wrap: anywhere;
+    font-size: 25px;
+  }
+
+  .repository-arrow {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .repository-description {
+    grid-column: 2 / 4;
+    grid-row: 2;
+  }
+
+  .repository-language {
+    grid-column: 2 / 4;
+    grid-row: 3;
+  }
+
+  .repository-row:hover {
+    padding-right: 12px;
+    padding-left: 12px;
   }
 
   .contact {
