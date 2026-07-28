@@ -15,5 +15,5 @@ npm run dev
 npm run build
 ```
 
-The Sites deployment archive keeps `dist/` as its top-level directory so the
-static worker and asset binding share the same path layout.
+The Sites build embeds the static output into its deployment worker so the
+published portfolio does not depend on a separate asset mount.
