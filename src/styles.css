@@ -5,6 +5,7 @@
   --ink-soft: #59616c;
   --coral: #2856f6;
   --acid: #5263ff;
+  --signal: #ffd21c;
   --sage: #c9cbd1;
   --line: rgba(6, 26, 51, 0.18);
   --white: #fbfbf9;
@@ -120,7 +121,7 @@ h3 {
   bottom: 5px;
   left: 15px;
   height: 2px;
-  background: var(--acid);
+  background: var(--signal);
   content: "";
 }
 
@@ -1814,6 +1815,7 @@ footer a {
   --ink-soft: #59616c;
   --coral: #2856f6;
   --acid: #5263ff;
+  --signal: #ffd21c;
   --line: rgba(6, 24, 47, 0.16);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1836,7 +1838,7 @@ button {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--coral);
+  outline: 2px solid var(--signal);
   outline-offset: 5px;
 }
 
@@ -1929,7 +1931,7 @@ button:focus-visible {
 
 .header-cta:hover {
   color: var(--ink);
-  background: var(--acid);
+  background: var(--signal);
   transform: translateY(-2px);
 }
 
@@ -2237,7 +2239,7 @@ button:focus-visible {
 }
 
 .marquee-track i {
-  background: var(--acid);
+  background: var(--signal);
 }
 
 .affiliations {
@@ -2333,7 +2335,7 @@ button:focus-visible {
 
 .institution-mark:focus-visible {
   border-radius: 2px;
-  outline: 2px solid var(--coral);
+  outline: 2px solid var(--signal);
   outline-offset: 8px;
 }
 
@@ -2443,7 +2445,7 @@ button:focus-visible {
   right: max(36px, calc((100vw - 1320px) / 2));
   padding: 10px 13px;
   color: var(--ink);
-  background: var(--acid);
+  background: var(--signal);
   content: "SELECTED / 03";
   font-family: var(--mono);
   font-size: 7px;
@@ -3271,8 +3273,8 @@ button:focus-visible {
   height: 6px;
   margin-right: 8px;
   border-radius: 50%;
-  background: var(--acid);
-  box-shadow: 0 0 0 5px rgba(82, 99, 255, 0.14);
+  background: var(--signal);
+  box-shadow: 0 0 0 5px rgba(255, 210, 28, 0.16);
   content: "";
 }
 
