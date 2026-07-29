@@ -12,7 +12,7 @@ from reportlab.platypus import Paragraph
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "output" / "pdf" / "katharina-julia-brenner-cv.pdf"
-PORTRAIT = ROOT / "public" / "katharina-brenner-portrait-v4.jpg"
+PORTRAIT = ROOT / "public" / "katharina-brenner-portrait-v5.jpg"
 
 NAVY = HexColor("#061A33")
 BLUE = HexColor("#2856F6")
