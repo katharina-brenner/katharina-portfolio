@@ -2253,6 +2253,173 @@ button:focus-visible {
   background: var(--signal);
 }
 
+.engagement {
+  position: relative;
+  z-index: 5;
+  overflow: hidden;
+  padding: clamp(96px, 10vw, 150px) max(36px, calc((100vw - 1320px) / 2));
+  color: var(--paper);
+  background:
+    linear-gradient(rgba(244, 244, 241, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 244, 241, 0.055) 1px, transparent 1px),
+    radial-gradient(circle at 82% 10%, rgba(40, 86, 246, 0.32), transparent 28%),
+    var(--ink);
+  background-size: 84px 84px, 84px 84px, 100% 100%, 100% 100%;
+}
+
+.engagement::after {
+  position: absolute;
+  top: 14%;
+  right: -10vw;
+  width: 34vw;
+  min-width: 360px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(244, 244, 241, 0.12);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5vw rgba(244, 244, 241, 0.025), 0 0 0 10vw rgba(244, 244, 241, 0.018);
+  content: "";
+  pointer-events: none;
+}
+
+.engagement > * {
+  position: relative;
+  z-index: 1;
+}
+
+.engagement-lead {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.42fr) minmax(0, 1.58fr);
+  gap: clamp(42px, 8vw, 128px);
+}
+
+.engagement-label {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  align-self: start;
+  padding-top: 13px;
+  color: rgba(244, 244, 241, 0.62);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.engagement-label i {
+  width: 42px;
+  height: 1px;
+  background: var(--signal);
+}
+
+.engagement h2 {
+  max-width: 990px;
+  font-family: var(--serif);
+  font-size: clamp(54px, 6.7vw, 102px);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+.engagement h2 em {
+  color: var(--coral);
+  font-weight: 300;
+}
+
+.engagement-summary {
+  max-width: 690px;
+  margin-top: 38px;
+  color: rgba(244, 244, 241, 0.7);
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.65;
+}
+
+.engagement-path {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: clamp(76px, 9vw, 124px);
+  border-top: 1px solid rgba(244, 244, 241, 0.24);
+  border-bottom: 1px solid rgba(244, 244, 241, 0.24);
+}
+
+.engagement-step {
+  min-height: 310px;
+  padding: 28px clamp(24px, 3vw, 42px) 36px 0;
+}
+
+.engagement-step + .engagement-step {
+  padding-left: clamp(24px, 3vw, 42px);
+  border-left: 1px solid rgba(244, 244, 241, 0.18);
+}
+
+.engagement-step > span {
+  color: var(--signal);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.engagement-step h3 {
+  max-width: 280px;
+  margin-top: 68px;
+  font-family: var(--serif);
+  font-size: clamp(27px, 2.3vw, 36px);
+  font-weight: 300;
+  line-height: 1.06;
+}
+
+.engagement-step p {
+  max-width: 330px;
+  margin-top: 20px;
+  color: rgba(244, 244, 241, 0.62);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.engagement-close {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 48px;
+  align-items: end;
+  margin-top: 46px;
+}
+
+.engagement-close p {
+  max-width: 760px;
+  color: rgba(244, 244, 241, 0.72);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.engagement-close p span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.engagement-close a {
+  display: inline-flex;
+  gap: 42px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 58px;
+  padding: 0 20px;
+  color: var(--ink);
+  background: var(--signal);
+  font-size: 12px;
+  font-weight: 700;
+  transition: color 220ms ease, background 220ms ease, transform 220ms var(--ease-out);
+}
+
+.engagement-close a:hover {
+  background: var(--paper);
+  transform: translateY(-3px);
+}
+
 .affiliations {
   position: relative;
   z-index: 6;
@@ -2956,6 +3123,49 @@ button:focus-visible {
   background: var(--acid);
 }
 
+.contact-prompt {
+  max-width: 680px;
+  margin-top: 42px;
+  color: rgba(244, 244, 241, 0.76);
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.6;
+}
+
+.contact-brief {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+  gap: clamp(50px, 9vw, 130px);
+  align-items: start;
+  margin-top: 64px;
+}
+
+.contact-brief > p {
+  max-width: 580px;
+  color: rgba(244, 244, 241, 0.82);
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.65;
+}
+
+.contact-fit-list {
+  display: grid;
+  border-top: 1px solid rgba(244, 244, 241, 0.4);
+}
+
+.contact-fit-list span {
+  padding: 16px 0;
+  color: rgba(244, 244, 241, 0.78);
+  border-bottom: 1px solid rgba(244, 244, 241, 0.24);
+  font-family: var(--mono);
+  font-size: 9px;
+  line-height: 1.45;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.contact-page .contact-bottom {
+  margin-top: 72px;
+}
+
 .reveal {
   transform: translateY(30px);
   transition-duration: 850ms;
@@ -3259,6 +3469,53 @@ button:focus-visible {
     padding-left: 34px;
   }
 
+  .engagement {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .engagement-lead {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .engagement-path {
+    grid-template-columns: 1fr;
+  }
+
+  .engagement-step {
+    min-height: 0;
+    padding: 28px 0 34px;
+  }
+
+  .engagement-step + .engagement-step {
+    padding-left: 0;
+    border-top: 1px solid rgba(244, 244, 241, 0.18);
+    border-left: 0;
+  }
+
+  .engagement-step h3 {
+    max-width: 520px;
+    margin-top: 34px;
+  }
+
+  .engagement-step p {
+    max-width: 580px;
+  }
+
+  .engagement-close {
+    grid-template-columns: 1fr;
+  }
+
+  .engagement-close a {
+    width: max-content;
+  }
+
+  .contact-brief {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
   .section-heading {
     grid-template-columns: 1fr;
   }
@@ -3346,6 +3603,26 @@ button:focus-visible {
 
   .button-primary,
   .button-secondary {
+    width: 100%;
+  }
+
+  .engagement h2 {
+    font-size: clamp(48px, 13vw, 64px);
+  }
+
+  .engagement-summary {
+    margin-top: 28px;
+  }
+
+  .engagement-path {
+    margin-top: 58px;
+  }
+
+  .engagement-close {
+    gap: 28px;
+  }
+
+  .engagement-close a {
     width: 100%;
   }
 

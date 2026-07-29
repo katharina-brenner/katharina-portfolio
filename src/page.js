@@ -38,7 +38,7 @@ document.querySelector("[data-shell-header]").outerHTML = `
     </a>
     <nav class="desktop-nav" aria-label="Main navigation">${navigation}</nav>
     <a class="header-cta${page === "contact" ? " is-active" : ""}" href="/contact/"${page === "contact" ? ' aria-current="page"' : ""}>
-      Let’s connect <span aria-hidden="true">↗</span>
+      Work with me <span aria-hidden="true">↗</span>
     </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
       <span>Menu</span><i aria-hidden="true"></i>
