@@ -2050,20 +2050,21 @@ button:focus-visible {
 
 .hero-accent {
   z-index: 1;
-  color: var(--paper);
-  padding: 0.025em 0.12em 0.06em 0.06em;
-  background: var(--ink);
+  color: var(--coral);
+  padding: 0.015em 0.06em 0.055em 0.02em;
+  background: transparent;
   font-style: italic;
   transform: translateX(clamp(0px, 3vw, 42px)) rotate(-0.35deg);
 }
 
 .hero-accent::after {
-  right: 0.08em;
-  bottom: -0.055em;
-  left: 0.08em;
-  height: 0.055em;
+  right: 0.04em;
+  bottom: 0.005em;
+  left: 0.03em;
+  height: 0.025em;
   border-radius: 0;
-  background: var(--acid);
+  background: var(--signal);
+  box-shadow: 0 0 18px rgba(255, 210, 28, 0.18);
   transform: none;
 }
 
