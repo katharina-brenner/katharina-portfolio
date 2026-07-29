@@ -1304,6 +1304,113 @@ h3 {
   text-transform: uppercase;
 }
 
+.personal-portrait {
+  position: relative;
+  width: min(100%, 520px);
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--ink);
+  box-shadow: 0 32px 100px rgba(6, 24, 47, 0.12);
+}
+
+.personal-portrait-media {
+  position: relative;
+  aspect-ratio: 0.79;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.personal-portrait-media::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 48%, rgba(6, 24, 47, 0.38)),
+    linear-gradient(90deg, rgba(6, 24, 47, 0.12), transparent 42%);
+  content: "";
+  pointer-events: none;
+}
+
+.personal-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+  filter: grayscale(1) contrast(1.08);
+  transform: scale(1.01);
+  transition: filter 600ms ease, transform 900ms var(--ease-out);
+}
+
+.personal-portrait:hover img {
+  filter: grayscale(1) contrast(1.12);
+  transform: scale(1.035);
+}
+
+.portrait-grid {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background:
+    linear-gradient(rgba(244, 244, 241, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 244, 241, 0.12) 1px, transparent 1px);
+  background-size: 25% 25%;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.portrait-role {
+  position: absolute;
+  z-index: 3;
+  padding: 8px 11px;
+  color: var(--ink);
+  background: var(--signal);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.portrait-role-one {
+  top: 22px;
+  left: 22px;
+}
+
+.portrait-role-two {
+  top: 50%;
+  right: 22px;
+}
+
+.portrait-role-three {
+  bottom: 22px;
+  left: 22px;
+}
+
+.personal-portrait figcaption {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: 14px 16px;
+  color: rgba(244, 244, 241, 0.7);
+  border-top: 1px solid rgba(244, 244, 241, 0.16);
+  font-family: var(--mono);
+  font-size: 7px;
+  line-height: 1.45;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.personal-portrait figcaption a {
+  color: var(--paper);
+  text-align: right;
+}
+
+.personal-portrait figcaption a:hover {
+  color: var(--signal);
+}
+
 .contact {
   color: var(--paper);
   background:
@@ -1560,6 +1667,11 @@ footer a {
     margin: 0 auto;
   }
 
+  .personal-portrait {
+    width: min(80vw, 500px);
+    margin: 0 auto;
+  }
+
   .contact-bottom {
     grid-template-columns: 1fr;
     gap: 52px;
@@ -1725,6 +1837,19 @@ footer a {
 
   .personal-orbit {
     width: 86vw;
+  }
+
+  .personal-portrait {
+    width: 100%;
+  }
+
+  .personal-portrait figcaption {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .personal-portrait figcaption a {
+    text-align: left;
   }
 
   .repository-row {
