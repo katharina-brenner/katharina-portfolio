@@ -2546,6 +2546,245 @@ button:focus-visible {
   color: var(--acid);
 }
 
+.foundation-band {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(280px, 1.15fr) repeat(3, minmax(0, 1fr));
+  margin-top: 48px;
+  overflow: hidden;
+  color: var(--paper);
+  border: 1px solid rgba(244, 244, 241, 0.12);
+  background:
+    linear-gradient(rgba(244, 244, 241, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 244, 241, 0.035) 1px, transparent 1px),
+    var(--ink);
+  background-size: 42px 42px;
+}
+
+.foundation-intro,
+.foundation-discipline {
+  min-height: 238px;
+  padding: 32px;
+}
+
+.foundation-intro > span,
+.foundation-discipline > span {
+  color: var(--signal);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.foundation-intro h3 {
+  max-width: 320px;
+  margin-top: 34px;
+  font-family: var(--serif);
+  font-size: clamp(27px, 2.4vw, 38px);
+  font-weight: 300;
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+}
+
+.foundation-intro p {
+  max-width: 410px;
+  margin-top: 20px;
+  color: rgba(244, 244, 241, 0.58);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.foundation-discipline {
+  position: relative;
+  border-left: 1px solid rgba(244, 244, 241, 0.14);
+  transition: color 280ms ease, background 280ms ease;
+}
+
+.foundation-discipline::after {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 6px rgba(255, 210, 28, 0.12);
+  content: "";
+}
+
+.foundation-discipline:hover {
+  color: var(--ink);
+  background: var(--signal);
+}
+
+.foundation-discipline:hover > span {
+  color: var(--ink);
+}
+
+.foundation-discipline:hover::after {
+  background: var(--coral);
+  box-shadow: 0 0 0 6px rgba(40, 86, 246, 0.16);
+}
+
+.foundation-discipline h3 {
+  margin-top: 68px;
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+}
+
+.foundation-discipline p {
+  max-width: 210px;
+  margin-top: 13px;
+  color: rgba(244, 244, 241, 0.58);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.foundation-discipline:hover p {
+  color: rgba(6, 24, 47, 0.68);
+}
+
+.foundation-visual {
+  position: relative;
+  z-index: 2;
+  margin: 28px 0 0;
+  color: var(--paper);
+  border: 1px solid rgba(244, 244, 241, 0.12);
+  background: var(--ink);
+}
+
+.foundation-media {
+  position: relative;
+  height: clamp(430px, 50vw, 690px);
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.foundation-media::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(6, 24, 47, 0.26), transparent 28%, transparent 72%, rgba(6, 24, 47, 0.3)),
+    linear-gradient(180deg, rgba(6, 24, 47, 0.1), transparent 58%, rgba(6, 24, 47, 0.36));
+  content: "";
+  pointer-events: none;
+}
+
+.foundation-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.72) contrast(1.07);
+  transform: scale(1.01);
+  transition: filter 700ms ease, transform 900ms var(--ease-out);
+}
+
+.foundation-visual:hover .foundation-media img {
+  filter: saturate(0.92) contrast(1.04);
+  transform: scale(1.025);
+}
+
+.foundation-image-tag {
+  position: absolute;
+  z-index: 3;
+  top: 22px;
+  left: 22px;
+  padding: 9px 12px;
+  color: var(--ink);
+  background: var(--signal);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.foundation-image-crosshair {
+  position: absolute;
+  z-index: 3;
+  top: 22px;
+  right: 22px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(244, 244, 241, 0.72);
+  border-radius: 50%;
+}
+
+.foundation-image-crosshair::before,
+.foundation-image-crosshair::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(244, 244, 241, 0.72);
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.foundation-image-crosshair::before {
+  width: 44px;
+  height: 1px;
+}
+
+.foundation-image-crosshair::after {
+  width: 1px;
+  height: 44px;
+}
+
+.foundation-image-scan {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--signal);
+  box-shadow: 0 0 18px 2px rgba(255, 210, 28, 0.34);
+  opacity: 0.68;
+  animation: foundation-scan 6.4s ease-in-out infinite;
+}
+
+.foundation-visual figcaption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 42px;
+  align-items: center;
+  min-height: 96px;
+  padding: 22px 26px;
+  border-top: 1px solid rgba(244, 244, 241, 0.14);
+}
+
+.foundation-visual figcaption span,
+.foundation-visual figcaption small {
+  color: var(--signal);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.foundation-visual figcaption p {
+  max-width: 720px;
+  font-family: var(--serif);
+  font-size: clamp(19px, 2vw, 28px);
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+@keyframes foundation-scan {
+  0%,
+  100% {
+    top: 8%;
+    opacity: 0.24;
+  }
+  50% {
+    top: 92%;
+    opacity: 0.78;
+  }
+}
+
 .research {
   background:
     linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(6, 24, 47, 0.045) 50%, transparent calc(50% + 0.5px)),
@@ -2751,6 +2990,20 @@ button:focus-visible {
 
   .project {
     grid-template-columns: 1fr;
+  }
+
+  .foundation-band {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .foundation-intro {
+    grid-column: 1 / -1;
+    min-height: 0;
+  }
+
+  .foundation-intro h3,
+  .foundation-intro p {
+    max-width: 680px;
   }
 }
 
@@ -3016,6 +3269,46 @@ button:focus-visible {
   .statement-grid {
     grid-template-columns: 1fr;
   }
+
+  .foundation-band {
+    grid-template-columns: 1fr;
+  }
+
+  .foundation-intro {
+    grid-column: auto;
+  }
+
+  .foundation-intro,
+  .foundation-discipline {
+    min-height: 0;
+    padding: 28px;
+  }
+
+  .foundation-discipline {
+    border-top: 1px solid rgba(244, 244, 241, 0.14);
+    border-left: 0;
+  }
+
+  .foundation-discipline h3 {
+    margin-top: 34px;
+  }
+
+  .foundation-discipline p {
+    padding-right: 44px;
+  }
+
+  .foundation-media {
+    height: 430px;
+  }
+
+  .foundation-visual figcaption {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .foundation-visual figcaption p {
+    max-width: none;
+  }
 }
 
 @media (max-width: 560px) {
@@ -3101,6 +3394,25 @@ button:focus-visible {
 
   .contact h2 {
     font-size: clamp(54px, 15vw, 70px);
+  }
+
+  .foundation-media {
+    height: 360px;
+  }
+
+  .foundation-media img {
+    object-position: 46% center;
+  }
+
+  .foundation-image-tag {
+    top: 14px;
+    left: 14px;
+  }
+
+  .foundation-image-crosshair {
+    top: 16px;
+    right: 16px;
+    transform: scale(0.78);
   }
 }
 
