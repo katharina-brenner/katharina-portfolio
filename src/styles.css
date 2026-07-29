@@ -4329,6 +4329,16 @@ button:focus-visible {
   white-space: nowrap;
 }
 
+.personal-links {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.personal-links .text-link {
+  margin-top: 0;
+}
+
 .press-signal {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -4383,10 +4393,221 @@ button:focus-visible {
   margin-top: 0;
 }
 
+.visual-biota {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr 68px auto;
+  gap: 18px;
+  padding: 22px;
+  overflow: hidden;
+  color: var(--paper);
+  background:
+    linear-gradient(rgba(244, 244, 241, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 244, 241, 0.055) 1px, transparent 1px),
+    radial-gradient(circle at 74% 26%, rgba(40, 86, 246, 0.72), transparent 30%),
+    #061a33;
+  background-size: 30px 30px, 30px 30px, 100% 100%, 100% 100%;
+}
+
+.biota-top,
+.biota-bottom {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(244, 244, 241, 0.6);
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.biota-loop {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.biota-loop span {
+  display: grid;
+  width: 62px;
+  aspect-ratio: 1;
+  padding: 7px;
+  color: var(--ink);
+  border-radius: 50%;
+  place-items: center;
+  background: var(--paper);
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.biota-loop span:nth-of-type(3) {
+  color: var(--ink);
+  background: var(--signal);
+  box-shadow: 0 0 36px rgba(255, 210, 28, 0.22);
+}
+
+.biota-loop i {
+  position: relative;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(244, 244, 241, 0.28);
+}
+
+.biota-loop i::after {
+  position: absolute;
+  inset: 0 auto 0 -50%;
+  width: 50%;
+  background: var(--signal);
+  content: "";
+  animation: case-flow 2.7s ease-in-out infinite;
+}
+
+.biota-plot {
+  display: flex;
+  gap: 8px;
+  align-items: end;
+  padding: 0 7px;
+}
+
+.biota-plot b {
+  flex: 1;
+  height: 24%;
+  background: var(--coral);
+  animation: case-bars 2.2s ease-in-out infinite alternate;
+}
+
+.biota-plot b:nth-child(2n) {
+  height: 62%;
+  animation-delay: -0.7s;
+}
+
+.biota-plot b:nth-child(3n) {
+  height: 92%;
+  background: var(--signal);
+  animation-delay: -1.2s;
+}
+
+.biota-bottom {
+  padding-top: 14px;
+  border-top: 1px solid rgba(244, 244, 241, 0.2);
+}
+
 /* Flagship case study */
 
 .case-page .site-header {
   color: var(--ink);
+}
+
+.biota-case .case-hero {
+  background:
+    linear-gradient(rgba(244, 244, 241, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 244, 241, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 78% 30%, rgba(29, 74, 210, 0.68), transparent 28%),
+    linear-gradient(145deg, #031327 0%, #061d3c 58%, #0a2e5a 100%);
+  background-size: 72px 72px, 72px 72px, 100% 100%, 100% 100%;
+}
+
+.biota-case .case-hero h1 {
+  font-size: clamp(54px, 5.9vw, 92px);
+}
+
+.biota-system-core {
+  position: relative;
+  display: grid;
+  height: 276px;
+  margin-top: 46px;
+  place-items: center;
+}
+
+.biota-ring {
+  position: absolute;
+  border: 1px solid rgba(6, 26, 51, 0.24);
+  border-radius: 50%;
+}
+
+.biota-ring-one {
+  width: 250px;
+  height: 250px;
+  animation: biota-spin 18s linear infinite;
+}
+
+.biota-ring-one::before,
+.biota-ring-two::before {
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  content: "";
+}
+
+.biota-ring-two {
+  width: 176px;
+  height: 176px;
+  border-style: dashed;
+  animation: biota-spin 13s linear infinite reverse;
+}
+
+.biota-ring-two::before {
+  top: -4px;
+  left: 50%;
+  background: var(--coral);
+}
+
+.biota-vessel {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 104px;
+  height: 146px;
+  padding: 16px;
+  color: var(--paper);
+  border-radius: 52px 52px 12px 12px;
+  background: var(--ink);
+  box-shadow: 0 18px 42px rgba(6, 26, 51, 0.24);
+}
+
+.biota-vessel span,
+.biota-vessel small,
+.biota-orbit-label {
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.biota-vessel b {
+  font-family: var(--serif);
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.biota-orbit-label {
+  position: absolute;
+  z-index: 3;
+  padding: 7px 9px;
+  border: 1px solid rgba(6, 26, 51, 0.24);
+  background: rgba(244, 244, 241, 0.9);
+}
+
+.label-conditions { top: 20px; left: 8px; }
+.label-metabolism { top: 56px; right: 0; }
+.label-time { bottom: 44px; left: 12px; }
+.label-optimize { right: 14px; bottom: 10px; color: var(--ink); background: var(--signal); }
+
+.biota-metrics strong {
+  font-size: clamp(26px, 2.5vw, 39px);
+}
+
+@keyframes biota-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .case-hero {
@@ -5106,6 +5327,24 @@ button:focus-visible {
 }
 
 @media (max-width: 560px) {
+  .biota-loop {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .biota-loop i {
+    display: none;
+  }
+
+  .biota-loop span {
+    width: 100%;
+    max-width: 58px;
+    justify-self: center;
+  }
+
+  .biota-system-core {
+    transform: scale(0.86);
+  }
+
   .currently-panel dl > div {
     grid-template-columns: 72px 1fr;
     gap: 12px;
