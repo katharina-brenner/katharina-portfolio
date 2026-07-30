@@ -3291,6 +3291,39 @@ button:focus-visible {
   margin-top: 72px;
 }
 
+.contact-signoff {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 72px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(244, 244, 241, 0.24);
+}
+
+.contact-portrait {
+  width: 214px;
+  margin: 0;
+}
+
+.contact-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(244, 244, 241, 0.28);
+  background: #061a33;
+}
+
+.contact-portrait figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 11px;
+  color: rgba(244, 244, 241, 0.62);
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
 .reveal {
   transform: translateY(30px);
   transition-duration: 850ms;
@@ -3639,6 +3672,10 @@ button:focus-visible {
   .contact-brief {
     grid-template-columns: 1fr;
     gap: 38px;
+  }
+
+  .contact-signoff {
+    margin-top: 58px;
   }
 
   .section-heading {
@@ -4203,6 +4240,10 @@ button:focus-visible {
 
   .contact .section-title {
     font-size: clamp(54px, 15vw, 70px);
+  }
+
+  .contact-portrait {
+    width: min(180px, 48vw);
   }
 
   .facility-media {
