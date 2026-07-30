@@ -3300,7 +3300,7 @@ button:focus-visible {
 }
 
 .contact-portrait {
-  width: 214px;
+  width: 148px;
   margin: 0;
 }
 
@@ -4243,7 +4243,7 @@ button:focus-visible {
   }
 
   .contact-portrait {
-    width: min(180px, 48vw);
+    width: min(126px, 36vw);
   }
 
   .facility-media {
