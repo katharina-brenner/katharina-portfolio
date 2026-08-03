@@ -105,34 +105,23 @@ h3 {
   flex: 0 0 auto;
   width: 36px;
   height: 36px;
-  color: var(--ink);
-  transition: transform 420ms var(--ease-out);
+  overflow: hidden;
+  border: 1px solid rgba(6, 26, 51, 0.22);
+  border-radius: 50%;
+  background: var(--ink);
+  transition: transform 420ms var(--ease-out), border-color 420ms var(--ease-out);
 }
 
 .wordmark:hover .wordmark-symbol {
-  transform: rotate(12deg);
+  border-color: var(--coral);
+  transform: scale(1.06);
 }
 
-.wordmark-symbol svg {
+.wordmark-symbol img {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
-}
-
-.wordmark-star-orbit {
-  fill: none;
-  stroke: var(--coral);
-  stroke-width: 1.4;
-  stroke-dasharray: 5 4;
-}
-
-.wordmark-star-shape {
-  fill: currentColor;
-}
-
-.wordmark-star-core {
-  fill: var(--signal);
+  object-fit: cover;
 }
 
 .desktop-nav {
@@ -3291,39 +3280,6 @@ button:focus-visible {
   margin-top: 72px;
 }
 
-.contact-signoff {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 72px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(244, 244, 241, 0.24);
-}
-
-.contact-portrait {
-  width: 148px;
-  margin: 0;
-}
-
-.contact-portrait img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 1px solid rgba(244, 244, 241, 0.28);
-  background: #061a33;
-}
-
-.contact-portrait figcaption {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding-top: 11px;
-  color: rgba(244, 244, 241, 0.62);
-  font-family: var(--mono);
-  font-size: 7px;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
 .reveal {
   transform: translateY(30px);
   transition-duration: 850ms;
@@ -3672,10 +3628,6 @@ button:focus-visible {
   .contact-brief {
     grid-template-columns: 1fr;
     gap: 38px;
-  }
-
-  .contact-signoff {
-    margin-top: 58px;
   }
 
   .section-heading {
@@ -4240,10 +4192,6 @@ button:focus-visible {
 
   .contact .section-title {
     font-size: clamp(54px, 15vw, 70px);
-  }
-
-  .contact-portrait {
-    width: min(126px, 36vw);
   }
 
   .facility-media {
