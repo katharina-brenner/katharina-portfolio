@@ -3280,6 +3280,27 @@ button:focus-visible {
   margin-top: 72px;
 }
 
+.contact-signoff {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(244, 244, 241, 0.24);
+}
+
+.contact-portrait {
+  width: 76px;
+  margin: 0;
+}
+
+.contact-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(244, 244, 241, 0.24);
+  background: #061a33;
+}
+
 .reveal {
   transform: translateY(30px);
   transition-duration: 850ms;
