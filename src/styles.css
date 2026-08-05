@@ -4251,8 +4251,8 @@ button:focus-visible {
 /* Early personal positioning */
 
 .personal-home {
-  grid-template-columns: minmax(170px, 216px) minmax(0, 1fr);
-  gap: clamp(52px, 8vw, 132px);
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: clamp(44px, 7vw, 112px);
   min-height: 0;
   background:
     linear-gradient(rgba(6, 26, 51, 0.035) 1px, transparent 1px),
@@ -4263,34 +4263,17 @@ button:focus-visible {
 }
 
 .personal-home .personal-portrait {
-  width: 216px;
+  width: 104px;
   justify-self: center;
-  box-shadow: 0 20px 62px rgba(6, 24, 47, 0.12);
+  align-self: start;
+  margin-top: 74px;
+  box-shadow: 0 14px 38px rgba(6, 24, 47, 0.13);
 }
 
-.personal-home .portrait-role {
-  padding: 5px 7px;
-  font-size: 6px;
-}
-
-.personal-home .portrait-role-one {
-  top: 12px;
-  left: 12px;
-}
-
-.personal-home .portrait-role-two {
-  right: 12px;
-}
-
-.personal-home .portrait-role-three {
-  bottom: 12px;
-  left: 12px;
-}
-
+.personal-home .portrait-grid,
+.personal-home .portrait-role,
 .personal-home .personal-portrait figcaption {
-  min-height: 46px;
-  padding: 10px;
-  font-size: 6px;
+  display: none;
 }
 
 .personal-home .personal-copy h2 {
@@ -5291,8 +5274,9 @@ button:focus-visible {
   }
 
   .personal-home .personal-portrait {
-    width: min(44vw, 176px);
+    width: 88px;
     justify-self: start;
+    margin-top: 0;
   }
 
   .case-hero {
