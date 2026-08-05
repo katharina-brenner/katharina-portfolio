@@ -4230,8 +4230,7 @@ button:focus-visible {
 /* Early personal positioning */
 
 .personal-home {
-  grid-template-columns: 72px minmax(0, 1fr);
-  gap: clamp(44px, 7vw, 112px);
+  grid-template-columns: minmax(0, 1fr);
   min-height: 0;
   background:
     linear-gradient(rgba(6, 26, 51, 0.035) 1px, transparent 1px),
@@ -4241,18 +4240,22 @@ button:focus-visible {
   background-size: 72px 72px, 72px 72px, 100% 100%, 100% 100%;
 }
 
-.personal-home .personal-portrait {
-  width: 72px;
-  justify-self: center;
-  align-self: start;
-  margin-top: 74px;
-  box-shadow: 0 10px 28px rgba(6, 24, 47, 0.13);
+.personal-home .personal-copy {
+  width: min(100%, 960px);
+  margin: 0 auto;
 }
 
-.personal-home .portrait-grid,
-.personal-home .portrait-role,
-.personal-home .personal-portrait figcaption {
-  display: none;
+.personal-kicker {
+  display: flex;
+  gap: 18px;
+  align-items: flex-end;
+}
+
+.personal-kicker img {
+  display: block;
+  width: 64px;
+  height: auto;
+  filter: grayscale(1) contrast(1.06);
 }
 
 .personal-home .personal-copy h2 {
@@ -5252,10 +5255,8 @@ button:focus-visible {
     gap: 48px;
   }
 
-  .personal-home .personal-portrait {
-    width: 64px;
-    justify-self: start;
-    margin-top: 0;
+  .personal-kicker img {
+    width: 54px;
   }
 
   .case-hero {
