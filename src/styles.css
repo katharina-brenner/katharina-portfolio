@@ -3288,27 +3288,6 @@ button:focus-visible {
   margin-top: 72px;
 }
 
-.contact-signoff {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 56px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(244, 244, 241, 0.24);
-}
-
-.contact-portrait {
-  width: 76px;
-  margin: 0;
-}
-
-.contact-portrait img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 1px solid rgba(244, 244, 241, 0.24);
-  background: #061a33;
-}
-
 .reveal {
   transform: translateY(30px);
   transition-duration: 850ms;
@@ -4251,7 +4230,7 @@ button:focus-visible {
 /* Early personal positioning */
 
 .personal-home {
-  grid-template-columns: 104px minmax(0, 1fr);
+  grid-template-columns: 72px minmax(0, 1fr);
   gap: clamp(44px, 7vw, 112px);
   min-height: 0;
   background:
@@ -4263,11 +4242,11 @@ button:focus-visible {
 }
 
 .personal-home .personal-portrait {
-  width: 104px;
+  width: 72px;
   justify-self: center;
   align-self: start;
   margin-top: 74px;
-  box-shadow: 0 14px 38px rgba(6, 24, 47, 0.13);
+  box-shadow: 0 10px 28px rgba(6, 24, 47, 0.13);
 }
 
 .personal-home .portrait-grid,
@@ -5274,7 +5253,7 @@ button:focus-visible {
   }
 
   .personal-home .personal-portrait {
-    width: 88px;
+    width: 64px;
     justify-self: start;
     margin-top: 0;
   }
