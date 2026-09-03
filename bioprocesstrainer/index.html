@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#007c7d" />
+    <meta name="description" content="Interactive bioprocess learning simulation for batch and fed-batch cultivation with S. cerevisiae." />
+    <meta name="author" content="Katharina Julia Brenner" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://katharinabrenner.com/bioprocesstrainer/" />
+    <meta property="og:title" content="BioProcessTrainer · Interactive bioprocess simulation" />
+    <meta property="og:description" content="Operate a simulated bioreactor, tune control loops and follow live cultivation trends." />
+    <meta property="og:image" content="https://katharinabrenner.com/bioprocesstrainer-og.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://katharinabrenner.com/bioprocesstrainer/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BioProcessTrainer" />
+    <meta name="twitter:description" content="Interactive bioprocess simulation" />
+    <meta name="twitter:image" content="https://katharinabrenner.com/bioprocesstrainer-og.png" />
+    <link rel="icon" href="/favicon-process-star.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/bioprocesstrainer/styles.css" />
+    <title>BioProcessTrainer · Katharina Julia Brenner</title>
+  </head>
+  <body>
+    <a class="portfolio-return" href="/work/">← Back to portfolio</a>
+
+    <main class="bpt-stage">
+      <div class="bpt-window" role="application" aria-label="BioProcessTrainer simulation">
+        <div class="bpt-titlebar">BioProcessTrainer · S. cerevisiae</div>
+        <header class="bpt-header">
+          <div class="bpt-brand"><strong>bpt</strong><span>PROCESS LEARNING SYSTEMS</span></div>
+          <h1>BioProcessTrainer</h1>
+          <div class="bpt-organism"><i>S. cerevisiae</i></div>
+          <button class="bpt-power" type="button" data-action="power" aria-label="Switch process on or off"><b>Power</b><span data-power-light></span>on<br />off</button>
+        </header>
+
+        <div class="bpt-workspace">
+          <section class="bpt-process">
+            <div class="bpt-process-note"><span data-status>Ready</span><span>Ethanol production by <i>Saccharomyces cerevisiae</i></span></div>
+
+            <div class="bpt-diagram">
+              <div class="bpt-feed-bank bpt-feed-bank-top">
+                <button class="bpt-tank-button" type="button" data-open="medium" aria-label="Open medium settings">
+                  <span class="bpt-vertical-label">Substrate I</span><span class="bpt-vessel"><i class="liquid brown" data-liquid="substrate1"></i><i class="shine"></i></span><span class="bpt-valve">◇</span><strong data-value="substrate1">0.00 L</strong><small data-flow="substrate1">0.00 ml/min</small>
+                </button>
+                <button class="bpt-tank-button" type="button" data-open="medium" aria-label="Open medium settings">
+                  <span class="bpt-vertical-label">Substrate II</span><span class="bpt-vessel"><i class="liquid teal" data-liquid="substrate2"></i><i class="shine"></i></span><span class="bpt-valve">◇</span><strong data-value="substrate2">0.00 L</strong><small>0.00 ml/min</small>
+                </button>
+              </div>
+
+              <button class="bpt-inoculation" type="button" data-action="inoculate"><span class="bpt-bottle" data-inoculum></span><span>Inoculation</span></button>
+
+              <button class="bpt-gas-station" type="button" data-open="gas">
+                <span>Gas mixing station</span>
+                <div>O2&nbsp;&nbsp; <b data-gas-display="oxygen">0.0</b> L/min</div>
+                <div>Air&nbsp; <b data-gas-display="air">0.0</b> L/min</div>
+                <div>N2&nbsp;&nbsp; <b data-gas-display="nitrogen">0.0</b> L/min</div>
+              </button>
+
+              <div class="bpt-reactor-area">
+                <button class="bpt-motor" type="button" data-open="control">M</button>
+                <div class="bpt-reactor"><i class="bpt-reactor-liquid" data-reactor-liquid></i><i class="bpt-shaft"></i><i class="bpt-impeller impeller-one"></i><i class="bpt-impeller impeller-two"></i><span class="bpt-bubbles" data-bubbles aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div>
+                <div class="bpt-scale">20.0<br /><br />15.0<br /><br />10.0<br /><br />5.0<br /><br />0.0</div>
+              </div>
+
+              <div class="bpt-values">
+                <output><span>O2</span><b data-reading="oxygen">0.0 %</b></output><output><span>CO2</span><b data-reading="carbonDioxide">0.0 %</b></output>
+                <output class="set"><span>pO2</span><b data-reading="po2">100.0 %</b></output><output class="set"><span>pH</span><b data-reading="ph">7.1</b></output>
+                <output class="set"><span>TR</span><b data-reading="temperature">20.0 °C</b></output><output class="set"><span>Volume</span><b data-reading="reactorVolume">0.0 L</b></output><output class="set"><span>Foam</span><b data-reading="foam">0.0 L</b></output>
+              </div>
+
+              <div class="bpt-feed-bank bpt-feed-bank-bottom">
+                <div class="bpt-tank-static"><span class="bpt-vertical-label">Antifoam</span><span class="bpt-vessel small"><i class="liquid purple" data-liquid="antifoam"></i><i class="shine"></i></span><span class="bpt-valve">◇</span><strong data-value="antifoam">1.40 L</strong><small>0.00 ml/min</small></div>
+                <div class="bpt-tank-static"><span class="bpt-vertical-label">Base</span><span class="bpt-vessel small"><i class="liquid blue" data-liquid="base"></i><i class="shine"></i></span><span class="bpt-valve">◇</span><strong data-value="base">1.40 L</strong><small>0.00 ml/min</small></div>
+                <div class="bpt-tank-static"><span class="bpt-vertical-label">Acid</span><span class="bpt-vessel small"><i class="liquid red" data-liquid="acid"></i><i class="shine"></i></span><span class="bpt-valve">◇</span><strong data-value="acid">1.40 L</strong><small>0.00 ml/min</small></div>
+              </div>
+
+              <div class="bpt-product"><span class="bpt-product-vessel"><i data-product-liquid></i></span><strong>Product</strong><span>Level&nbsp; <b data-reading="product">0.0 L</b></span></div>
+              <button class="bpt-sample-point" type="button" data-action="sample">◇ <span>Sample</span></button>
+              <div class="bpt-thermal">← <b data-reading="thermal">20.0 °C</b><span>Thermal<br />fluid</span></div>
+              <div class="bpt-pipe pipe-feed"></div><div class="bpt-pipe pipe-control"></div><div class="bpt-pipe pipe-gas"></div><div class="bpt-pipe pipe-product"></div>
+            </div>
+
+            <div class="bpt-statusline" role="status"><span data-message>System ready. Start a new process.</span><b>Samples: <i data-samples>0</i></b><b>Biomass: <i data-biomass>0.00</i> g/L</b><b>Ethanol: <i data-ethanol>0.00</i> g/L</b></div>
+
+            <footer class="bpt-bottom-nav">
+              <div><span>Data:</span><button type="button" data-trend="ph-po2">Process<br />data</button><button type="button" data-action="export">Offline<br />data</button></div>
+              <div><span>Trends:</span><button type="button" data-trend="ph-po2">pH, pO2</button><button type="button" data-trend="gas-po2">Gas, pO2</button><button type="button" data-trend="temperature">Temp.</button><button type="button" data-trend="feed">Feed</button></div>
+              <div><span>Measurements:</span><button type="button" data-open="control">pH, T, V,<br />Foam</button><button type="button" data-open="gas">Gas, pO2</button><button type="button" data-open="control">T-Control</button><button type="button" data-open="control">pO2-Control</button></div>
+            </footer>
+          </section>
+
+          <aside class="bpt-sidebar">
+            <dl class="bpt-time"><div><dt>Process time:</dt><dd data-time>00:00:00</dd></div><div><dt>Date:</dt><dd data-date>--.--.----</dd></div><div><dt>Time:</dt><dd data-clock>--:--:--</dd></div></dl>
+            <div class="bpt-sidebar-group">
+              <button type="button" data-action="new">Start new process</button><button type="button" data-action="pause">Interrupt process</button><button type="button" data-action="continue">Continue process</button>
+              <fieldset><legend>Acceleration: <span data-speed-label>1x</span></legend><div class="bpt-speed-buttons"><button type="button" data-speed="1" class="active">1x</button><button type="button" data-speed="5">5x</button><button type="button" data-speed="15">15x</button></div><div class="bpt-split"><button type="button" data-action="run">Start</button><button type="button" data-action="speed-stop">Stop</button></div></fieldset>
+              <button type="button" data-action="stop">Stop process</button>
+            </div>
+            <div class="bpt-sidebar-group operations"><h2>Operations:</h2><button type="button" data-action="prepare">Prepare inoculum</button><button type="button" data-action="fill-tanks">Fill feed tanks</button><button type="button" data-open="medium">Prepare medium</button><button type="button" data-action="fill-reactor">Fill reactor</button><button type="button" data-action="refill">Refill acid/base tank</button><button type="button" data-action="empty-product">Empty product tank</button><button type="button" data-action="inoculate">Inoculate</button><button type="button" data-action="sample">Sample</button></div>
+            <button class="bpt-run" type="button" data-action="run-toggle">Run simulation</button>
+            <a class="bpt-exit" href="/work/">Exit to portfolio</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <dialog class="bpt-dialog" data-dialog="gas"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Gas mixing station</h2><p>Set the oxygen, air and nitrogen flow rates.</p><div class="gas-grid"><label>Flow rate O2<input type="range" min="0" max="20" step="0.1" value="0" data-gas="oxygen" /><output data-gas-output="oxygen">0.0 L/min</output></label><label>Flow rate air<input type="range" min="0" max="60" step="0.1" value="0" data-gas="air" /><output data-gas-output="air">0.0 L/min</output></label><label>Flow rate N2<input type="range" min="0" max="20" step="0.1" value="0" data-gas="nitrogen" /><output data-gas-output="nitrogen">0.0 L/min</output></label></div></form></dialog>
+
+    <dialog class="bpt-dialog" data-dialog="medium"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Medium preparation</h2><p>Configure substrate concentrations and fill volume.</p><div class="medium-grid"><label>Substrate I · Glucose concentration <span><input type="number" value="15.0" step="0.1" /> g/L</span></label><label>Substrate II · Nitrogen source <span><input type="number" value="2.0" step="0.1" /> g/L</span></label><label>Volume <span><input type="number" value="5.0" min="0" max="20" step="0.1" data-medium-volume /> L</span></label><button type="button" data-action="fill-medium">Fill reactor with medium</button></div></form></dialog>
+
+    <dialog class="bpt-dialog wide" data-dialog="control"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Controller</h2><p>Set the control loops for important process parameters.</p><div class="controller-grid"><fieldset><legend>Dissolved oxygen</legend><label>pO2 setpoint <span><input type="number" value="60" min="0" max="100" data-setpoint="po2" /> %</span></label><label>Gain <input type="number" value="1.0" step="0.1" /></label><label>Ti <span><input type="number" value="10" /> s</span></label></fieldset><fieldset><legend>pH</legend><label>pH setpoint <input type="number" value="7" min="5" max="9" step="0.1" data-setpoint="ph" /></label><label>Gain <input type="number" value="1.0" step="0.1" /></label><label>Ti <span><input type="number" value="100" /> s</span></label></fieldset><fieldset><legend>Temperature</legend><label>Temperature setpoint <span><input type="number" value="30" min="15" max="45" step="0.5" data-setpoint="temperature" /> °C</span></label><label>Gain <input type="number" value="1.0" step="0.1" /></label><label>Ti <span><input type="number" value="10" /> s</span></label></fieldset><fieldset><legend>Level</legend><label>Volume setpoint <span><input type="number" value="8" min="1" max="20" step="0.5" data-setpoint="level" /> L</span></label><label>Gain <input type="number" value="1.0" step="0.1" /></label><label>Ti <span><input type="number" value="10" /> s</span></label></fieldset></div></form></dialog>
+
+    <dialog class="bpt-dialog wide" data-dialog="trend"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Online trends</h2><p>Live measurements for observing and evaluating the cultivation.</p><div class="trend-legend" data-trend-legend></div><svg class="trend-chart" viewBox="0 0 680 300" role="img" aria-label="Live trend chart" data-chart></svg></form></dialog>
+
+    <script type="module" src="/bioprocesstrainer/app.js"></script>
+  </body>
+</html>
