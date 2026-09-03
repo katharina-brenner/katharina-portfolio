@@ -21,7 +21,10 @@ const freshProcess = () => ({
   oxygen: 0,
   carbonDioxide: 0,
   biomass: 0,
+  substrate: 0,
   ethanol: 0,
+  specificGrowth: 0,
+  dilution: 0,
   inoculumReady: false,
   sampleCount: 0,
 });
@@ -29,6 +32,20 @@ const freshProcess = () => ({
 let process = freshProcess();
 let gas = { oxygen: 0, air: 0, nitrogen: 0 };
 let setpoints = { ph: 7, po2: 60, temperature: 30, level: 8 };
+let modelMode = 'fedbatch';
+let model = {
+  muMax: 0.42,
+  ks: 0.1,
+  ko: 5,
+  maintenance: 0.01,
+  yieldXs: 0.5,
+  yieldPs: 0.45,
+  feedConcentration: 100,
+  kla: 180,
+  feedRate: 0.12,
+  outflowRate: 0.12,
+  maxVolume: 20,
+};
 let history = [];
 let activeTrend = 'ph-po2';
 let message = 'System ready. Start a new process.';
@@ -78,14 +95,19 @@ function setLiquid(name, amount, capacity) {
 
 function render() {
   const running = process.status === 'running';
+  const effectiveFeed = modelMode === 'batch' || process.substrate1 <= 0 ? 0 : model.feedRate;
   updateText('[data-status]', statusLabels[process.status]);
+  updateText('[data-mode-label]', modelMode === 'fedbatch' ? 'Fed-batch' : modelMode[0].toUpperCase() + modelMode.slice(1));
   updateText('[data-time]', processTime(process.seconds));
   updateText('[data-speed-label]', `${process.acceleration}x`);
   updateText('[data-message]', message);
   updateText('[data-samples]', process.sampleCount);
   updateText('[data-biomass]', fmt(process.biomass, 2));
+  updateText('[data-substrate]', fmt(process.substrate, 2));
   updateText('[data-ethanol]', fmt(process.ethanol, 2));
-  updateText('[data-flow="substrate1"]', `${running && process.substrate1 > 0 ? '2.00' : '0.00'} ml/min`);
+  updateText('[data-mu]', fmt(process.specificGrowth, 3));
+  updateText('[data-dilution]', fmt(process.dilution, 3));
+  updateText('[data-flow="substrate1"]', `${running ? fmt(effectiveFeed * 1000 / 60, 2) : '0.00'} ml/min`);
 
   $('[data-power-light]').classList.toggle('on', running);
   $('[data-bubbles]').classList.toggle('active', running);
@@ -94,13 +116,14 @@ function render() {
   $('[data-action="run-toggle"]').textContent = running ? 'Pause simulation' : 'Run simulation';
 
   $$('[data-speed]').forEach((button) => button.classList.toggle('active', Number(button.dataset.speed) === process.acceleration));
+  $$('[data-mode]').forEach((button) => button.classList.toggle('active', button.dataset.mode === modelMode));
 
   setLiquid('substrate1', process.substrate1, 10);
   setLiquid('substrate2', process.substrate2, 10);
   setLiquid('acid', process.acid, 2);
   setLiquid('base', process.base, 2);
   setLiquid('antifoam', process.antifoam, 2);
-  $('[data-reactor-liquid]').style.height = `${clamp((process.reactorVolume / 20) * 100, 0, 100)}%`;
+  $('[data-reactor-liquid]').style.height = `${clamp((process.reactorVolume / Math.max(model.maxVolume, 0.001)) * 100, 0, 100)}%`;
   $('[data-product-liquid]').style.height = `${clamp((process.product / 20) * 100, 0, 100)}%`;
 
   updateText('[data-reading="oxygen"]', `${fmt(process.oxygen)} %`);
@@ -117,6 +140,24 @@ function render() {
     updateText(`[data-gas-display="${name}"]`, fmt(value));
     updateText(`[data-gas-output="${name}"]`, `${fmt(value)} L/min`);
   });
+
+  const alert = $('[data-alert]');
+  alert.classList.remove('warning', 'critical');
+  if (running && process.po2 < 10) {
+    alert.textContent = 'Critical: oxygen limited';
+    alert.classList.add('critical');
+  } else if (running && process.reactorVolume >= model.maxVolume * 0.98) {
+    alert.textContent = 'Critical: volume limit';
+    alert.classList.add('critical');
+  } else if (running && process.substrate < 0.5) {
+    alert.textContent = 'Warning: substrate low';
+    alert.classList.add('warning');
+  } else if (running && (process.po2 < 20 || Math.abs(process.ph - setpoints.ph) > 0.35)) {
+    alert.textContent = process.po2 < 20 ? 'Warning: pO2 low' : 'Warning: pH deviation';
+    alert.classList.add('warning');
+  } else {
+    alert.textContent = running ? 'Mass balance active' : 'Model ready';
+  }
 
   if ($('[data-dialog="trend"]').open) drawTrend();
 }
@@ -135,9 +176,12 @@ function fillFeedTanks() {
   render();
 }
 
-function fillReactor(volume = 5) {
+function fillReactor(volume = 5, substrate = 15) {
   process.status = 'filled';
-  process.reactorVolume = clamp(Number(volume) || 0, 0, 20);
+  process.reactorVolume = clamp(Number(volume) || 0, 0, model.maxVolume);
+  process.substrate = clamp(Number(substrate) || 0, 0, 500);
+  process.biomass = 0;
+  process.ethanol = 0;
   process.temperature = 20;
   process.ph = 7.1;
   setMessage(`Reactor filled with ${fmt(process.reactorVolume)} L medium.`);
@@ -192,24 +236,74 @@ function resetProcess() {
   render();
 }
 
+function loadDemo() {
+  process = freshProcess();
+  process.status = 'inoculated';
+  process.reactorVolume = 5;
+  process.substrate1 = 10;
+  process.substrate2 = 10;
+  process.substrate = 15;
+  process.biomass = 0.18;
+  process.inoculumReady = true;
+  gas.air = 20;
+  history = [];
+  const airSlider = $('[data-gas="air"]');
+  if (airSlider) airSlider.value = 20;
+  setMessage('Demo loaded: fed-batch culture ready to run.');
+  render();
+}
+
 function tick() {
   if (process.status !== 'running') return;
   const elapsed = process.acceleration * 60;
   process.seconds += elapsed;
+  const dt = elapsed / 3600;
   const hours = process.seconds / 3600;
-  const feedRate = process.substrate1 > 0 && process.reactorVolume > 0 ? 0.12 : 0;
-  const feedLiters = feedRate * (elapsed / 3600);
+  const volume = Math.max(process.reactorVolume, 0.001);
+  const substrateFactor = process.substrate / Math.max(model.ks + process.substrate, 0.001);
+  const oxygenFactor = process.po2 / Math.max(model.ko + process.po2, 0.001);
+  const specificGrowth = model.muMax * substrateFactor * oxygenFactor;
+  const feedRate = modelMode === 'batch' || process.substrate1 <= 0 ? 0 : model.feedRate;
+  const outflowRate = modelMode === 'continuous' && feedRate > 0 ? model.outflowRate : 0;
+  const nextVolume = clamp(volume + (feedRate - outflowRate) * dt, 0.001, model.maxVolume);
 
-  process.biomass = clamp(process.biomass + (0.055 * process.biomass + 0.012) * (elapsed / 60), 0, 38);
-  process.reactorVolume = clamp(process.reactorVolume + feedLiters, 0, 20);
-  process.substrate1 = clamp(process.substrate1 - feedLiters, 0, 10);
-  process.ph = clamp(process.ph + (setpoints.ph - process.ph) * 0.18 + Math.sin(hours * 2) * 0.01, 5.5, 8.5);
-  process.po2 = clamp(setpoints.po2 + Math.sin(hours * 3.1) * 3 - process.biomass * 0.45 + gas.air * 0.5 + gas.oxygen * 0.8, 0, 100);
-  process.temperature += (setpoints.temperature - process.temperature) * 0.14;
-  process.carbonDioxide = clamp(process.biomass * 0.42 + Math.sin(hours) * 0.2, 0, 18);
+  const biomassMass = process.biomass * volume;
+  const substrateMass = process.substrate * volume;
+  const productMass = process.ethanol * volume;
+  const growthRate = specificGrowth * biomassMass;
+  const substrateUseRate = growthRate / Math.max(model.yieldXs, 0.001) + model.maintenance * biomassMass;
+  const productRate = model.yieldPs * substrateUseRate;
+  const nextBiomassMass = Math.max(0, biomassMass + (growthRate - outflowRate * process.biomass) * dt);
+  const nextSubstrateMass = Math.max(0, substrateMass + (feedRate * model.feedConcentration - outflowRate * process.substrate - substrateUseRate) * dt);
+  const nextProductMass = Math.max(0, productMass + (productRate - outflowRate * process.ethanol) * dt);
+
+  process.specificGrowth = specificGrowth;
+  process.dilution = outflowRate / volume;
+  process.reactorVolume = nextVolume;
+  process.substrate1 = clamp(process.substrate1 - feedRate * dt, 0, 10);
+  process.product = clamp(process.product + outflowRate * dt, 0, 20);
+  process.biomass = nextBiomassMass / nextVolume;
+  process.substrate = nextSubstrateMass / nextVolume;
+  process.ethanol = nextProductMass / nextVolume;
+
+  const oxygenDemand = specificGrowth * process.biomass * 9;
+  const gasTransfer = model.kla / 180 * (gas.air * 0.6 + gas.oxygen * 1.5);
+  const oxygenTarget = clamp(setpoints.po2 + gasTransfer - oxygenDemand, 0, 100);
+  process.po2 = clamp(process.po2 + (oxygenTarget - process.po2) * Math.min(1, dt * 3), 0, 100);
+  const metabolicAcidification = specificGrowth * process.biomass * 0.014;
+  process.ph = clamp(process.ph + ((setpoints.ph - process.ph) * 1.4 - metabolicAcidification) * dt, 5.5, 8.5);
+  process.temperature += (setpoints.temperature - process.temperature) * Math.min(1, dt * 2.2);
+  process.carbonDioxide = clamp(specificGrowth * process.biomass * 2.8 + Math.sin(hours) * 0.12, 0, 18);
   process.oxygen = clamp(gas.oxygen * 0.2 + gas.air * 0.035 + process.po2 * 0.018, 0, 12);
   process.foam = clamp(process.biomass * 0.012 - process.antifoam * 0.002, 0, 0.9);
-  process.ethanol = clamp(process.ethanol + process.biomass * 0.0024 * (elapsed / 60), 0, 80);
+
+  if (modelMode === 'batch' && process.substrate <= 0.01) {
+    process.status = 'paused';
+    setMessage('Batch complete: substrate depleted.');
+  } else if (nextVolume >= model.maxVolume && feedRate > outflowRate) {
+    process.status = 'paused';
+    setMessage('Safety stop: maximum reactor volume reached.');
+  }
 
   history.push({
     seconds: process.seconds,
@@ -219,6 +313,10 @@ function tick() {
     oxygen: process.oxygen,
     carbonDioxide: process.carbonDioxide,
     reactorVolume: process.reactorVolume,
+    biomass: process.biomass,
+    substrate: process.substrate,
+    ethanol: process.ethanol,
+    specificGrowth: process.specificGrowth,
     feed: feedRate,
   });
   history = history.slice(-120);
@@ -243,6 +341,11 @@ function drawTrend() {
       { key: 'feed', label: 'Feed × 10', color: '#238d3c', scale: 10 },
       { key: 'reactorVolume', label: 'Volume × 8', color: '#2159c7', scale: 8 },
     ],
+    kinetics: [
+      { key: 'biomass', label: 'Biomass X × 2', color: '#2159c7', scale: 2 },
+      { key: 'substrate', label: 'Substrate S × 4', color: '#238d3c', scale: 4 },
+      { key: 'ethanol', label: 'Ethanol P × 2', color: '#d63a2e', scale: 2 },
+    ],
   };
   const config = configurations[activeTrend];
   const points = history.length ? history : [{
@@ -253,6 +356,10 @@ function drawTrend() {
     oxygen: process.oxygen,
     carbonDioxide: process.carbonDioxide,
     reactorVolume: process.reactorVolume,
+    biomass: process.biomass,
+    substrate: process.substrate,
+    ethanol: process.ethanol,
+    specificGrowth: process.specificGrowth,
     feed: 0,
   }];
 
@@ -272,8 +379,8 @@ function drawTrend() {
 }
 
 function exportData() {
-  const rows = ['time_s,pH,pO2_percent,temperature_C,O2_percent,CO2_percent,volume_L,feed_L_h'];
-  history.forEach((point) => rows.push([point.seconds, point.ph, point.po2, point.temperature, point.oxygen, point.carbonDioxide, point.reactorVolume, point.feed].join(',')));
+  const rows = ['time_s,mode,biomass_g_L,substrate_g_L,ethanol_g_L,mu_h-1,pH,pO2_percent,temperature_C,O2_percent,CO2_percent,volume_L,feed_L_h'];
+  history.forEach((point) => rows.push([point.seconds, modelMode, point.biomass, point.substrate, point.ethanol, point.specificGrowth, point.ph, point.po2, point.temperature, point.oxygen, point.carbonDioxide, point.reactorVolume, point.feed].join(',')));
   const url = URL.createObjectURL(new Blob([rows.join('\n')], { type: 'text/csv' }));
   const link = document.createElement('a');
   link.href = url;
@@ -285,9 +392,10 @@ function exportData() {
 
 const actions = {
   new: resetProcess,
+  demo: loadDemo,
   prepare: prepareInoculum,
   'fill-tanks': fillFeedTanks,
-  'fill-reactor': () => fillReactor(5),
+  'fill-reactor': () => fillReactor(5, 15),
   refill: () => { process.acid = 2; process.base = 2; setMessage('Acid and base tanks refilled.'); render(); },
   'empty-product': () => { process.product = 0; setMessage('Product tank emptied.'); render(); },
   inoculate,
@@ -302,7 +410,8 @@ const actions = {
   export: exportData,
   'fill-medium': () => {
     const volume = Number($('[data-medium-volume]').value);
-    fillReactor(volume);
+    const substrate = Number($('[data-medium-substrate]').value);
+    fillReactor(volume, substrate);
     $('[data-dialog="medium"]').close();
   },
 };
@@ -316,6 +425,15 @@ $$('[data-trend]').forEach((button) => button.addEventListener('click', () => {
 }));
 $$('[data-speed]').forEach((button) => button.addEventListener('click', () => {
   process.acceleration = Number(button.dataset.speed);
+  render();
+}));
+$$('[data-mode]').forEach((button) => button.addEventListener('click', () => {
+  modelMode = button.dataset.mode;
+  setMessage(`${button.textContent.trim()} mode selected.`);
+  render();
+}));
+$$('[data-model]').forEach((input) => input.addEventListener('input', () => {
+  model[input.dataset.model] = Number(input.value);
   render();
 }));
 $$('[data-gas]').forEach((input) => input.addEventListener('input', () => {

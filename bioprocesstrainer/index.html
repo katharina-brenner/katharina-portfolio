@@ -4,18 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#007c7d" />
-    <meta name="description" content="Interactive bioprocess learning simulation for batch and fed-batch cultivation with S. cerevisiae." />
+    <meta name="description" content="Interactive bioprocess model for batch, fed-batch, and continuous S. cerevisiae cultivation with Monod kinetics and dynamic mass balances." />
     <meta name="author" content="Katharina Julia Brenner" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://katharinabrenner.com/bioprocesstrainer/" />
     <meta property="og:title" content="BioProcessTrainer · Interactive bioprocess simulation" />
-    <meta property="og:description" content="Operate a simulated bioreactor, tune control loops and follow live cultivation trends." />
+    <meta property="og:description" content="Explore Monod kinetics, dynamic mass balances, process control, and live cultivation trends." />
     <meta property="og:image" content="https://katharinabrenner.com/bioprocesstrainer-og.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://katharinabrenner.com/bioprocesstrainer/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="BioProcessTrainer" />
-    <meta name="twitter:description" content="Interactive bioprocess simulation" />
+    <meta name="twitter:description" content="Interactive bioprocess model with dynamic mass balances" />
     <meta name="twitter:image" content="https://katharinabrenner.com/bioprocesstrainer-og.png" />
     <link rel="icon" href="/favicon-process-star.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/bioprocesstrainer/styles.css" />
@@ -28,15 +28,15 @@
       <div class="bpt-window" role="application" aria-label="BioProcessTrainer simulation">
         <div class="bpt-titlebar">BioProcessTrainer · S. cerevisiae</div>
         <header class="bpt-header">
-          <div class="bpt-brand"><strong>bpt</strong><span>PROCESS LEARNING SYSTEMS</span></div>
-          <h1>BioProcessTrainer</h1>
+          <div class="bpt-brand"><strong>bpt</strong><span>DYNAMIC BIOPROCESS MODEL · V2</span></div>
+          <h1>BioProcessTrainer <small>MODEL</small></h1>
           <div class="bpt-organism"><i>S. cerevisiae</i></div>
           <button class="bpt-power" type="button" data-action="power" aria-label="Switch process on or off"><b>Power</b><span data-power-light></span>on<br />off</button>
         </header>
 
         <div class="bpt-workspace">
           <section class="bpt-process">
-            <div class="bpt-process-note"><span data-status>Ready</span><span>Ethanol production by <i>Saccharomyces cerevisiae</i></span></div>
+            <div class="bpt-process-note"><span data-status>Ready</span><button type="button" data-open="model"><b data-mode-label>Fed-batch</b> · Monod model</button><span>Ethanol production by <i>Saccharomyces cerevisiae</i></span></div>
 
             <div class="bpt-diagram">
               <div class="bpt-feed-bank bpt-feed-bank-top">
@@ -81,10 +81,11 @@
               <div class="bpt-pipe pipe-feed"></div><div class="bpt-pipe pipe-control"></div><div class="bpt-pipe pipe-gas"></div><div class="bpt-pipe pipe-product"></div>
             </div>
 
-            <div class="bpt-statusline" role="status"><span data-message>System ready. Start a new process.</span><b>Samples: <i data-samples>0</i></b><b>Biomass: <i data-biomass>0.00</i> g/L</b><b>Ethanol: <i data-ethanol>0.00</i> g/L</b></div>
+            <div class="bpt-model-readout" aria-label="Model state"><span>μ <b data-mu>0.000</b> h⁻¹</span><span>X <b data-biomass>0.00</b> g/L</span><span>S <b data-substrate>0.00</b> g/L</span><span>P <b data-ethanol>0.00</b> g/L</span><span>D <b data-dilution>0.000</b> h⁻¹</span></div>
+            <div class="bpt-statusline" role="status"><span data-message>System ready. Start a new process.</span><b data-alert class="bpt-alert">Model ready</b><b>Samples: <i data-samples>0</i></b></div>
 
             <footer class="bpt-bottom-nav">
-              <div><span>Data:</span><button type="button" data-trend="ph-po2">Process<br />data</button><button type="button" data-action="export">Offline<br />data</button></div>
+              <div><span>Data:</span><button type="button" data-trend="kinetics">Process<br />data</button><button type="button" data-action="export">Offline<br />data</button></div>
               <div><span>Trends:</span><button type="button" data-trend="ph-po2">pH, pO2</button><button type="button" data-trend="gas-po2">Gas, pO2</button><button type="button" data-trend="temperature">Temp.</button><button type="button" data-trend="feed">Feed</button></div>
               <div><span>Measurements:</span><button type="button" data-open="control">pH, T, V,<br />Foam</button><button type="button" data-open="gas">Gas, pO2</button><button type="button" data-open="control">T-Control</button><button type="button" data-open="control">pO2-Control</button></div>
             </footer>
@@ -97,7 +98,7 @@
               <fieldset><legend>Acceleration: <span data-speed-label>1x</span></legend><div class="bpt-speed-buttons"><button type="button" data-speed="1" class="active">1x</button><button type="button" data-speed="5">5x</button><button type="button" data-speed="15">15x</button></div><div class="bpt-split"><button type="button" data-action="run">Start</button><button type="button" data-action="speed-stop">Stop</button></div></fieldset>
               <button type="button" data-action="stop">Stop process</button>
             </div>
-            <div class="bpt-sidebar-group operations"><h2>Operations:</h2><button type="button" data-action="prepare">Prepare inoculum</button><button type="button" data-action="fill-tanks">Fill feed tanks</button><button type="button" data-open="medium">Prepare medium</button><button type="button" data-action="fill-reactor">Fill reactor</button><button type="button" data-action="refill">Refill acid/base tank</button><button type="button" data-action="empty-product">Empty product tank</button><button type="button" data-action="inoculate">Inoculate</button><button type="button" data-action="sample">Sample</button></div>
+            <div class="bpt-sidebar-group operations"><h2>Operations:</h2><button type="button" data-action="demo">Load demo scenario</button><button type="button" data-open="model">Model setup</button><button type="button" data-action="prepare">Prepare inoculum</button><button type="button" data-action="fill-tanks">Fill feed tanks</button><button type="button" data-open="medium">Prepare medium</button><button type="button" data-action="fill-reactor">Fill reactor</button><button type="button" data-action="refill">Refill acid/base tank</button><button type="button" data-action="empty-product">Empty product tank</button><button type="button" data-action="inoculate">Inoculate</button><button type="button" data-action="sample">Sample</button></div>
             <button class="bpt-run" type="button" data-action="run-toggle">Run simulation</button>
             <a class="bpt-exit" href="/work/">Exit to portfolio</a>
           </aside>
@@ -107,7 +108,9 @@
 
     <dialog class="bpt-dialog" data-dialog="gas"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Gas mixing station</h2><p>Set the oxygen, air and nitrogen flow rates.</p><div class="gas-grid"><label>Flow rate O2<input type="range" min="0" max="20" step="0.1" value="0" data-gas="oxygen" /><output data-gas-output="oxygen">0.0 L/min</output></label><label>Flow rate air<input type="range" min="0" max="60" step="0.1" value="0" data-gas="air" /><output data-gas-output="air">0.0 L/min</output></label><label>Flow rate N2<input type="range" min="0" max="20" step="0.1" value="0" data-gas="nitrogen" /><output data-gas-output="nitrogen">0.0 L/min</output></label></div></form></dialog>
 
-    <dialog class="bpt-dialog" data-dialog="medium"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Medium preparation</h2><p>Configure substrate concentrations and fill volume.</p><div class="medium-grid"><label>Substrate I · Glucose concentration <span><input type="number" value="15.0" step="0.1" /> g/L</span></label><label>Substrate II · Nitrogen source <span><input type="number" value="2.0" step="0.1" /> g/L</span></label><label>Volume <span><input type="number" value="5.0" min="0" max="20" step="0.1" data-medium-volume /> L</span></label><button type="button" data-action="fill-medium">Fill reactor with medium</button></div></form></dialog>
+    <dialog class="bpt-dialog" data-dialog="medium"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Medium preparation</h2><p>Configure initial substrate concentration and working volume.</p><div class="medium-grid"><label>Substrate I · Glucose concentration <span><input type="number" value="15.0" min="0" step="0.1" data-medium-substrate /> g/L</span></label><label>Substrate II · Nitrogen source <span><input type="number" value="2.0" min="0" step="0.1" /> g/L</span></label><label>Volume <span><input type="number" value="5.0" min="0" max="20" step="0.1" data-medium-volume /> L</span></label><button type="button" data-action="fill-medium">Fill reactor with medium</button></div></form></dialog>
+
+    <dialog class="bpt-dialog wide" data-dialog="model"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Bioprocess model setup</h2><p>Choose the operating mode and tune the kinetic and mass-balance parameters.</p><div class="model-mode-switch" role="group" aria-label="Operating mode"><button type="button" data-mode="batch">Batch</button><button type="button" data-mode="fedbatch" class="active">Fed-batch</button><button type="button" data-mode="continuous">Continuous</button></div><div class="model-grid"><fieldset><legend>Monod kinetics</legend><label>μmax <span><input type="number" value="0.42" min="0.01" step="0.01" data-model="muMax" /> h⁻¹</span></label><label>Ks <span><input type="number" value="0.10" min="0.001" step="0.01" data-model="ks" /> g/L</span></label><label>Ko <span><input type="number" value="5.0" min="0.1" step="0.1" data-model="ko" /> % pO2</span></label><label>Maintenance <span><input type="number" value="0.01" min="0" step="0.001" data-model="maintenance" /> g/g/h</span></label></fieldset><fieldset><legend>Stoichiometry</legend><label>Yx/s <span><input type="number" value="0.50" min="0.01" step="0.01" data-model="yieldXs" /> g/g</span></label><label>Yp/s <span><input type="number" value="0.45" min="0" step="0.01" data-model="yieldPs" /> g/g</span></label><label>Feed glucose <span><input type="number" value="100" min="0" step="1" data-model="feedConcentration" /> g/L</span></label><label>kLa <span><input type="number" value="180" min="0" step="5" data-model="kla" /> h⁻¹</span></label></fieldset><fieldset><legend>Flow strategy</legend><label>Feed rate <span><input type="number" value="0.12" min="0" step="0.01" data-model="feedRate" /> L/h</span></label><label>Outflow rate <span><input type="number" value="0.12" min="0" step="0.01" data-model="outflowRate" /> L/h</span></label><label>Max. volume <span><input type="number" value="20" min="1" step="0.5" data-model="maxVolume" /> L</span></label><small>Outflow is applied only in continuous mode. Feed is disabled in batch mode.</small></fieldset></div><div class="model-equation"><span>μ = μmax · S/(Ks + S) · pO2/(Ko + pO2)</span><span>d(XV)/dt = μXV − FoutX</span><span>d(SV)/dt = FinSin − FoutS − qSXV</span></div></form></dialog>
 
     <dialog class="bpt-dialog wide" data-dialog="control"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2>Controller</h2><p>Set the control loops for important process parameters.</p><div class="controller-grid"><fieldset><legend>Dissolved oxygen</legend><label>pO2 setpoint <span><input type="number" value="60" min="0" max="100" data-setpoint="po2" /> %</span></label><label>Gain <input type="number" value="1.0" step="0.1" /></label><label>Ti <span><input type="number" value="10" /> s</span></label></fieldset><fieldset><legend>pH</legend><label>pH setpoint <input type="number" value="7" min="5" max="9" step="0.1" data-setpoint="ph" /></label><label>Gain <input type="number" value="1.0" step="0.1" /></label><label>Ti <span><input type="number" value="100" /> s</span></label></fieldset><fieldset><legend>Temperature</legend><label>Temperature setpoint <span><input type="number" value="30" min="15" max="45" step="0.5" data-setpoint="temperature" /> °C</span></label><label>Gain <input type="number" value="1.0" step="0.1" /></label><label>Ti <span><input type="number" value="10" /> s</span></label></fieldset><fieldset><legend>Level</legend><label>Volume setpoint <span><input type="number" value="8" min="1" max="20" step="0.5" data-setpoint="level" /> L</span></label><label>Gain <input type="number" value="1.0" step="0.1" /></label><label>Ti <span><input type="number" value="10" /> s</span></label></fieldset></div></form></dialog>
 
