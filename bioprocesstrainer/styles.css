@@ -7,6 +7,7 @@ button { color: inherit; }
 .portfolio-return { position: fixed; top: 12px; left: 16px; z-index: 20; border: 1px solid rgb(255 255 255 / 35%); background: rgb(23 31 34 / 82%); padding: 8px 12px; color: #fff; text-decoration: none; font: 600 11px/1 Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; backdrop-filter: blur(8px); }
 .portfolio-return:hover { background: #006c6d; }
 .bpt-stage { min-height: 100vh; padding: clamp(42px, 4vw, 58px) clamp(0px, 2vw, 28px) clamp(0px, 2vw, 28px); overflow-x: auto; }
+.software-copyright { margin: 10px auto 0; color: rgb(228 233 235 / 62%); text-align: center; font: 9px/1.3 Arial, sans-serif; letter-spacing: .035em; }
 .bpt-window { width: min(1240px, 100%); min-height: 800px; margin: 0 auto; overflow: hidden; border: 1px solid #272727; background: #d9e1e5; box-shadow: 0 14px 46px rgb(0 0 0 / 35%); }
 .bpt-titlebar { height: 25px; border-bottom: 1px solid #8a8a8a; background: linear-gradient(#f7f7f7, #dedede); padding: 4px 8px; font-size: 12px; }
 .bpt-header { display: grid; grid-template-columns: 1.1fr 1fr .5fr 170px; align-items: center; min-height: 78px; border-bottom: 2px solid #007c7d; background: linear-gradient(90deg, #fff 0%, #f4f7f7 62%, #d5dfdf 100%); }
