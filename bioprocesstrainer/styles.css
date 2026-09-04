@@ -81,3 +81,9 @@ button { color: inherit; }
 @media (prefers-reduced-motion: reduce) { .bpt-bubbles i { animation: none; } }
 @media (max-width: 900px) { .bpt-header { grid-template-columns: 240px 1fr 160px 170px; }.bpt-workspace { grid-template-columns: minmax(0, 1fr) 196px; } }
 @media (max-width: 640px) { .portfolio-return { position: absolute; }.bpt-dialog { max-height: calc(100vh - 24px); overflow-y: auto; }.controller-grid, .model-grid, .model-equation, .model-switches, .process-data-grid { grid-template-columns: 1fr; }.environment-switch { padding-left: 12px; }.gas-grid { gap: 4px; padding: 7px; } }
+@media (max-width: 1279px) {
+  .bpt-stage { overflow-x: hidden; padding: 48px 12px 16px; }
+  .bpt-window { margin: 0; zoom: calc((100vw - 24px) / 1240px); }
+  .bpt-header { grid-template-columns: 1.1fr 1fr .5fr 170px; }
+  .bpt-workspace { grid-template-columns: minmax(700px, 1fr) 196px; }
+}
