@@ -212,13 +212,18 @@ function updateProcessData() {
     oxygen: { value: process.oxygen, text: `${fmt(process.oxygen)} %` },
     carbonDioxide: { value: process.carbonDioxide, text: `${fmt(process.carbonDioxide)} %` },
   };
+  const volumeMeter = $('[data-process-meter="volume"]');
+  if (volumeMeter) volumeMeter.max = model.maxVolume;
   Object.entries(current).forEach(([name, entry]) => {
     updateText(`[data-process-current="${name}"]`, entry.text);
     const meter = $(`[data-process-meter="${name}"]`);
-    if (meter) meter.value = entry.value;
+    if (meter) {
+      meter.value = entry.value;
+      const span = Math.max(Number(meter.max) - Number(meter.min), 0.001);
+      const level = clamp(((entry.value - Number(meter.min)) / span) * 100, 0, 100);
+      $(`[data-process-gauge="${name}"]`)?.style.setProperty('--level', `${level}%`);
+    }
   });
-  const volumeMeter = $('[data-process-meter="volume"]');
-  if (volumeMeter) volumeMeter.max = model.maxVolume;
 
   const lastSample = samples.at(-1);
   const sampleValues = lastSample ? {
@@ -478,23 +483,23 @@ function drawTrend() {
   const legend = $('[data-trend-legend]');
   const configurations = {
     'ph-po2': [
-      { key: 'ph', label: 'pH × 10', color: '#d63a2e', scale: 10 },
-      { key: 'po2', label: 'pO2', color: '#2159c7', scale: 1 },
+      { key: 'ph', label: 'pH × 10', color: '#d2a500', scale: 10 },
+      { key: 'po2', label: 'pO2', color: '#2856f6', scale: 1 },
     ],
     'gas-po2': [
-      { key: 'oxygen', label: 'O2 × 5', color: '#238d3c', scale: 5 },
-      { key: 'carbonDioxide', label: 'CO2 × 5', color: '#d63a2e', scale: 5 },
-      { key: 'po2', label: 'pO2', color: '#2159c7', scale: 1 },
+      { key: 'oxygen', label: 'O2 × 5', color: '#5263ff', scale: 5 },
+      { key: 'carbonDioxide', label: 'CO2 × 5', color: '#d2a500', scale: 5 },
+      { key: 'po2', label: 'pO2', color: '#2856f6', scale: 1 },
     ],
-    temperature: [{ key: 'temperature', label: 'Temperature × 3', color: '#d63a2e', scale: 3 }],
+    temperature: [{ key: 'temperature', label: 'Temperature × 3', color: '#2856f6', scale: 3 }],
     feed: [
-      { key: 'feed', label: 'Feed × 10', color: '#238d3c', scale: 10 },
-      { key: 'reactorVolume', label: 'Volume × 8', color: '#2159c7', scale: 8 },
+      { key: 'feed', label: 'Feed × 10', color: '#d2a500', scale: 10 },
+      { key: 'reactorVolume', label: 'Volume × 8', color: '#2856f6', scale: 8 },
     ],
     kinetics: [
-      { key: 'biomass', label: 'Biomass X × 2', color: '#2159c7', scale: 2 },
-      { key: 'substrate', label: 'Substrate S × 4', color: '#238d3c', scale: 4 },
-      { key: 'ethanol', label: 'Ethanol P × 2', color: '#d63a2e', scale: 2 },
+      { key: 'biomass', label: 'Biomass X × 2', color: '#2856f6', scale: 2 },
+      { key: 'substrate', label: 'Substrate S × 4', color: '#5263ff', scale: 4 },
+      { key: 'ethanol', label: 'Ethanol P × 2', color: '#d2a500', scale: 2 },
     ],
   };
   const config = configurations[activeTrend];
@@ -513,6 +518,8 @@ function drawTrend() {
     feed: 0,
   }];
 
+  updateText('[data-trend-points]', `${points.length} data point${points.length === 1 ? '' : 's'}`);
+  updateText('[data-trend-window]', `Window ${processTime(Math.max(0, points.at(-1).seconds - points[0].seconds))}`);
   legend.innerHTML = config.map((line) => `<span style="color:${line.color}">● ${line.label}</span>`).join('');
   const vertical = Array.from({ length: 7 }, (_, index) => `<line x1="${42 + index * 103.67}" y1="12" x2="${42 + index * 103.67}" y2="260" stroke="#999" stroke-dasharray="4 4" />`).join('');
   const horizontal = Array.from({ length: 6 }, (_, index) => `<line x1="42" y1="${12 + index * 49.6}" x2="664" y2="${12 + index * 49.6}" stroke="#999" stroke-dasharray="4 4" />`).join('');
@@ -525,7 +532,7 @@ function drawTrend() {
     return `<path d="${path}" fill="none" stroke="${line.color}" stroke-width="2" vector-effect="non-scaling-stroke" />`;
   }).join('');
 
-  svg.innerHTML = `<rect x="42" y="12" width="622" height="248" fill="#fff" stroke="#222" />${vertical}${horizontal}<text x="10" y="20" font-size="10">100</text><text x="18" y="144" font-size="10">50</text><text x="24" y="260" font-size="10">0</text>${paths}<text x="42" y="282" font-size="10">Process start</text><text x="590" y="282" font-size="10">${processTime(points.at(-1).seconds)}</text>`;
+  svg.innerHTML = `<rect x="42" y="12" width="622" height="248" rx="6" fill="#fbfbf9" stroke="#c8d2dc" />${vertical}${horizontal}<text x="10" y="20" font-size="10">100</text><text x="18" y="144" font-size="10">50</text><text x="24" y="260" font-size="10">0</text>${paths}<text x="42" y="282" font-size="10">Process start</text><text x="590" y="282" font-size="10">${processTime(points.at(-1).seconds)}</text>`;
 }
 
 function downloadCsv(rows, filename) {
