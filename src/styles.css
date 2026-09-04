@@ -105,7 +105,7 @@ h3 {
   flex: 0 0 auto;
   width: 36px;
   height: 36px;
-  color: var(--ink);
+  color: var(--coral);
   transition: transform 420ms var(--ease-out);
 }
 
