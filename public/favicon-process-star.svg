@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Katharina Julia Brenner process star">
-  <circle cx="32" cy="32" r="23" fill="none" stroke="#061a33" stroke-width="2" stroke-dasharray="6 5"/>
-  <path d="M32 9c1.5 13 10 21.5 23 23-13 1.5-21.5 10-23 23-1.5-13-10-21.5-23-23 13-1.5 21.5-10 23-23Z" fill="#061a33"/>
-  <circle cx="32" cy="32" r="4.2" fill="#061a33"/>
+  <rect width="64" height="64" rx="17" fill="#06182f"/>
+  <circle cx="32" cy="32" r="23" fill="none" stroke="#5263ff" stroke-width="2" stroke-dasharray="6 5"/>
+  <path d="M32 9c1.5 13 10 21.5 23 23-13 1.5-21.5 10-23 23-1.5-13-10-21.5-23-23 13-1.5 21.5-10 23-23Z" fill="#f4f4f1"/>
+  <circle cx="32" cy="32" r="4.2" fill="#ffd21c"/>
 </svg>
