@@ -46,9 +46,20 @@ function loadStoredSamples() {
 let process = freshProcess();
 let gas = { oxygen: 0, air: 0, nitrogen: 0 };
 let setpoints = { ph: 7, po2: 60, temperature: 30, level: 8, foam: 0.18 };
+let controller = {
+  po2Gain: 1,
+  po2Ti: 10,
+  phGain: 1,
+  phTi: 100,
+  temperatureGain: 1,
+  temperatureTi: 10,
+  levelGain: 1,
+  levelTi: 10,
+  foamGain: 1,
+};
 let modelMode = 'fedbatch';
 let oxygenMode = 'aerobic';
-let gasMode = 'active';
+let gasModes = { oxygen: 'active', air: 'active', nitrogen: 'inactive' };
 let model = {
   muMax: 0.42,
   ks: 0.1,
@@ -126,6 +137,7 @@ function render() {
   updateText('[data-mu]', fmt(process.specificGrowth, 3));
   updateText('[data-dilution]', fmt(process.dilution, 3));
   updateText('[data-flow="substrate1"]', `${running ? fmt(effectiveFeed * 1000 / 60, 2) : '0.00'} ml/min`);
+  updateText('[data-flow="substrate2"]', `${running ? fmt(effectiveFeed * 250 / 60, 2) : '0.00'} ml/min`);
   updateText('[data-flow="antifoam"]', `${running ? fmt(process.antifoamFlow, 2) : '0.00'} ml/min`);
   updateText('[data-flow="base"]', `${running ? fmt(process.baseFlow, 2) : '0.00'} ml/min`);
   updateText('[data-flow="acid"]', `${running ? fmt(process.acidFlow, 2) : '0.00'} ml/min`);
@@ -139,9 +151,9 @@ function render() {
   $$('[data-speed]').forEach((button) => button.classList.toggle('active', Number(button.dataset.speed) === process.acceleration));
   $$('[data-mode]').forEach((button) => button.classList.toggle('active', button.dataset.mode === modelMode));
   $$('[data-environment]').forEach((button) => button.classList.toggle('active', button.dataset.environment === oxygenMode));
-  $$('[data-gas-mode]').forEach((button) => button.classList.toggle('active', button.dataset.gasMode === gasMode));
+  $$('[data-gas-channel]').forEach((button) => button.classList.toggle('active', gasModes[button.dataset.gasChannel] === button.dataset.channelMode));
   $$('[data-gas]').forEach((input) => {
-    input.disabled = gasMode !== 'manual';
+    input.disabled = gasModes[input.dataset.gas] !== 'manual';
     input.value = gas[input.dataset.gas];
   });
 
@@ -309,7 +321,9 @@ function sampleProcess() {
     foam: process.foam,
     specificGrowth: process.specificGrowth,
     gas: { ...gas },
+    gasModes: { ...gasModes },
     setpoints: { ...setpoints },
+    controller: { ...controller },
   };
   samples = [...samples, sample].slice(-50);
   try {
@@ -334,7 +348,7 @@ function loadDemo() {
   process = freshProcess();
   modelMode = 'fedbatch';
   oxygenMode = 'aerobic';
-  gasMode = 'active';
+  gasModes = { oxygen: 'active', air: 'active', nitrogen: 'inactive' };
   process.status = 'inoculated';
   process.reactorVolume = 5;
   process.substrate1 = 10;
@@ -343,7 +357,7 @@ function loadDemo() {
   process.secondarySubstrate = 2;
   process.biomass = 0.18;
   process.inoculumReady = true;
-  gas.air = 20;
+  gas = { oxygen: 0, air: 20, nitrogen: 0 };
   history = [];
   const airSlider = $('[data-gas="air"]');
   if (airSlider) airSlider.value = 20;
@@ -359,17 +373,19 @@ function tick() {
   const hours = process.seconds / 3600;
   const volume = Math.max(process.reactorVolume, 0.001);
 
-  if (gasMode === 'inactive') {
-    gas = { oxygen: 0, air: 0, nitrogen: 0 };
-  } else if (gasMode === 'active' && oxygenMode === 'anaerobic') {
-    gas.oxygen = 0;
-    gas.air = 0;
-    gas.nitrogen = clamp(gas.nitrogen + (10 - gas.nitrogen) * Math.min(1, dt * 10), 0, 20);
-  } else if (gasMode === 'active') {
+  Object.keys(gasModes).forEach((channel) => {
+    if (gasModes[channel] === 'inactive') gas[channel] = 0;
+  });
+  if (oxygenMode === 'anaerobic') {
+    if (gasModes.oxygen === 'active') gas.oxygen = 0;
+    if (gasModes.air === 'active') gas.air = 0;
+    if (gasModes.nitrogen === 'active') gas.nitrogen = clamp(gas.nitrogen + (10 - gas.nitrogen) * Math.min(1, dt * 10), 0, 20);
+  } else {
     const oxygenError = setpoints.po2 - process.po2;
-    gas.air = clamp(gas.air + oxygenError * Math.min(0.22, dt * 5), 0, 60);
-    gas.oxygen = clamp(gas.oxygen + Math.max(0, oxygenError - 12) * Math.min(0.08, dt * 2), 0, 20);
-    gas.nitrogen = 0;
+    const po2Response = controller.po2Gain * (10 / Math.max(controller.po2Ti, 1));
+    if (gasModes.air === 'active') gas.air = clamp(gas.air + oxygenError * po2Response * Math.min(0.22, dt * 5), 0, 60);
+    if (gasModes.oxygen === 'active') gas.oxygen = clamp(gas.oxygen + Math.max(0, oxygenError - 12) * po2Response * Math.min(0.08, dt * 2), 0, 20);
+    if (gasModes.nitrogen === 'active') gas.nitrogen = clamp(gas.nitrogen + (0 - gas.nitrogen) * Math.min(1, dt * 10), 0, 20);
   }
 
   const substrateFactor = process.substrate / Math.max(model.ks + process.substrate, 0.001);
@@ -377,7 +393,8 @@ function tick() {
   const oxygenFactor = oxygenMode === 'aerobic' ? process.po2 / Math.max(model.ko + process.po2, 0.001) : 0.55;
   const specificGrowth = model.muMax * substrateFactor * secondaryFactor * oxygenFactor;
   const feedRate = modelMode === 'batch' || process.substrate1 <= 0 ? 0 : model.feedRate;
-  const levelCorrection = clamp((volume - setpoints.level) * 0.8, -0.08, 0.5);
+  const levelResponse = controller.levelGain * (10 / Math.max(controller.levelTi, 1));
+  const levelCorrection = clamp((volume - setpoints.level) * 0.8 * levelResponse, -0.08, 0.5);
   const outflowRate = modelMode === 'continuous' && feedRate > 0 ? clamp(model.outflowRate + levelCorrection, 0, feedRate + 0.5) : 0;
   const nextVolume = clamp(volume + (feedRate - outflowRate) * dt, 0.001, model.maxVolume);
 
@@ -410,16 +427,18 @@ function tick() {
   const oxygenTarget = oxygenMode === 'anaerobic' ? 0 : clamp(gasTransfer - oxygenDemand, 0, 100);
   process.po2 = clamp(process.po2 + (oxygenTarget - process.po2) * Math.min(1, dt * 3), 0, 100);
   const metabolicAcidification = specificGrowth * process.biomass * 0.014;
-  process.baseFlow = process.ph < setpoints.ph - 0.02 && process.base > 0 ? clamp((setpoints.ph - process.ph) * 20, 0, 8) : 0;
-  process.acidFlow = process.ph > setpoints.ph + 0.02 && process.acid > 0 ? clamp((process.ph - setpoints.ph) * 20, 0, 8) : 0;
+  const phResponse = controller.phGain * (100 / Math.max(controller.phTi, 1));
+  process.baseFlow = process.ph < setpoints.ph - 0.02 && process.base > 0 ? clamp((setpoints.ph - process.ph) * 20 * phResponse, 0, 8) : 0;
+  process.acidFlow = process.ph > setpoints.ph + 0.02 && process.acid > 0 ? clamp((process.ph - setpoints.ph) * 20 * phResponse, 0, 8) : 0;
   process.base = clamp(process.base - process.baseFlow * 0.06 * dt, 0, 2);
   process.acid = clamp(process.acid - process.acidFlow * 0.06 * dt, 0, 2);
-  process.ph = clamp(process.ph + ((setpoints.ph - process.ph) * 1.1 + (process.baseFlow - process.acidFlow) * 0.03 - metabolicAcidification) * dt, 5.5, 8.5);
-  process.temperature += (setpoints.temperature - process.temperature) * Math.min(1, dt * 2.2);
+  process.ph = clamp(process.ph + ((setpoints.ph - process.ph) * 1.1 * phResponse + (process.baseFlow - process.acidFlow) * 0.03 - metabolicAcidification) * dt, 5.5, 8.5);
+  const temperatureResponse = controller.temperatureGain * (10 / Math.max(controller.temperatureTi, 1));
+  process.temperature += (setpoints.temperature - process.temperature) * Math.min(1, dt * 2.2 * temperatureResponse);
   process.carbonDioxide = clamp(specificGrowth * process.biomass * (oxygenMode === 'anaerobic' ? 4.2 : 2.8) + Math.sin(hours) * 0.12, 0, 18);
   process.oxygen = oxygenMode === 'anaerobic' ? 0 : clamp(gas.oxygen * 0.2 + gas.air * 0.035 + process.po2 * 0.018, 0, 12);
   const uncontrolledFoam = clamp(process.biomass * 0.045, 0, 0.9);
-  process.antifoamFlow = uncontrolledFoam > setpoints.foam && process.antifoam > 0 ? clamp((uncontrolledFoam - setpoints.foam) * 60, 0, 12) : 0;
+  process.antifoamFlow = uncontrolledFoam > setpoints.foam && process.antifoam > 0 ? clamp((uncontrolledFoam - setpoints.foam) * 60 * controller.foamGain, 0, 12) : 0;
   process.antifoam = clamp(process.antifoam - process.antifoamFlow * 0.06 * dt, 0, 2);
   process.foam = clamp(process.foam + (uncontrolledFoam - process.foam) * Math.min(1, dt * 5) - process.antifoamFlow * 0.08 * dt, 0, 0.9);
 
@@ -545,7 +564,11 @@ const actions = {
   pause: pauseProcess,
   continue: runProcess,
   run: runProcess,
-  'speed-stop': () => { process.acceleration = 1; render(); },
+  'speed-stop': () => {
+    process.acceleration = 1;
+    if (process.status === 'running') pauseProcess();
+    else { setMessage('Acceleration reset to real time.'); render(); }
+  },
   stop: () => { process.status = 'stopped'; setMessage('Process stopped.'); render(); },
   'run-toggle': () => process.status === 'running' ? pauseProcess() : runProcess(),
   power: () => process.status === 'running' ? pauseProcess() : runProcess(),
@@ -581,14 +604,19 @@ $$('[data-mode]').forEach((button) => button.addEventListener('click', () => {
 }));
 $$('[data-environment]').forEach((button) => button.addEventListener('click', () => {
   oxygenMode = button.dataset.environment;
-  if (oxygenMode === 'anaerobic' && gasMode === 'active') gas = { oxygen: 0, air: 0, nitrogen: 10 };
+  if (oxygenMode === 'anaerobic') {
+    if (gasModes.oxygen === 'active') gas.oxygen = 0;
+    if (gasModes.air === 'active') gas.air = 0;
+    if (gasModes.nitrogen === 'active') gas.nitrogen = 10;
+  }
   setMessage(`${button.textContent.trim()} operation selected.`);
   render();
 }));
-$$('[data-gas-mode]').forEach((button) => button.addEventListener('click', () => {
-  gasMode = button.dataset.gasMode;
-  if (gasMode === 'inactive') gas = { oxygen: 0, air: 0, nitrogen: 0 };
-  setMessage(`Gas controller set to ${button.textContent.trim().toLowerCase()}.`);
+$$('[data-gas-channel]').forEach((button) => button.addEventListener('click', () => {
+  const channel = button.dataset.gasChannel;
+  gasModes[channel] = button.dataset.channelMode;
+  if (gasModes[channel] === 'inactive') gas[channel] = 0;
+  setMessage(`${channel === 'nitrogen' ? 'N2' : channel === 'oxygen' ? 'O2' : 'Air'} channel set to ${button.textContent.trim().toLowerCase()}.`);
   render();
 }));
 $$('[data-model]').forEach((input) => input.addEventListener('input', () => {
@@ -603,6 +631,11 @@ $$('[data-setpoint]').forEach((input) => input.addEventListener('input', () => {
   setpoints[input.dataset.setpoint] = Number(input.value);
   render();
 }));
+$$('[data-controller]').forEach((input) => input.addEventListener('input', () => {
+  controller[input.dataset.controller] = Number(input.value);
+  render();
+}));
+$$('[data-close]').forEach((button) => button.addEventListener('click', () => button.closest('dialog')?.close()));
 
 updateClock();
 render();
