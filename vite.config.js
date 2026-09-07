@@ -13,6 +13,7 @@ export default defineConfig({
         approach: resolve(import.meta.dirname, "approach/index.html"),
         publications: resolve(import.meta.dirname, "publications/index.html"),
         openSource: resolve(import.meta.dirname, "open-source/index.html"),
+        services: resolve(import.meta.dirname, "services/index.html"),
         contact: resolve(import.meta.dirname, "contact/index.html"),
       },
     },

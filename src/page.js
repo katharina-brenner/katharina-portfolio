@@ -5,6 +5,7 @@ const routes = [
   { id: "approach", index: "02", label: "Approach", href: "/approach/" },
   { id: "publications", index: "03", label: "Publications", href: "/publications/" },
   { id: "open-source", index: "04", label: "Open source", href: "/open-source/" },
+  { id: "services", index: "05", label: "Services", href: "/services/" },
 ];
 
 const navigation = routes
@@ -16,7 +17,7 @@ const navigation = routes
 
 const mobileNavigation = [
   ...routes.map((route) => ({ ...route, label: route.id === "work" ? "Selected work" : route.label })),
-  { id: "contact", index: "05", label: "Contact", href: "/contact/" },
+  { id: "contact", index: "06", label: "Contact", href: "/contact/" },
 ]
   .map(({ id, index, label, href }) => {
     const current = page === id ? ' class="is-active" aria-current="page"' : "";

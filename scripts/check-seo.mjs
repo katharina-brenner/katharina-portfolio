@@ -12,6 +12,7 @@ const pages = [
   ["approach/index.html", `${origin}/approach/`],
   ["publications/index.html", `${origin}/publications/`],
   ["open-source/index.html", `${origin}/open-source/`],
+  ["services/index.html", `${origin}/services/`],
   ["contact/index.html", `${origin}/contact/`],
 ];
 
