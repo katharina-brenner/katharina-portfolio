@@ -60,6 +60,21 @@ export default {
     const url = new URL(request.url);
     let pathname = url.pathname;
     let status = 200;
+
+    if (["/bioprocesstrainer", "/bioprocesstrainer/", "/bioprocesstrainer/index.html"].includes(pathname)) {
+      return Response.redirect("https://bioprocesstrainer.katharinabrenner.com/", 308);
+    }
+
+    if (pathname.endsWith("/index.html")) {
+      url.pathname = pathname === "/index.html" ? "/" : pathname.slice(0, -"index.html".length);
+      return Response.redirect(url.toString(), 308);
+    }
+
+    if (pathname !== "/" && !pathname.endsWith("/") && !pathname.split("/").pop().includes(".") && assets[\`\${pathname}/index.html\`]) {
+      url.pathname = \`\${pathname}/\`;
+      return Response.redirect(url.toString(), 308);
+    }
+
     if (pathname === "/") {
       pathname = "/index.html";
     } else if (pathname.endsWith("/")) {
@@ -71,13 +86,8 @@ export default {
         status = 404;
       }
     } else if (!assets[pathname] && !pathname.split("/").pop().includes(".")) {
-      const directoryIndex = \`\${pathname}/index.html\`;
-      if (assets[directoryIndex]) {
-        pathname = directoryIndex;
-      } else {
-        pathname = "/404.html";
-        status = 404;
-      }
+      pathname = "/404.html";
+      status = 404;
     }
 
     let asset = assets[pathname];

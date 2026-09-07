@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://katharinabrenner.com/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-09-07</lastmod>
+    <image:image>
+      <image:loc>https://katharinabrenner.com/katharina-brenner-portrait-v6.webp</image:loc>
+      <image:caption>Katharina Julia Brenner, industrial process modeler and bioengineer</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://katharinabrenner.com/work/</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-07</lastmod>
+    <image:image>
+      <image:loc>https://katharinabrenner.com/bioprocesstrainer-og.webp</image:loc>
+      <image:caption>Interactive BioProcess Simulator interface</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://katharinabrenner.com/work/cultivated-meat-process-model/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-09-07</lastmod>
   </url>
   <url>
     <loc>https://katharinabrenner.com/work/bioreactor-technical-analysis/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-09-07</lastmod>
   </url>
   <url>
     <loc>https://katharinabrenner.com/approach/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-09-07</lastmod>
+    <image:image>
+      <image:loc>https://katharinabrenner.com/katharina-brenner-portrait-v6.webp</image:loc>
+      <image:caption>Katharina Julia Brenner</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://katharinabrenner.com/publications/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-09-07</lastmod>
   </url>
   <url>
     <loc>https://katharinabrenner.com/open-source/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-09-07</lastmod>
+    <image:image>
+      <image:loc>https://katharinabrenner.com/lane-studio-preview.webp</image:loc>
+      <image:caption>Lane Studio interface for gel and blot image editing</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://katharinabrenner.com/contact/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-09-07</lastmod>
   </url>
 </urlset>
