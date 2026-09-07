@@ -234,7 +234,7 @@ function updateProcessData() {
     product: `${fmt(lastSample.product, 2)} g/L`,
   } : {};
   $$('[data-sample-reading]').forEach((element) => {
-    element.textContent = sampleValues[element.dataset.sampleReading] || '—';
+    element.textContent = sampleValues[element.dataset.sampleReading] || 'n/a';
   });
 
   const tableBody = $('[data-sample-history]');

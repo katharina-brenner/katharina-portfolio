@@ -35,7 +35,7 @@ for (const [file, expectedCanonical] of pages) {
   const jsonLdBlocks = [...html.matchAll(/<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/gi)];
 
   if (!title || title.length > 70) failures.push(`${file}: title is missing or longer than 70 characters`);
-  if (!description || description.length < 100 || description.length > 170) failures.push(`${file}: meta description should be 100–170 characters`);
+  if (!description || description.length < 100 || description.length > 170) failures.push(`${file}: meta description should be 100-170 characters`);
   if (canonical !== expectedCanonical) failures.push(`${file}: canonical URL does not match ${expectedCanonical}`);
   if (ogUrl !== canonical) failures.push(`${file}: og:url does not match its canonical URL`);
   if (h1Count !== 1) failures.push(`${file}: expected one h1, found ${h1Count}`);

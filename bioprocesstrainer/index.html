@@ -131,19 +131,19 @@
         <div class="dialog-heading"><span>PROCESS MODULE · GM-03</span><h2>Gas mixing station</h2><p>Three independent mass-flow channels for oxygen control and anaerobic operation.</p></div>
         <div class="gas-grid">
           <section class="gas-channel">
-            <header><span>01</span><div><strong>Oxygen</strong><small>O2 · 0—20 L/min</small></div></header>
+            <header><span>01</span><div><strong>Oxygen</strong><small>O2 · 0-20 L/min</small></div></header>
             <div class="gas-slider"><span class="gas-scale" aria-hidden="true"><i>20</i><i>15</i><i>10</i><i>5</i><i>0</i></span><input id="gas-oxygen" type="range" min="0" max="20" step="0.1" value="0" data-gas="oxygen" aria-label="Oxygen flow rate" /></div>
             <output data-gas-output="oxygen">0.0 L/min</output>
             <span class="gas-channel-modes" role="group" aria-label="Oxygen channel mode"><button type="button" data-gas-channel="oxygen" data-channel-mode="inactive">Off</button><button type="button" data-gas-channel="oxygen" data-channel-mode="manual">Manual</button><button type="button" data-gas-channel="oxygen" data-channel-mode="active" class="active">Auto</button></span>
           </section>
           <section class="gas-channel">
-            <header><span>02</span><div><strong>Process air</strong><small>Air · 0—60 L/min</small></div></header>
+            <header><span>02</span><div><strong>Process air</strong><small>Air · 0-60 L/min</small></div></header>
             <div class="gas-slider"><span class="gas-scale" aria-hidden="true"><i>60</i><i>45</i><i>30</i><i>15</i><i>0</i></span><input id="gas-air" type="range" min="0" max="60" step="0.1" value="0" data-gas="air" aria-label="Process air flow rate" /></div>
             <output data-gas-output="air">0.0 L/min</output>
             <span class="gas-channel-modes" role="group" aria-label="Air channel mode"><button type="button" data-gas-channel="air" data-channel-mode="inactive">Off</button><button type="button" data-gas-channel="air" data-channel-mode="manual">Manual</button><button type="button" data-gas-channel="air" data-channel-mode="active" class="active">Auto</button></span>
           </section>
           <section class="gas-channel">
-            <header><span>03</span><div><strong>Nitrogen</strong><small>N2 · 0—20 L/min</small></div></header>
+            <header><span>03</span><div><strong>Nitrogen</strong><small>N2 · 0-20 L/min</small></div></header>
             <div class="gas-slider"><span class="gas-scale" aria-hidden="true"><i>20</i><i>15</i><i>10</i><i>5</i><i>0</i></span><input id="gas-nitrogen" type="range" min="0" max="20" step="0.1" value="0" data-gas="nitrogen" aria-label="Nitrogen flow rate" /></div>
             <output data-gas-output="nitrogen">0.0 L/min</output>
             <span class="gas-channel-modes" role="group" aria-label="Nitrogen channel mode"><button type="button" data-gas-channel="nitrogen" data-channel-mode="inactive" class="active">Off</button><button type="button" data-gas-channel="nitrogen" data-channel-mode="manual">Manual</button><button type="button" data-gas-channel="nitrogen" data-channel-mode="active">Auto</button></span>
@@ -175,7 +175,7 @@
               <div><dt><strong>CO2</strong><small>Off-gas carbon dioxide</small></dt><dd><div class="process-gauge"><span class="process-gauge-scale"><i>18</i><i>9</i><i>0</i></span><span class="process-gauge-rail" data-process-gauge="carbonDioxide"><i></i></span></div><b data-process-current="carbonDioxide">0.0 %</b><meter min="0" max="18" value="0" data-process-meter="carbonDioxide">0.0 %</meter></dd></div>
             </dl>
           </section>
-          <section class="sample-summary"><div class="section-heading"><h3>Last sample</h3><span>Stored locally</span></div><div class="last-sample-grid"><span>Biomass total <b data-sample-reading="biomassTotal">—</b></span><span>Biomass viable <b data-sample-reading="biomassViable">—</b></span><span>Substrate I <b data-sample-reading="substrate1">—</b></span><span>Substrate II <b data-sample-reading="substrate2">—</b></span><span>Product <b data-sample-reading="product">—</b></span></div><p class="sample-storage-note">Samples are stored automatically in this browser.</p><button class="data-export-button" type="button" data-action="export-samples">Download sample CSV</button></section>
+          <section class="sample-summary"><div class="section-heading"><h3>Last sample</h3><span>Stored locally</span></div><div class="last-sample-grid"><span>Biomass total <b data-sample-reading="biomassTotal">n/a</b></span><span>Biomass viable <b data-sample-reading="biomassViable">n/a</b></span><span>Substrate I <b data-sample-reading="substrate1">n/a</b></span><span>Substrate II <b data-sample-reading="substrate2">n/a</b></span><span>Product <b data-sample-reading="product">n/a</b></span></div><p class="sample-storage-note">Samples are stored automatically in this browser.</p><button class="data-export-button" type="button" data-action="export-samples">Download sample CSV</button></section>
         </div>
         <div class="sample-table-wrap"><table><thead><tr><th>No.</th><th>Process time</th><th>Mode</th><th>X total</th><th>S I</th><th>Product</th></tr></thead><tbody data-sample-history><tr><td colspan="6">No samples recorded yet.</td></tr></tbody></table></div>
       </form>
