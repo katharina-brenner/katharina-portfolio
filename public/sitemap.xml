@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://katharinabrenner.com/</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <image:image>
       <image:loc>https://katharinabrenner.com/katharina-brenner-portrait-v6.webp</image:loc>
       <image:caption>Katharina Julia Brenner, industrial process modeler and bioengineer</image:caption>
@@ -10,10 +10,18 @@
   </url>
   <url>
     <loc>https://katharinabrenner.com/work/</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <image:image>
       <image:loc>https://katharinabrenner.com/bioprocesstrainer-og.webp</image:loc>
       <image:caption>Interactive BioProcess Simulator interface</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://katharinabrenner.com/bioprocesstrainer/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <image:image>
+      <image:loc>https://katharinabrenner.com/bioprocesstrainer-og.webp</image:loc>
+      <image:caption>Interactive BioProcess Simulator and bioreactor trainer</image:caption>
     </image:image>
   </url>
   <url>
@@ -22,7 +30,7 @@
   </url>
   <url>
     <loc>https://katharinabrenner.com/work/bioreactor-technical-analysis/</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-09-09</lastmod>
   </url>
   <url>
     <loc>https://katharinabrenner.com/approach/</loc>
@@ -38,7 +46,7 @@
   </url>
   <url>
     <loc>https://katharinabrenner.com/open-source/</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <image:image>
       <image:loc>https://katharinabrenner.com/lane-studio-preview.webp</image:loc>
       <image:caption>Lane Studio interface for gel and blot image editing</image:caption>
@@ -46,7 +54,7 @@
   </url>
   <url>
     <loc>https://katharinabrenner.com/services/</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-09-09</lastmod>
   </url>
   <url>
     <loc>https://katharinabrenner.com/contact/</loc>
