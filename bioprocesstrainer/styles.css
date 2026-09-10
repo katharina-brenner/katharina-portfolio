@@ -289,6 +289,20 @@ body {
   background: var(--bpt-white);
   box-shadow: 0 5px 12px rgb(6 26 51 / 10%);
 }
+.bpt-sample-point { color: var(--bpt-ink); text-decoration: none; }
+.bpt-sample-point span {
+  margin-left: 5px;
+  border: 1px solid var(--bpt-line);
+  border-radius: 999px;
+  background: #e7edf1;
+  padding: 3px 7px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgb(6 26 51 / 10%);
+}
+.bpt-sample-point:hover span,
+.bpt-sample-point:focus-visible span { border-color: var(--bpt-blue); background: var(--bpt-white); }
 
 .bpt-piping .pipe-feed { stroke: var(--bpt-blue); }
 .bpt-piping .pipe-dose { stroke: var(--bpt-blue-2); }
