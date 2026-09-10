@@ -674,19 +674,19 @@ h3 {
   letter-spacing: 0.1em;
 }
 
-.visual-axion {
+.visual-acatian {
   color: var(--paper);
   background: linear-gradient(145deg, #05182f 0%, #0a315d 100%);
 }
 
-.axion-grid {
+.acatian-grid {
   position: absolute;
   inset: 0;
   background-image: linear-gradient(rgba(244, 244, 241, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(244, 244, 241, 0.08) 1px, transparent 1px);
   background-size: 42px 42px;
 }
 
-.axion-logo {
+.acatian-logo {
   position: absolute;
   top: 34px;
   left: 34px;
@@ -700,7 +700,7 @@ h3 {
   font-size: 14px;
 }
 
-.axion-label {
+.acatian-label {
   position: absolute;
   top: 38px;
   right: 34px;
@@ -712,7 +712,7 @@ h3 {
   letter-spacing: 0.13em;
 }
 
-.visual-axion svg {
+.visual-acatian svg {
   position: absolute;
   inset: 80px 6% 0;
   width: 88%;
@@ -720,7 +720,7 @@ h3 {
   fill: var(--coral);
 }
 
-.visual-axion path {
+.visual-acatian path {
   fill: none;
   stroke: var(--coral);
   stroke-width: 2;
@@ -4243,22 +4243,22 @@ button:focus-visible {
   animation: process-signal 2.6s ease-in-out infinite;
 }
 
-.visual-axion path {
+.visual-acatian path {
   stroke-dasharray: 8 8;
   animation: axion-signal 7s linear infinite;
 }
 
-.visual-axion circle {
+.visual-acatian circle {
   transform-box: fill-box;
   transform-origin: center;
   animation: node-pulse 2.8s ease-in-out infinite;
 }
 
-.visual-axion circle:nth-of-type(2) {
+.visual-acatian circle:nth-of-type(2) {
   animation-delay: -0.9s;
 }
 
-.visual-axion circle:nth-of-type(3) {
+.visual-acatian circle:nth-of-type(3) {
   animation-delay: -1.8s;
 }
 

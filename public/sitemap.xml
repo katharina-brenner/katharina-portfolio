@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://katharinabrenner.com/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <image:image>
       <image:loc>https://katharinabrenner.com/katharina-brenner-portrait-v6.webp</image:loc>
       <image:caption>Katharina Julia Brenner, industrial process modeler and bioengineer</image:caption>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://katharinabrenner.com/work/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <image:image>
       <image:loc>https://katharinabrenner.com/bioprocesstrainer-og.webp</image:loc>
       <image:caption>Interactive BioProcess Simulator interface</image:caption>

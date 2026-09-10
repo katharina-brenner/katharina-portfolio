@@ -6,6 +6,7 @@ The public source for [katharinabrenner.com](https://katharinabrenner.com): a re
 
 - [Cultivated Meat Process Model](https://katharinabrenner.com/work/cultivated-meat-process-model/): a transparent, plant-wide model from media preparation through packaging
 - [BioTA: Bioreactor Technical Analysis](https://katharinabrenner.com/work/bioreactor-technical-analysis/): an open workflow for yield prediction, optimization, and future CFD coupling
+- [Acatian](https://acatian.com/): browser-based process simulation software for flowsheets, engineering balances, equipment, economics, and scenario analysis
 
 The site also links to peer-reviewed publications, open repositories, and a downloadable one-page CV.
 
