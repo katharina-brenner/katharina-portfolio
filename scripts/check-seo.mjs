@@ -10,6 +10,7 @@ const pages = [
   ["work/cultivated-meat-process-model/index.html", `${origin}/work/cultivated-meat-process-model/`],
   ["work/bioreactor-technical-analysis/index.html", `${origin}/work/bioreactor-technical-analysis/`],
   ["bioprocesstrainer/index.html", `${origin}/bioprocesstrainer/`],
+  ["microcarrier-planner/index.html", `${origin}/microcarrier-planner/`],
   ["approach/index.html", `${origin}/approach/`],
   ["publications/index.html", `${origin}/publications/`],
   ["open-source/index.html", `${origin}/open-source/`],
