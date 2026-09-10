@@ -17,11 +17,11 @@ const presets = {
 
 const impellers = { pbt45: 1.27, marine: 0.35, rushton: 5, spinner: 0.35 };
 const diagnostics = {
-  attach: ["Start with attachment conditions", "Use low or intermittent agitation for the first attachment phase. Check that the carrier chemistry suits the cell line and that hydrated carriers were fully equilibrated before inoculation."],
-  clump: ["Separate settling from overgrowth", "Confirm the carriers just clear the vessel base, then compare the projected confluence day with the actual harvest time. Persistent floor contact and cultures held beyond confluence both promote bridging."],
-  shear: ["Return to the lower operating bound", "Compare the chosen speed with both shear thresholds. If it is high, reduce to Njs and change geometry before adding rpm. Also inspect bubble rupture, which can dominate bulk-liquid shear."],
-  yield: ["Split detachment from separation", "Verify reagent exposure and the short agitation burst first, then quantify losses across the carrier-retention step. Size the separation area for the swollen carrier bed, not only the liquid volume."],
-  growth: ["Audit usable surface", "Check the empty-carrier fraction, attachment efficiency, oxygen transfer, and whether the assumed confluent density transfers from planar culture. More carriers with the same inoculum can reduce productive surface."],
+  attach: ["Check attachment", "Use low or intermittent agitation. Verify carrier chemistry, hydration, and equilibration."],
+  clump: ["Check suspension and timing", "Confirm off-bottom suspension and harvest before over-confluence."],
+  shear: ["Reduce speed", "Return to Njs. Then check impeller geometry and bubble rupture."],
+  yield: ["Check detachment and separation", "Verify reagent exposure, burst time, and carrier-retention losses."],
+  growth: ["Check surface use", "Review empty carriers, attachment, oxygen transfer, and confluent density."],
 };
 
 const NU = 0.7e-6;
@@ -151,7 +151,7 @@ function renderShearChart(result) {
     <line class="chart-axis" x1="44" y1="196" x2="744" y2="196" />
     <polyline class="polyline-main" points="${points.join(" ")}" />${rpmLabels}
     <text class="chart-label" x="744" y="229" text-anchor="end">rpm</text>`;
-  chart.setAttribute("aria-label", `Workable range from ${Number.isFinite(result.njsRpm) ? result.njsRpm.toFixed(0) : "unknown"} to ${Number.isFinite(result.rpmCrit) ? result.rpmCrit.toFixed(0) : "unknown"} rpm`);
+  chart.setAttribute("aria-label", `Modeled range from ${Number.isFinite(result.njsRpm) ? result.njsRpm.toFixed(0) : "unknown"} to ${Number.isFinite(result.rpmCrit) ? result.rpmCrit.toFixed(0) : "unknown"} rpm`);
 }
 
 function calculate() {
@@ -260,29 +260,29 @@ function calculate() {
   if (perCarrier < 3) {
     updateVerdict("seedVerdict", "error", "Low seeding ratio", `${(emptyFraction * 100).toFixed(0)}% of carriers may begin empty. Increase the inoculum or reduce the carrier load.`);
   } else if (perCarrier < 5) {
-    updateVerdict("seedVerdict", "warn", "Marginal seeding ratio", `${(emptyFraction * 100).toFixed(1)}% of carriers may begin empty, increasing dependence on bead-to-bead transfer.`);
+    updateVerdict("seedVerdict", "warn", "Check seeding ratio", `${(emptyFraction * 100).toFixed(1)}% of carriers may begin empty.`);
   } else if (swollenPercent > 25) {
-    updateVerdict("seedVerdict", "warn", "Dense carrier bed", `The swollen carrier phase occupies about ${swollenPercent.toFixed(0)}% of working volume. Check mixing and effective medium volume.`);
+    updateVerdict("seedVerdict", "warn", "Dense carrier bed", `${swollenPercent.toFixed(0)}% of working volume. Check mixing and effective medium volume.`);
   } else {
-    updateVerdict("seedVerdict", "ok", "Sound seeding ratio", `Only ${(emptyFraction * 100).toFixed(1)}% of carriers are expected to begin empty.`);
+    updateVerdict("seedVerdict", "ok", `${(emptyFraction * 100).toFixed(1)}% empty`, "Expected empty-carrier fraction.");
   }
 
   if (!Number.isFinite(njsRpm)) {
     updateVerdict("agitationVerdict", "warn", "Njs cannot be resolved", "Check that carrier density exceeds liquid density and that the impeller diameter is greater than zero.");
   } else if (njsRpm > rpmCrit) {
-    updateVerdict("agitationVerdict", "error", "No workable window", `Suspension requires about ${njsRpm.toFixed(0)} rpm, already above the ${rpmCrit.toFixed(0)} rpm shear threshold. Change the geometry or carrier load.`);
+    updateVerdict("agitationVerdict", "error", "No operating window", `Njs ${njsRpm.toFixed(0)} rpm exceeds the ${rpmCrit.toFixed(0)} rpm shear limit. Change geometry or carrier load.`);
   } else if (operatingRpm > rpmCrit) {
     updateVerdict("agitationVerdict", "error", "Above the shear limit", `At ${operatingRpm.toFixed(0)} rpm, λ is ${(lambdaOperation * 1e6).toFixed(0)} µm. Reduce speed toward Njs.`);
   } else if (operatingRpm > rpmSafe) {
-    updateVerdict("agitationVerdict", "warn", "Inside the marginal band", `Suspension is maintained, but λ is below the conservative two-thirds bead-diameter threshold. Aim below ${rpmSafe.toFixed(0)} rpm.`);
+    updateVerdict("agitationVerdict", "warn", "Near shear limit", `λ is below the conservative threshold. Stay below ${rpmSafe.toFixed(0)} rpm.`);
   } else {
-    updateVerdict("agitationVerdict", "ok", "Workable operating window", `Start near ${njsRpm.toFixed(0)} rpm. The model leaves headroom to the approximate ${rpmCrit.toFixed(0)} rpm damage threshold.`);
+    updateVerdict("agitationVerdict", "ok", `${njsRpm.toFixed(0)}–${rpmCrit.toFixed(0)} rpm`, "Njs to estimated shear limit.");
   }
 
   if (Number.isFinite(harvestLambda) && harvestLambda * 1e6 > DETACHED_CELL_UM) {
-    updateVerdict("harvestVerdict", "ok", "Harvest burst is viable", `At ${harvestRpm.toFixed(0)} rpm, λ remains ${(harvestLambda * 1e6).toFixed(0)} µm—larger than the assumed ${DETACHED_CELL_UM} µm released cell.`);
+    updateVerdict("harvestVerdict", "ok", `λ = ${(harvestLambda * 1e6).toFixed(0)} µm`, `At ${harvestRpm.toFixed(0)} rpm; assumed cell diameter: ${DETACHED_CELL_UM} µm.`);
   } else {
-    updateVerdict("harvestVerdict", "warn", "Aggressive harvest burst", "The turbulent microscale approaches detached-cell size. Reduce the multiplier or validate a shorter burst experimentally.");
+    updateVerdict("harvestVerdict", "warn", "λ near cell diameter", "Reduce the multiplier or test a shorter burst.");
   }
 
   renderGrowthChart(lastResult);
@@ -369,7 +369,7 @@ document.querySelectorAll("[data-diagnostic]").forEach((button) => {
     const active = button.getAttribute("aria-pressed") === "true";
     document.querySelectorAll("[data-diagnostic]").forEach((chip) => chip.setAttribute("aria-pressed", "false"));
     if (active) {
-      document.querySelector("[data-diagnostic-output]").textContent = "Select a symptom to see a focused process check.";
+      document.querySelector("[data-diagnostic-output]").textContent = "Select a symptom.";
       return;
     }
     button.setAttribute("aria-pressed", "true");

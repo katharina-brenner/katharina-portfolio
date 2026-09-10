@@ -50,7 +50,7 @@
           <a class="planner-kicker" href="/work/"><span aria-hidden="true">←</span> Selected work / Interactive tool</a>
           <h1 id="planner-title">Microcarrier<br /><em>Planner.</em></h1>
         </div>
-        <p>Translate carrier mass into usable surface, a robust inoculation plan, and an operating window that balances suspension against shear.</p>
+        <p>Calculate surface area, inoculum, Njs, shear limit, and harvest yield.</p>
       </section>
 
       <nav class="planner-steps" aria-label="Microcarrier planning workflow">
@@ -185,7 +185,7 @@
               <div><dt>Attached cells</dt><dd data-output="attached">9.00×10⁷ cells</dd></div>
               <div><dt>Empty carriers · Poisson</dt><dd data-output="empty">0.7%</dd></div>
             </dl>
-            <div class="verdict verdict-ok" data-output="seedVerdict"><b>Sound seeding ratio</b><p>Nearly every carrier begins with cells, reducing reliance on bead-to-bead transfer.</p></div>
+            <div class="verdict verdict-ok" data-output="seedVerdict"><b>0.7% empty</b><p>Expected empty-carrier fraction.</p></div>
           </section>
 
           <section class="result-card" id="expansion-results">
@@ -209,7 +209,7 @@
               <article><span>λ at operation</span><strong data-output="lambda">164 µm</strong></article>
               <article><span>P/V</span><strong data-output="pv">0.5 W/m³</strong></article>
             </div>
-            <div class="verdict verdict-ok" data-output="agitationVerdict"><b>Workable operating window</b><p>Run at the lower bound: just fast enough to suspend the carriers with shear headroom remaining.</p></div>
+            <div class="verdict verdict-ok" data-output="agitationVerdict"><b>49–114 rpm</b><p>Njs to estimated shear limit.</p></div>
             <div class="chart" aria-label="Agitation and shear chart">
               <div class="chart-legend"><span><i class="legend-mint"></i>Kolmogorov λ</span><span><i class="legend-yellow"></i>Conservative</span><span><i class="legend-red"></i>Damage threshold</span></div>
               <svg data-chart="shear" viewBox="0 0 760 230" role="img" aria-label="Kolmogorov microscale by impeller speed"></svg>
@@ -225,7 +225,7 @@
               <div><dt>Detachment time</dt><dd>≈ 7 min</dd></div>
               <div class="result-highlight"><dt>Expected harvest</dt><dd data-output="harvestYield">7.70×10⁸ cells</dd></div>
             </dl>
-            <div class="verdict verdict-ok" data-output="harvestVerdict"><b>Harvest burst is viable</b><p>The turbulent microscale remains larger than a released single cell.</p></div>
+            <div class="verdict verdict-ok" data-output="harvestVerdict"><b>λ = 49 µm</b><p>Above the assumed 15 µm cell diameter.</p></div>
           </section>
 
           <section class="result-card troubleshoot-card">
@@ -237,17 +237,17 @@
               <button type="button" data-diagnostic="yield">Low harvest yield</button>
               <button type="button" data-diagnostic="growth">Growth stalls</button>
             </div>
-            <div class="diagnostic-output" data-diagnostic-output>Select a symptom to see a focused process check.</div>
+            <div class="diagnostic-output" data-diagnostic-output>Select a symptom.</div>
           </section>
         </div>
       </section>
 
       <section class="planner-method section-pad" aria-labelledby="method-title">
-        <div class="section-index">Method / model boundary</div>
+        <div class="section-index">Method</div>
         <div class="method-grid">
-          <h2 id="method-title">A planning model,<br /><em>not a process release.</em></h2>
+          <h2 id="method-title">Equations<br /><em>and checks.</em></h2>
           <div>
-            <p>The tool couples carrier inventory, Poisson seeding statistics, exponential expansion, Zwietering’s just-suspended correlation, and a Kolmogorov-scale shear check. Use the result as a starting window, then confirm suspension and cell response in the actual vessel.</p>
+            <p>Carrier inventory, Poisson seeding, exponential growth, Zwietering Njs, and Kolmogorov microscale. Verify suspension and cell response in the vessel.</p>
             <div class="method-links">
               <a href="https://www.mdpi.com/2227-9717/10/3/515" target="_blank" rel="noreferrer">Njs and shear study <span>↗</span></a>
               <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3785115/" target="_blank" rel="noreferrer">hMSC scale-up study <span>↗</span></a>

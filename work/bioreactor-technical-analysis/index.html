@@ -10,7 +10,7 @@
     <link rel="canonical" href="https://katharinabrenner.com/work/bioreactor-technical-analysis/" />
     <link rel="alternate" hreflang="en" href="https://katharinabrenner.com/work/bioreactor-technical-analysis/" />
     <meta property="og:title" content="BioTA: Bioreactor Technical Analysis | Case Study" />
-    <meta property="og:description" content="Turning bioreactor complexity into an open, inspectable optimization problem." />
+    <meta property="og:description" content="Open bioreactor yield model and operating-point search." />
     <meta property="og:image" content="https://katharinabrenner.com/og-image.png" />
     <meta property="og:image:secure_url" content="https://katharinabrenner.com/og-image.png" />
     <meta property="og:image:type" content="image/png" />
@@ -86,9 +86,9 @@
                 <i aria-hidden="true"></i>
                 <span>Optimization</span>
               </div>
-              <h1 class="reveal">Turning bioreactor complexity into an <em>optimization problem.</em></h1>
+              <h1 class="reveal">Bioreactor yield model and <em>operating-point search.</em></h1>
               <p class="reveal">
-                BioTA is an open technical-analysis workflow for connecting operating conditions, cell metabolism, and time-dependent behavior to yield prediction and better bioreactor decisions.
+                Open Python workflow linking operating conditions, time-dependent cell metabolism, and predicted yield.
               </p>
               <div class="case-hero-actions reveal">
                 <a class="button-primary button-signal" href="https://github.com/katharina-brenner/bioreactor" target="_blank" rel="noreferrer">Inspect the open model <span aria-hidden="true">↗</span></a>
@@ -129,46 +129,46 @@
 
         <section class="case-story section-pad" aria-labelledby="biota-story-title">
           <div class="case-story-intro">
-            <div class="section-index reveal">The model logic</div>
-            <h2 id="biota-story-title" class="reveal">Question → framework → search → <em>next frontier.</em></h2>
-            <p class="reveal">The point is not to hide complexity. It is to structure it so that assumptions can be tested, choices compared, and the next experiment made more valuable.</p>
+            <div class="section-index reveal">Model logic</div>
+            <h2 id="biota-story-title" class="reveal">Question → model → search → <em>extension.</em></h2>
+            <p class="reveal">Inputs, equations, scenarios, and outputs remain inspectable.</p>
           </div>
 
           <div class="case-chapters">
             <article class="case-chapter reveal">
               <span class="case-chapter-index">01 / Question</span>
               <div>
-                <h3>Which conditions improve yield, and why?</h3>
-                <p>Bioreactor performance emerges from interacting biology, transport, equipment, and time. A useful workflow needs to connect those domains without collapsing them into a black box.</p>
+                <h3>Question: which conditions improve yield?</h3>
+                <p>Model biology, transport, equipment, and time in one workflow.</p>
               </div>
-              <p class="case-chapter-outcome">The goal: turn performance and cell-metabolism questions into an explicit technical-analysis problem.</p>
+              <p class="case-chapter-outcome">Output: explicit inputs, equations, and yield metrics.</p>
             </article>
 
             <article class="case-chapter reveal">
               <span class="case-chapter-index">02 / Framework</span>
               <div>
-                <h3>Start open, modular, and literature-grounded.</h3>
-                <p>The first BioTA release implements published modeling approaches as a reproducible Python workflow, with examples that make the route from inputs to predicted yield inspectable.</p>
+                <h3>Model: open and modular.</h3>
+                <p>BioTA v0.1 implements published models in Python.</p>
               </div>
-              <p class="case-chapter-outcome">The architecture: a foundation that can grow as better kinetics, data, and engineering detail become available.</p>
+              <p class="case-chapter-outcome">Extend with new kinetics, data, or CFD.</p>
             </article>
 
             <article class="case-chapter reveal">
               <span class="case-chapter-index">03 / Search</span>
               <div>
-                <h3>Explore operating choices systematically.</h3>
-                <p>Example workflows demonstrate yield prediction and brute-force optimization, reframing operating-point selection as a transparent comparison instead of an intuition-only decision.</p>
+                <h3>Search: compare operating points.</h3>
+                <p>Examples run yield prediction and brute-force optimization.</p>
               </div>
-              <p class="case-chapter-outcome">The value: traceable alternatives and a clearer view of which parameters deserve attention.</p>
+              <p class="case-chapter-outcome">Output: ranked alternatives and parameter sensitivity.</p>
             </article>
 
             <article class="case-chapter case-chapter-decision reveal">
               <span class="case-chapter-index">04 / Next frontier</span>
               <div>
-                <h3>Connect cell behavior to the vessel around it.</h3>
-                <p>The longer-term direction is to couple time-dependent cell and yield models with detailed computational fluid dynamics, bringing metabolism, mixing, transport, and scale closer together.</p>
+                <h3>Next: couple cells and vessel.</h3>
+                <p>Planned CFD coupling adds spatial mixing and transport.</p>
               </div>
-              <p class="case-chapter-outcome">The ambition: decision support that understands both the cells and the industrial environment they experience.</p>
+              <p class="case-chapter-outcome">Goal: link metabolism, mixing, transport, and scale.</p>
             </article>
           </div>
         </section>
@@ -177,16 +177,16 @@
           <div class="case-model-heading">
             <div>
               <div class="section-index light reveal">Inside the workflow</div>
-              <h2 id="biota-model-title" class="reveal">From conditions to<br /><em>an informed choice.</em></h2>
+              <h2 id="biota-model-title" class="reveal">Define, simulate,<br /><em>predict, search.</em></h2>
             </div>
-            <p class="reveal">A compact model loop keeps the logic visible: define, simulate, evaluate, search, and extend.</p>
+            <p class="reveal">Five explicit model steps.</p>
           </div>
 
           <ol class="case-process-list">
             <li class="reveal"><span>01</span><strong>Define</strong><p>Set model parameters, operating conditions, and performance objectives.</p></li>
             <li class="reveal"><span>02</span><strong>Simulate</strong><p>Represent time-dependent behavior with published modeling approaches.</p></li>
             <li class="reveal"><span>03</span><strong>Predict</strong><p>Translate modeled behavior into a comparable yield outcome.</p></li>
-            <li class="reveal"><span>04</span><strong>Search</strong><p>Explore candidate operating points through transparent brute-force optimization examples.</p></li>
+            <li class="reveal"><span>04</span><strong>Search</strong><p>Compare candidate operating points by brute-force optimization.</p></li>
             <li class="reveal"><span>05</span><strong>Extend</strong><p>Prepare the workflow for richer kinetics, data, and future CFD coupling.</p></li>
           </ol>
 
@@ -200,16 +200,16 @@
 
         <aside class="case-boundary">
           <div class="case-boundary-inner reveal">
-            <span>Rigor includes the boundary</span>
-            <p>BioTA v0.1 demonstrates a modeling and optimization workflow based on published approaches. It is not presented as an industrially validated digital twin, and CFD coupling is a future direction rather than a completed capability.</p>
+            <span>Status</span>
+            <p>BioTA v0.1 uses published models. Industrial validation and CFD coupling are pending.</p>
           </div>
         </aside>
 
         <section class="case-next section-pad" aria-labelledby="biota-next-title">
           <span class="section-index light reveal">Your process / Next</span>
-          <h2 id="biota-next-title" class="reveal">Which operating decision<br />should your model make <em>clearer?</em></h2>
-          <p class="reveal">Bring me the process question, the uncertainty, and the evidence available.</p>
-          <a class="button-primary button-signal reveal" href="/contact/">Discuss your modeling challenge <span aria-hidden="true">↗</span></a>
+          <h2 id="biota-next-title" class="reveal">Need a<br /><em>bioreactor model?</em></h2>
+          <p class="reveal">Send the variables, data, scale, and target.</p>
+          <a class="button-primary button-signal reveal" href="/contact/">Discuss a project <span aria-hidden="true">↗</span></a>
         </section>
       </article>
     </main>

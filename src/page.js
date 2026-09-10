@@ -53,7 +53,7 @@ document.querySelector("[data-shell-header]").outerHTML = `
 document.querySelector("[data-shell-footer]").outerHTML = `
   <footer>
     <span>© <span data-year></span> Katharina Julia Brenner</span>
-    <span>Science × systems × progress</span>
+    <span>Process modeling · Bioengineering · Software</span>
     <a href="#main">Back to top ↑</a>
   </footer>
 `;
