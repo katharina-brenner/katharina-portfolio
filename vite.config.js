@@ -8,6 +8,7 @@ export default defineConfig({
         home: resolve(import.meta.dirname, "index.html"),
         work: resolve(import.meta.dirname, "work/index.html"),
         bioProcessTrainer: resolve(import.meta.dirname, "bioprocesstrainer/index.html"),
+        microcarrierPlanner: resolve(import.meta.dirname, "microcarrier-planner/index.html"),
         cultivatedMeatCaseStudy: resolve(import.meta.dirname, "work/cultivated-meat-process-model/index.html"),
         bioreactorTechnicalAnalysis: resolve(import.meta.dirname, "work/bioreactor-technical-analysis/index.html"),
         approach: resolve(import.meta.dirname, "approach/index.html"),
