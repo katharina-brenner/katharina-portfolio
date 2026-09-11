@@ -6302,22 +6302,51 @@ button:focus-visible {
 
 /* Unified project graphs */
 .project-graph {
+  --graph-x: 0px;
+  --graph-y: 0px;
+  --graph-cursor-x: 50%;
+  --graph-cursor-y: 50%;
   position: relative;
   display: block;
   padding: 0;
   overflow: hidden;
-  color: var(--paper);
-  background:
-    radial-gradient(circle at 82% 18%, rgba(40, 86, 246, 0.18), transparent 28%),
-    #061a33;
+  color: var(--ink);
+  border-color: rgba(244, 244, 241, 0.34);
+  background: #f0efe9;
+  box-shadow: 0 26px 70px rgba(0, 8, 22, 0.22);
+  isolation: isolate;
+}
+
+.project-graph::before {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  background: radial-gradient(
+    circle 170px at var(--graph-cursor-x) var(--graph-cursor-y),
+    rgba(40, 86, 246, 0.095),
+    transparent 68%
+  );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease;
+}
+
+.project-graph.is-tracking::before,
+.project-graph:hover::before {
+  opacity: 1;
 }
 
 .project-graph-shell {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-rows: auto 1fr auto;
   width: 100%;
   min-height: inherit;
   padding: clamp(20px, 2.4vw, 34px);
+  transform: translate3d(calc(var(--graph-x) * -0.16), calc(var(--graph-y) * -0.16), 0) scale(1.012);
+  transition: transform 500ms cubic-bezier(0.2, 0.72, 0.2, 1);
 }
 
 .project-graph-header,
@@ -6325,21 +6354,36 @@ button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: rgba(244, 244, 241, 0.52);
+  color: rgba(6, 26, 51, 0.48);
   font-family: var(--mono);
   font-size: 8px;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .project-graph-header {
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(244, 244, 241, 0.18);
+  border-bottom: 1px solid rgba(6, 26, 51, 0.16);
 }
 
-.project-graph-header strong {
-  color: var(--signal);
-  font-weight: 400;
+.project-graph-stage {
+  position: relative;
+  display: grid;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.project-graph-title {
+  position: absolute;
+  z-index: 2;
+  top: clamp(20px, 2.5vw, 34px);
+  left: 4px;
+  max-width: 72%;
+  font-family: var(--serif);
+  font-size: clamp(27px, 3.3vw, 48px);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
 }
 
 .project-graph svg {
@@ -6347,17 +6391,24 @@ button:focus-visible {
   width: 100%;
   min-height: 250px;
   overflow: visible;
+  transform: translate3d(calc(var(--graph-x) * 0.34), calc(var(--graph-y) * 0.24), 0) scale(1.018);
+  transform-origin: center;
+  transition: transform 460ms cubic-bezier(0.2, 0.72, 0.2, 1);
 }
 
 .project-graph-grid path {
   fill: none;
-  stroke: rgba(244, 244, 241, 0.075);
+  stroke: rgba(6, 26, 51, 0.09);
   stroke-width: 1;
+}
+
+.project-graph-area {
+  fill: rgba(40, 86, 246, 0.055);
 }
 
 .project-graph-baseline {
   fill: none;
-  stroke: rgba(244, 244, 241, 0.28);
+  stroke: rgba(6, 26, 51, 0.2);
   stroke-dasharray: 5 7;
   stroke-width: 1;
 }
@@ -6367,28 +6418,74 @@ button:focus-visible {
   stroke: var(--coral);
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 4;
-  transition: stroke 260ms ease;
+  stroke-width: 3;
+  transition: stroke 260ms ease, stroke-width 260ms ease;
 }
 
 .project-graph-points circle {
+  fill: #f0efe9;
+  stroke: var(--coral);
+  stroke-width: 2.5;
+}
+
+.project-graph-points circle:last-child {
   fill: var(--signal);
-  stroke: #061a33;
-  stroke-width: 3;
+  stroke: var(--ink);
 }
 
 .project-graph-footer {
   padding-top: 16px;
-  border-top: 1px solid rgba(244, 244, 241, 0.18);
+  border-top: 1px solid rgba(6, 26, 51, 0.16);
+}
+
+.project-graph-reticle {
+  position: absolute;
+  z-index: 4;
+  top: var(--graph-cursor-y);
+  left: var(--graph-cursor-x);
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(6, 26, 51, 0.25);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.7);
+  transition: opacity 180ms ease, transform 240ms ease;
+}
+
+.project-graph-reticle::before,
+.project-graph-reticle::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(6, 26, 51, 0.32);
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.project-graph-reticle::before {
+  width: 38px;
+  height: 1px;
+}
+
+.project-graph-reticle::after {
+  width: 1px;
+  height: 38px;
+}
+
+.project-graph.is-tracking .project-graph-reticle {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .project-graph-open {
   position: absolute;
+  z-index: 5;
   right: 18px;
   bottom: 58px;
   padding: 8px 11px;
-  color: var(--ink);
-  background: var(--signal);
+  color: var(--paper);
+  background: var(--ink);
   font-family: var(--mono);
   font-size: 8px;
   font-weight: 500;
@@ -6401,7 +6498,8 @@ button:focus-visible {
 
 .project-graph:hover .project-graph-line,
 .project-graph:focus-visible .project-graph-line {
-  stroke: var(--signal);
+  stroke: var(--ink);
+  stroke-width: 3.5;
 }
 
 .project-graph:hover .project-graph-open,
@@ -6411,7 +6509,7 @@ button:focus-visible {
 }
 
 .project-graph:focus-visible {
-  outline: 3px solid var(--signal);
+  outline: 3px solid var(--coral);
   outline-offset: 3px;
 }
 
@@ -6422,6 +6520,28 @@ button:focus-visible {
 .tool-spotlight-visual.project-graph > .project-graph-open {
   right: 18px;
   bottom: 58px;
+}
+
+.facility-system .facility-media {
+  height: clamp(390px, 43vw, 580px);
+  background: #f0efe9;
+}
+
+.facility-system .facility-media::after {
+  display: none;
+}
+
+.facility-system .project-graph-title {
+  font-size: clamp(38px, 5.2vw, 76px);
+}
+
+.project .project-visual.project-graph {
+  border-color: rgba(244, 244, 241, 0.34);
+  box-shadow: 0 26px 70px rgba(0, 8, 22, 0.22);
+}
+
+.project:hover .project-visual.project-graph {
+  box-shadow: 0 38px 96px rgba(0, 8, 22, 0.3);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -6437,8 +6557,13 @@ button:focus-visible {
 }
 
 @media (max-width: 560px) {
+  .project-graph-shell {
+    transform: none;
+  }
+
   .project-graph svg {
     min-height: 210px;
+    transform: none;
   }
 
   .project-graph-header,
@@ -6449,5 +6574,13 @@ button:focus-visible {
   .project-graph-open {
     opacity: 1;
     transform: none;
+  }
+
+  .project-graph-reticle {
+    display: none;
+  }
+
+  .facility-system .facility-media {
+    height: 360px;
   }
 }

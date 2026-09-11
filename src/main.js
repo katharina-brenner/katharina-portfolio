@@ -1,4 +1,11 @@
 const projectGraphData = {
+  systems: {
+    code: "SYSTEM / 00",
+    title: "Connected process model",
+    path: "M34 224 C92 224 112 188 170 188 S254 206 316 156 S408 126 462 126 S550 76 606 76",
+    points: [[34, 224], [170, 188], [316, 156], [462, 126], [606, 76]],
+    labels: ["Inputs", "Operations", "Decisions"],
+  },
   facility: {
     code: "PROCESS / 01",
     title: "Facility model",
@@ -61,16 +68,21 @@ document.querySelectorAll("[data-project-graph]").forEach((element) => {
 
   element.innerHTML = `
     <div class="project-graph-shell" aria-hidden="true">
-      <div class="project-graph-header"><span>${graph.code}</span><strong>${graph.title}</strong></div>
-      <svg viewBox="0 0 640 280" focusable="false">
-        <g class="project-graph-grid">
-          <path d="M34 52H606M34 108H606M34 164H606M34 220H606" />
-          <path d="M34 36V244M177 36V244M320 36V244M463 36V244M606 36V244" />
-        </g>
-        <path class="project-graph-baseline" d="M34 220H606" />
-        <path class="project-graph-line" pathLength="1" d="${graph.path}" />
-        <g class="project-graph-points">${points}</g>
-      </svg>
+      <div class="project-graph-header"><span>${graph.code}</span><span>Model output</span></div>
+      <div class="project-graph-stage">
+        <strong class="project-graph-title">${graph.title}</strong>
+        <svg viewBox="0 0 640 280" focusable="false">
+          <g class="project-graph-grid">
+            <path d="M34 52H606M34 108H606M34 164H606M34 220H606" />
+            <path d="M34 36V244M177 36V244M320 36V244M463 36V244M606 36V244" />
+          </g>
+          <path class="project-graph-area" d="${graph.path} L606 244 L34 244 Z" />
+          <path class="project-graph-baseline" d="M34 220H606" />
+          <path class="project-graph-line" pathLength="1" d="${graph.path}" />
+          <g class="project-graph-points">${points}</g>
+        </svg>
+        <span class="project-graph-reticle"></span>
+      </div>
       <div class="project-graph-footer">${labels}</div>
     </div>
     <span class="project-graph-open" aria-hidden="true">Open ↗</span>
@@ -78,6 +90,30 @@ document.querySelectorAll("[data-project-graph]").forEach((element) => {
 });
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (!reducedMotion && window.matchMedia("(pointer: fine)").matches) {
+  document.querySelectorAll("[data-project-graph]").forEach((visual) => {
+    visual.addEventListener("pointermove", (event) => {
+      const bounds = visual.getBoundingClientRect();
+      const normalizedX = (event.clientX - bounds.left) / bounds.width;
+      const normalizedY = (event.clientY - bounds.top) / bounds.height;
+      const moveX = (normalizedX - 0.5) * 14;
+      const moveY = (normalizedY - 0.5) * 10;
+
+      visual.style.setProperty("--graph-x", `${moveX}px`);
+      visual.style.setProperty("--graph-y", `${moveY}px`);
+      visual.style.setProperty("--graph-cursor-x", `${normalizedX * 100}%`);
+      visual.style.setProperty("--graph-cursor-y", `${normalizedY * 100}%`);
+      visual.classList.add("is-tracking");
+    }, { passive: true });
+
+    visual.addEventListener("pointerleave", () => {
+      visual.style.setProperty("--graph-x", "0px");
+      visual.style.setProperty("--graph-y", "0px");
+      visual.classList.remove("is-tracking");
+    }, { passive: true });
+  });
+}
 
 const revealElements = document.querySelectorAll(".reveal");
 
