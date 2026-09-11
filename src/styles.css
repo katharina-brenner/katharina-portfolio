@@ -6299,3 +6299,155 @@ button:focus-visible {
     margin-top: 38px;
   }
 }
+
+/* Unified project graphs */
+.project-graph {
+  position: relative;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  color: var(--paper);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(40, 86, 246, 0.18), transparent 28%),
+    #061a33;
+}
+
+.project-graph-shell {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  width: 100%;
+  min-height: inherit;
+  padding: clamp(20px, 2.4vw, 34px);
+}
+
+.project-graph-header,
+.project-graph-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(244, 244, 241, 0.52);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.project-graph-header {
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(244, 244, 241, 0.18);
+}
+
+.project-graph-header strong {
+  color: var(--signal);
+  font-weight: 400;
+}
+
+.project-graph svg {
+  align-self: stretch;
+  width: 100%;
+  min-height: 250px;
+  overflow: visible;
+}
+
+.project-graph-grid path {
+  fill: none;
+  stroke: rgba(244, 244, 241, 0.075);
+  stroke-width: 1;
+}
+
+.project-graph-baseline {
+  fill: none;
+  stroke: rgba(244, 244, 241, 0.28);
+  stroke-dasharray: 5 7;
+  stroke-width: 1;
+}
+
+.project-graph-line {
+  fill: none;
+  stroke: var(--coral);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+  transition: stroke 260ms ease;
+}
+
+.project-graph-points circle {
+  fill: var(--signal);
+  stroke: #061a33;
+  stroke-width: 3;
+}
+
+.project-graph-footer {
+  padding-top: 16px;
+  border-top: 1px solid rgba(244, 244, 241, 0.18);
+}
+
+.project-graph-open {
+  position: absolute;
+  right: 18px;
+  bottom: 58px;
+  padding: 8px 11px;
+  color: var(--ink);
+  background: var(--signal);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.project-graph:hover .project-graph-line,
+.project-graph:focus-visible .project-graph-line {
+  stroke: var(--signal);
+}
+
+.project-graph:hover .project-graph-open,
+.project-graph:focus-visible .project-graph-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-graph:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.tool-spotlight-visual.project-graph {
+  min-height: 410px;
+}
+
+.tool-spotlight-visual.project-graph > .project-graph-open {
+  right: 18px;
+  bottom: 58px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .project-graph-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: graph-draw 900ms var(--ease-out) forwards;
+  }
+}
+
+@keyframes graph-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (max-width: 560px) {
+  .project-graph svg {
+    min-height: 210px;
+  }
+
+  .project-graph-header,
+  .project-graph-footer {
+    font-size: 7px;
+  }
+
+  .project-graph-open {
+    opacity: 1;
+    transform: none;
+  }
+}
