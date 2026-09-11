@@ -3322,7 +3322,7 @@ button:focus-visible {
 }
 
 .repositories::before {
-  content: "PUBLIC / 07";
+  content: "PUBLIC / 08";
 }
 
 .repository-row {
