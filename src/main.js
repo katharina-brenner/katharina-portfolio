@@ -254,3 +254,22 @@ document.querySelectorAll("[data-facility-film]").forEach((facility) => {
     facility.style.setProperty("--facility-y", "0px");
   }, { passive: true });
 });
+
+document.querySelectorAll('a[target="_blank"]').forEach((link) => {
+  const accessibleLabel = link.getAttribute("aria-label");
+
+  if (accessibleLabel) {
+    if (!accessibleLabel.toLowerCase().includes("new tab")) {
+      link.setAttribute("aria-label", `${accessibleLabel} (opens in a new tab)`);
+    }
+    return;
+  }
+
+  if (link.querySelector("[data-new-tab-note]")) return;
+
+  const note = document.createElement("span");
+  note.className = "visually-hidden";
+  note.dataset.newTabNote = "";
+  note.textContent = " (opens in a new tab)";
+  link.append(note);
+});
