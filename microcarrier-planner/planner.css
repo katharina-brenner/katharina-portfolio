@@ -68,7 +68,7 @@
 .controls-head { display: flex; align-items: start; justify-content: space-between; padding: 4px 0 24px; }
 .controls-head span, .card-heading small { color: var(--planner-mint); font: 500 10px/1 "DM Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
 .controls-head h2 { margin: 7px 0 0; font: 400 31px/1 "Newsreader", serif; }
-.text-action { border: 0; background: transparent; color: #9eabb8; font: 500 11px/1 "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.text-action { min-width: 44px; min-height: 44px; border: 0; background: transparent; color: #9eabb8; font: 500 11px/1 "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
 .planner-controls fieldset { display: grid; gap: 13px; margin: 0; border: 0; border-top: 1px solid var(--planner-line); padding: 24px 0; }
 .planner-controls legend { padding: 24px 0 0; color: #f8fafc; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .planner-controls legend span, .card-heading > span { display: inline-grid; width: 25px; height: 25px; margin-right: 9px; place-items: center; border-radius: 50%; background: var(--planner-signal); color: var(--planner-navy); font: 600 10px/1 "DM Mono", monospace; }
@@ -78,7 +78,7 @@
   grid-column: 1 / -1;
   width: 100%;
   min-width: 0;
-  height: 42px;
+  height: 44px;
   border: 1px solid #28415b;
   border-radius: 0;
   background: #0b2745;
@@ -139,7 +139,7 @@
 .chart line.threshold-damage { stroke: #ff6f6f; stroke-dasharray: 4 4; stroke-width: 1.5; }
 .chart rect.window-band { fill: rgb(127 224 209 / 8%); }
 .diagnostic-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.diagnostic-chips button { border: 1px solid #2a435c; border-radius: 999px; background: #0b2948; padding: 9px 12px; color: #b8c3cc; font-size: 10px; cursor: pointer; }
+.diagnostic-chips button { min-height: 44px; border: 1px solid #2a435c; border-radius: 999px; background: #0b2948; padding: 9px 12px; color: #b8c3cc; font-size: 10px; cursor: pointer; }
 .diagnostic-chips button:hover, .diagnostic-chips button[aria-pressed="true"] { border-color: var(--planner-signal); background: var(--planner-signal); color: var(--planner-navy); }
 .diagnostic-output { margin-top: 16px; border-top: 1px solid var(--planner-line); padding: 17px 2px 2px; color: #aeb9c4; font-size: 12px; line-height: 1.65; }
 .diagnostic-output b { color: #fff; }
@@ -164,7 +164,7 @@
 @media (max-width: 620px) {
   .planner-page main { padding-top: 82px; }
   .planner-intro { padding: 46px 20px 34px; }
-  .planner-intro h1 { font-size: 64px; }
+  .planner-intro h1 { font-size: clamp(52px, 17vw, 64px); }
   .planner-steps { padding: 18px 20px; }
   .planner-shell { margin-bottom: 0; }
   .planner-controls, .planner-results { padding: 22px 18px; }

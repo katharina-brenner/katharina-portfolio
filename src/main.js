@@ -90,8 +90,9 @@ document.querySelectorAll("[data-project-graph]").forEach((element) => {
 });
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const finePointer = window.matchMedia("(pointer: fine)").matches;
 
-if (!reducedMotion && window.matchMedia("(pointer: fine)").matches) {
+if (!reducedMotion && finePointer) {
   document.querySelectorAll("[data-project-graph]").forEach((visual) => {
     visual.addEventListener("pointermove", (event) => {
       const bounds = visual.getBoundingClientRect();
@@ -115,26 +116,35 @@ if (!reducedMotion && window.matchMedia("(pointer: fine)").matches) {
   });
 }
 
-const revealElements = document.querySelectorAll(".reveal");
+const revealElements = [...document.querySelectorAll(".reveal")];
 
-if (reducedMotion) {
+if (reducedMotion || !("IntersectionObserver" in window)) {
   revealElements.forEach((element) => element.classList.add("is-visible"));
 } else {
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -60px" },
-  );
+  try {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -60px" },
+    );
 
-  revealElements.forEach((element, index) => {
-    element.style.setProperty("--reveal-delay", `${(index % 3) * 70}ms`);
-    revealObserver.observe(element);
-  });
+    revealElements.forEach((element, index) => {
+      element.style.setProperty("--reveal-delay", `${(index % 3) * 70}ms`);
+      revealObserver.observe(element);
+    });
+    document.documentElement.classList.add("reveal-enabled");
+
+    window.setTimeout(() => {
+      revealElements.forEach((element) => element.classList.add("is-visible"));
+    }, 2400);
+  } catch {
+    revealElements.forEach((element) => element.classList.add("is-visible"));
+  }
 }
 
 const header = document.querySelector("[data-header]");
@@ -151,7 +161,7 @@ let scrollTicking = false;
 const updateScrollInterface = () => {
   const currentScroll = window.scrollY;
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-  const ratio = scrollable > 0 ? Math.min(currentScroll / scrollable, 1) : 0;
+  const ratio = scrollable > 0 ? Math.min(Math.max(currentScroll / scrollable, 0), 1) : 0;
 
   header?.classList.toggle("is-scrolled", currentScroll > 24);
   if (progress) progress.style.transform = `scaleX(${ratio})`;
@@ -166,7 +176,7 @@ window.addEventListener("scroll", () => {
 
 updateScrollInterface();
 
-if (trackedSections.length) {
+if (trackedSections.length && "IntersectionObserver" in window) {
   const sectionObserver = new IntersectionObserver(
     (entries) => {
       const visible = entries
@@ -198,13 +208,29 @@ document.querySelectorAll("[data-year]").forEach((year) => {
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
 const mobileLinks = document.querySelectorAll("[data-mobile-link]");
+const mainContent = document.querySelector("main");
+const pageFooter = document.querySelector("body > footer");
 
-const setMenuOpen = (isOpen) => {
+const menuFocusableElements = () => [
+  menuToggle,
+  ...(mobileMenu?.querySelectorAll("a[href], button:not([disabled])") || []),
+].filter(Boolean);
+
+const setMenuOpen = (isOpen, { returnFocus = false } = {}) => {
+  if (!menuToggle || !mobileMenu) return;
   menuToggle.setAttribute("aria-expanded", String(isOpen));
   mobileMenu.setAttribute("aria-hidden", String(!isOpen));
   mobileMenu.toggleAttribute("inert", !isOpen);
   mobileMenu.classList.toggle("is-open", isOpen);
   document.body.classList.toggle("menu-open", isOpen);
+  mainContent?.toggleAttribute("inert", isOpen);
+  pageFooter?.toggleAttribute("inert", isOpen);
+
+  if (isOpen) {
+    window.requestAnimationFrame(() => mobileMenu.querySelector("a[href]")?.focus());
+  } else if (returnFocus) {
+    menuToggle.focus();
+  }
 };
 
 menuToggle?.addEventListener("click", () => {
@@ -216,7 +242,27 @@ mobileLinks.forEach((link) => {
 });
 
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") setMenuOpen(false);
+  if (menuToggle?.getAttribute("aria-expanded") !== "true") return;
+
+  if (event.key === "Escape") {
+    event.preventDefault();
+    setMenuOpen(false, { returnFocus: true });
+    return;
+  }
+
+  if (event.key !== "Tab") return;
+  const focusable = menuFocusableElements();
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable.at(-1);
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 });
 
 window.addEventListener("resize", () => {
@@ -225,7 +271,7 @@ window.addEventListener("resize", () => {
 
 const vessel = document.querySelector(".process-vessel");
 
-if (vessel && !reducedMotion) {
+if (vessel && !reducedMotion && finePointer) {
   window.addEventListener(
     "pointermove",
     (event) => {
@@ -239,7 +285,7 @@ if (vessel && !reducedMotion) {
 }
 
 document.querySelectorAll("[data-facility-film]").forEach((facility) => {
-  if (reducedMotion) return;
+  if (reducedMotion || !finePointer) return;
 
   facility.addEventListener("pointermove", (event) => {
     const bounds = facility.getBoundingClientRect();

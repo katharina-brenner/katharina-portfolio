@@ -30,7 +30,14 @@ const GRAVITY = 9.81;
 const DETACHED_CELL_UM = 15;
 let lastResult = {};
 
-const read = (id) => Number.parseFloat(document.getElementById(id)?.value) || 0;
+const read = (id) => {
+  const input = document.getElementById(id);
+  const parsed = Number.parseFloat(input?.value);
+  if (!Number.isFinite(parsed)) return 0;
+  const minimum = Number.isFinite(Number.parseFloat(input?.min)) ? Number.parseFloat(input.min) : Number.NEGATIVE_INFINITY;
+  const maximum = Number.isFinite(Number.parseFloat(input?.max)) ? Number.parseFloat(input.max) : Number.POSITIVE_INFINITY;
+  return Math.min(Math.max(parsed, minimum), maximum);
+};
 const setValue = (name, value) => {
   const output = document.querySelector(`[data-output="${name}"]`);
   if (output) output.textContent = value;
@@ -90,8 +97,9 @@ function svgGrid() {
 function renderGrowthChart(result) {
   const chart = document.querySelector('[data-chart="growth"]');
   if (!chart) return;
-  const daysToShow = Math.max(4, Math.ceil(Math.max(result.days, 1) * 1.35));
-  const pointCount = Math.max(16, daysToShow * 5);
+  const modeledDays = Number.isFinite(result.days) ? result.days : 0;
+  const daysToShow = Math.min(3650, Math.max(4, Math.ceil(Math.max(modeledDays, 1) * 1.35)));
+  const pointCount = Math.min(240, Math.max(16, daysToShow * 5));
   const cellPoints = [];
   const occupancyPoints = [];
 
@@ -124,7 +132,7 @@ function renderGrowthChart(result) {
 function renderShearChart(result) {
   const chart = document.querySelector('[data-chart="shear"]');
   if (!chart) return;
-  const topRpm = Math.max(120, Math.ceil((Number.isFinite(result.rpmCrit) ? result.rpmCrit : 200) * 1.55 / 10) * 10);
+  const topRpm = Math.min(1000000, Math.max(120, Math.ceil((Number.isFinite(result.rpmCrit) ? result.rpmCrit : 200) * 1.55 / 10) * 10));
   const yMax = Math.max(result.beadDiameterUm * 2.2, 60);
   const points = [];
 
@@ -154,7 +162,7 @@ function renderShearChart(result) {
   chart.setAttribute("aria-label", `Modeled range from ${Number.isFinite(result.njsRpm) ? result.njsRpm.toFixed(0) : "unknown"} to ${Number.isFinite(result.rpmCrit) ? result.rpmCrit.toFixed(0) : "unknown"} rpm`);
 }
 
-function calculate() {
+function calculate({ announce = false } = {}) {
   const volumeLitres = read("vol");
   const volumeMl = volumeLitres * 1000;
   const volumeCubicMetres = volumeLitres / 1000;
@@ -287,6 +295,16 @@ function calculate() {
 
   renderGrowthChart(lastResult);
   renderShearChart(lastResult);
+
+  if (announce) {
+    const status = document.querySelector("[data-planner-status]");
+    if (status) {
+      status.textContent = "";
+      window.requestAnimationFrame(() => {
+        status.textContent = `Results updated. ${scientific(yieldCells)} projected harvested cells after ${days.toFixed(1)} days.`;
+      });
+    }
+  }
 }
 
 function applyCarrier(key) {
@@ -336,21 +354,21 @@ function exportCsv() {
   const link = document.createElement("a");
   link.href = url;
   link.download = "microcarrier-plan.csv";
+  link.hidden = true;
+  document.body.append(link);
   link.click();
-  URL.revokeObjectURL(url);
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
 document.getElementById("carrier").addEventListener("change", (event) => {
   applyCarrier(event.target.value);
-  calculate();
 });
 document.getElementById("cellPreset").addEventListener("change", (event) => {
   applyPreset(event.target.value);
-  calculate();
 });
 document.getElementById("impeller").addEventListener("change", (event) => {
   if (impellers[event.target.value]) document.getElementById("np").value = impellers[event.target.value];
-  calculate();
 });
 ["areaSpec", "dp", "rhoS", "beadsPerG"].forEach((id) => {
   document.getElementById(id).addEventListener("input", () => {
@@ -359,9 +377,16 @@ document.getElementById("impeller").addEventListener("change", (event) => {
 });
 
 const form = document.querySelector("[data-planner-form]");
-form.addEventListener("input", calculate);
-form.addEventListener("reset", () => window.setTimeout(calculate, 0));
-document.querySelector("[data-calculate]").addEventListener("click", calculate);
+form.addEventListener("input", () => calculate());
+form.addEventListener("change", (event) => {
+  if (event.target instanceof HTMLInputElement && event.target.type === "number") {
+    const normalized = read(event.target.id);
+    event.target.value = String(normalized);
+  }
+  calculate({ announce: true });
+});
+form.addEventListener("reset", () => window.setTimeout(() => calculate({ announce: true }), 0));
+document.querySelector("[data-calculate]").addEventListener("click", () => calculate({ announce: true }));
 document.querySelector("[data-export]").addEventListener("click", exportCsv);
 document.querySelectorAll("[data-diagnostic]").forEach((button) => {
   button.setAttribute("aria-pressed", "false");

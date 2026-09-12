@@ -1,7 +1,20 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const fmt = (value, digits = 1) => Number(value).toFixed(digits);
+const clamp = (value, min, max) => {
+  const numericValue = Number(value);
+  if (numericValue === Number.POSITIVE_INFINITY) return max;
+  if (!Number.isFinite(numericValue)) return min;
+  return Math.min(max, Math.max(min, numericValue));
+};
+const fmt = (value, digits = 1) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : '—';
+
+function boundedInputValue(input, fallback = 0) {
+  const parsed = Number.parseFloat(input?.value);
+  if (!Number.isFinite(parsed)) return fallback;
+  const minimum = Number.isFinite(Number.parseFloat(input.min)) ? Number.parseFloat(input.min) : Number.NEGATIVE_INFINITY;
+  const maximum = Number.isFinite(Number.parseFloat(input.max)) ? Number.parseFloat(input.max) : Number.POSITIVE_INFINITY;
+  return clamp(parsed, minimum, maximum);
+}
 
 const freshProcess = () => ({
   status: 'idle',
@@ -107,7 +120,7 @@ function updateClock() {
 
 function updateText(selector, value) {
   const element = $(selector);
-  if (element) element.textContent = value;
+  if (element && element.textContent !== String(value)) element.textContent = value;
 }
 
 function setMessage(nextMessage) {
@@ -143,15 +156,33 @@ function render() {
   updateText('[data-flow="acid"]', `${running ? fmt(process.acidFlow, 2) : '0.00'} ml/min`);
 
   $('[data-power-light]').classList.toggle('on', running);
+  $('[data-action="power"]').setAttribute('aria-pressed', String(running));
   $('[data-bubbles]').classList.toggle('active', running);
   $('.bpt-motor').classList.toggle('running', running);
   $('[data-inoculum]').classList.toggle('ready', process.inoculumReady);
   $('[data-action="run-toggle"]').textContent = running ? 'Pause simulation' : 'Run simulation';
+  $('[data-action="run-toggle"]').setAttribute('aria-pressed', String(running));
 
-  $$('[data-speed]').forEach((button) => button.classList.toggle('active', Number(button.dataset.speed) === process.acceleration));
-  $$('[data-mode]').forEach((button) => button.classList.toggle('active', button.dataset.mode === modelMode));
-  $$('[data-environment]').forEach((button) => button.classList.toggle('active', button.dataset.environment === oxygenMode));
-  $$('[data-gas-channel]').forEach((button) => button.classList.toggle('active', gasModes[button.dataset.gasChannel] === button.dataset.channelMode));
+  $$('[data-speed]').forEach((button) => {
+    const selected = Number(button.dataset.speed) === process.acceleration;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+  $$('[data-mode]').forEach((button) => {
+    const selected = button.dataset.mode === modelMode;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+  $$('[data-environment]').forEach((button) => {
+    const selected = button.dataset.environment === oxygenMode;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+  $$('[data-gas-channel]').forEach((button) => {
+    const selected = gasModes[button.dataset.gasChannel] === button.dataset.channelMode;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
   $$('[data-gas]').forEach((input) => {
     input.disabled = gasModes[input.dataset.gas] !== 'manual';
     input.value = gas[input.dataset.gas];
@@ -416,16 +447,16 @@ function tick() {
   const nextSecondaryMass = Math.max(0, secondaryMass + (feedRate * 2 - outflowRate * process.secondarySubstrate - secondaryUseRate) * dt);
   const nextProductMass = Math.max(0, productMass + (productRate - outflowRate * process.ethanol) * dt);
 
-  process.specificGrowth = specificGrowth;
-  process.dilution = outflowRate / volume;
+  process.specificGrowth = clamp(specificGrowth, 0, 5);
+  process.dilution = clamp(outflowRate / volume, 0, 100);
   process.reactorVolume = nextVolume;
   process.substrate1 = clamp(process.substrate1 - feedRate * dt, 0, 10);
   process.substrate2 = clamp(process.substrate2 - feedRate * 0.25 * dt, 0, 10);
   process.product = clamp(process.product + outflowRate * dt, 0, 20);
-  process.biomass = nextBiomassMass / nextVolume;
-  process.substrate = nextSubstrateMass / nextVolume;
-  process.secondarySubstrate = nextSecondaryMass / nextVolume;
-  process.ethanol = nextProductMass / nextVolume;
+  process.biomass = clamp(nextBiomassMass / nextVolume, 0, 10000);
+  process.substrate = clamp(nextSubstrateMass / nextVolume, 0, 5000);
+  process.secondarySubstrate = clamp(nextSecondaryMass / nextVolume, 0, 1000);
+  process.ethanol = clamp(nextProductMass / nextVolume, 0, 10000);
 
   const oxygenDemand = specificGrowth * process.biomass * 9;
   const gasTransfer = model.kla / 180 * (gas.air * 2.6 + gas.oxygen * 5);
@@ -540,8 +571,11 @@ function downloadCsv(rows, filename) {
   const link = document.createElement('a');
   link.href = url;
   link.download = filename;
+  link.hidden = true;
+  document.body.append(link);
   link.click();
-  URL.revokeObjectURL(url);
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
 function exportData() {
@@ -582,9 +616,9 @@ const actions = {
   export: exportData,
   'export-samples': exportSamples,
   'fill-medium': () => {
-    const volume = Number($('[data-medium-volume]').value);
-    const substrate = Number($('[data-medium-substrate]').value);
-    const secondarySubstrate = Number($('[data-medium-secondary]').value);
+    const volume = boundedInputValue($('[data-medium-volume]'), 5);
+    const substrate = boundedInputValue($('[data-medium-substrate]'), 15);
+    const secondarySubstrate = boundedInputValue($('[data-medium-secondary]'), 2);
     fillReactor(volume, substrate, secondarySubstrate);
     $('[data-dialog="medium"]').close();
   },
@@ -626,25 +660,36 @@ $$('[data-gas-channel]').forEach((button) => button.addEventListener('click', ()
   setMessage(`${channel === 'nitrogen' ? 'N2' : channel === 'oxygen' ? 'O2' : 'Air'} channel set to ${button.textContent.trim().toLowerCase()}.`);
   render();
 }));
-$$('[data-model]').forEach((input) => input.addEventListener('input', () => {
-  model[input.dataset.model] = Number(input.value);
-  render();
-}));
+function bindBoundedInputs(selector, target, keyName) {
+  $$(selector).forEach((input) => {
+    const update = (normalize = false) => {
+      const key = input.dataset[keyName];
+      const value = boundedInputValue(input, target[key]);
+      target[key] = value;
+      if (normalize) input.value = String(value);
+      render();
+    };
+    input.addEventListener('input', () => update());
+    input.addEventListener('change', () => update(true));
+  });
+}
+
+bindBoundedInputs('[data-model]', model, 'model');
 $$('[data-gas]').forEach((input) => input.addEventListener('input', () => {
-  gas[input.dataset.gas] = Number(input.value);
+  gas[input.dataset.gas] = boundedInputValue(input, gas[input.dataset.gas]);
   render();
 }));
-$$('[data-setpoint]').forEach((input) => input.addEventListener('input', () => {
-  setpoints[input.dataset.setpoint] = Number(input.value);
-  render();
-}));
-$$('[data-controller]').forEach((input) => input.addEventListener('input', () => {
-  controller[input.dataset.controller] = Number(input.value);
-  render();
-}));
+bindBoundedInputs('[data-setpoint]', setpoints, 'setpoint');
+bindBoundedInputs('[data-controller]', controller, 'controller');
 $$('[data-close]').forEach((button) => button.addEventListener('click', () => button.closest('dialog')?.close()));
 
 updateClock();
 render();
+if (window.matchMedia('(max-width: 900px)').matches) {
+  window.requestAnimationFrame(() => {
+    const processCanvas = $('.bpt-process');
+    if (processCanvas) processCanvas.scrollLeft = Math.max(0, (processCanvas.scrollWidth - processCanvas.clientWidth) / 2);
+  });
+}
 setInterval(updateClock, 1000);
 setInterval(tick, 800);

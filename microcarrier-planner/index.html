@@ -36,6 +36,7 @@
         "applicationCategory": "ScientificApplication",
         "operatingSystem": "Web",
         "isAccessibleForFree": true,
+        "dateModified": "2026-09-12",
         "creator": { "@type": "Person", "name": "Katharina Julia Brenner" }
       }
     </script>
@@ -95,16 +96,16 @@
               </select>
             </label>
             <div class="input-pair">
-              <label>Specific area <small>cm²/g</small><input id="areaSpec" type="number" min="0" step="10" value="2700" /></label>
-              <label>Bead d50 <small>µm</small><input id="dp" type="number" min="0" step="1" value="175" /></label>
+              <label>Specific area <small>cm²/g</small><input id="areaSpec" type="number" min="0" max="100000" step="10" value="2700" /></label>
+              <label>Bead d50 <small>µm</small><input id="dp" type="number" min="0" max="10000" step="1" value="175" /></label>
             </div>
             <div class="input-pair">
-              <label>Bead density <small>g/mL</small><input id="rhoS" type="number" min="0" step="0.005" value="1.04" /></label>
-              <label>Beads per g <small>×10⁶</small><input id="beadsPerG" type="number" min="0" step="0.1" value="3" /></label>
+              <label>Bead density <small>g/mL</small><input id="rhoS" type="number" min="0" max="10" step="0.005" value="1.04" /></label>
+              <label>Beads per g <small>×10⁶</small><input id="beadsPerG" type="number" min="0" max="10000" step="0.1" value="3" /></label>
             </div>
             <div class="input-pair">
-              <label>Carrier load <small>g/L</small><input id="load" type="number" min="0" step="0.5" value="3" /></label>
-              <label>Working volume <small>L</small><input id="vol" type="number" min="0" step="0.1" value="2.5" /></label>
+              <label>Carrier load <small>g/L</small><input id="load" type="number" min="0" max="1000" step="0.5" value="3" /></label>
+              <label>Working volume <small>L</small><input id="vol" type="number" min="0" max="1000000" step="0.1" value="2.5" /></label>
             </div>
           </fieldset>
 
@@ -118,17 +119,17 @@
               </select>
             </label>
             <div class="input-pair">
-              <label>Seeding value<input id="seedVal" type="number" min="0" step="0.5" value="5" /></label>
+              <label>Seeding value<input id="seedVal" type="number" min="0" max="1000000000" step="0.5" value="5" /></label>
               <label>Attachment <small>%</small><input id="attachEff" type="number" min="0" max="100" step="1" value="80" /></label>
             </div>
-            <label>Inoculum stock <small>×10⁶ cells/mL</small><input id="stockDens" type="number" min="0" step="0.1" value="1" /></label>
+            <label>Inoculum stock <small>×10⁶ cells/mL</small><input id="stockDens" type="number" min="0" max="1000" step="0.1" value="1" /></label>
           </fieldset>
 
           <fieldset>
             <legend><span>03</span> Expansion target</legend>
-            <label>Confluent density <small>×10⁴ cells/cm²</small><input id="conflDens" type="number" min="0" step="0.1" value="4" /></label>
+            <label>Confluent density <small>×10⁴ cells/cm²</small><input id="conflDens" type="number" min="0" max="1000000" step="0.1" value="4" /></label>
             <div class="input-pair">
-              <label>Doubling time <small>h</small><input id="td" type="number" min="0" step="1" value="30" /></label>
+              <label>Doubling time <small>h</small><input id="td" type="number" min="0" max="10000" step="1" value="30" /></label>
               <label>Harvest efficiency <small>%</small><input id="harvestEff" type="number" min="0" max="100" step="1" value="95" /></label>
             </div>
           </fieldset>
@@ -145,14 +146,14 @@
               </select>
             </label>
             <div class="input-pair">
-              <label>Impeller diameter <small>cm</small><input id="impD" type="number" min="0" step="0.1" value="7" /></label>
-              <label>Power number <small>Np</small><input id="np" type="number" min="0" step="0.05" value="1.27" /></label>
+              <label>Impeller diameter <small>cm</small><input id="impD" type="number" min="0" max="10000" step="0.1" value="7" /></label>
+              <label>Power number <small>Np</small><input id="np" type="number" min="0" max="100" step="0.05" value="1.27" /></label>
             </div>
             <div class="input-pair">
-              <label>Zwietering <small>S</small><input id="zwS" type="number" min="0" step="0.1" value="6" /></label>
-              <label>Impellers <small>count</small><input id="nImp" type="number" min="1" step="1" value="1" /></label>
+              <label>Zwietering <small>S</small><input id="zwS" type="number" min="0" max="100" step="0.1" value="6" /></label>
+              <label>Impellers <small>count</small><input id="nImp" type="number" min="1" max="100" step="1" value="1" /></label>
             </div>
-            <label>Test agitation <small>rpm · 0 uses Njs</small><input id="setRpm" type="number" min="0" step="1" value="0" /></label>
+            <label>Test agitation <small>rpm · 0 uses Njs</small><input id="setRpm" type="number" min="0" max="1000000" step="1" value="0" /></label>
           </fieldset>
 
           <div class="control-actions">
@@ -161,7 +162,8 @@
           </div>
         </form>
 
-        <div class="planner-results" aria-live="polite">
+        <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-planner-status>Results ready.</p>
+        <div class="planner-results">
           <header class="result-hero">
             <p>Available growth surface</p>
             <div><strong data-output="totalArea">20,250</strong><span>cm²</span></div>
@@ -237,7 +239,7 @@
               <button type="button" data-diagnostic="yield">Low harvest yield</button>
               <button type="button" data-diagnostic="growth">Growth stalls</button>
             </div>
-            <div class="diagnostic-output" data-diagnostic-output>Select a symptom.</div>
+            <div class="diagnostic-output" role="status" aria-live="polite" aria-atomic="true" data-diagnostic-output>Select a symptom.</div>
           </section>
         </div>
       </section>
@@ -249,8 +251,8 @@
           <div>
             <p>Carrier inventory, Poisson seeding, exponential growth, Zwietering Njs, and Kolmogorov microscale. Verify suspension and cell response in the vessel.</p>
             <div class="method-links">
-              <a href="https://doi.org/10.3390/pr10030515" target="_blank" rel="noopener noreferrer">Njs and shear study <span>↗</span></a>
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3785115/" target="_blank" rel="noreferrer">hMSC scale-up study <span>↗</span></a>
+              <a href="https://doi.org/10.1016/j.ces.2019.04.001" target="_blank" rel="noopener noreferrer">Microcarrier Njs study <span>↗</span></a>
+              <a href="https://doi.org/10.1016/j.bej.2016.11.020" target="_blank" rel="noopener noreferrer">50 L hMSC scale-up <span>↗</span></a>
               <a href="https://cdn.cytivalifesciences.com/api/public/content/digi-12160-pdf" target="_blank" rel="noopener noreferrer">Carrier specifications <span>↗</span></a>
             </div>
           </div>

@@ -14,6 +14,7 @@ const contentTypes = {
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".map": "application/json; charset=utf-8",
+  ".pdf": "application/pdf",
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".txt": "text/plain; charset=utf-8",
@@ -61,6 +62,11 @@ export default {
     let pathname = url.pathname;
     let status = 200;
 
+    if (url.hostname === "www.katharinabrenner.com") {
+      url.hostname = "katharinabrenner.com";
+      return Response.redirect(url.toString(), 308);
+    }
+
     if (pathname.endsWith("/index.html")) {
       url.pathname = pathname === "/index.html" ? "/" : pathname.slice(0, -"index.html".length);
       return Response.redirect(url.toString(), 308);
@@ -99,12 +105,17 @@ export default {
       });
     }
 
+    const assetName = pathname.split("/").pop() || "";
+    const assetFingerprint = assetName.includes("-") ? assetName.split("-").pop().split(".")[0] : "";
+    const isFingerprintedAsset = pathname.startsWith("/assets/") && assetFingerprint.length >= 8;
     const cacheControl = pathname.endsWith(".html")
       || pathname === "/robots.txt"
       || pathname === "/sitemap.xml"
       || pathname === "/site.webmanifest"
       ? "public, max-age=0, must-revalidate"
-      : "public, max-age=31536000, immutable";
+      : isFingerprintedAsset
+        ? "public, max-age=31536000, immutable"
+        : "public, max-age=3600, must-revalidate";
 
     return new Response(request.method === "HEAD" ? null : decode(asset.body), {
       status,

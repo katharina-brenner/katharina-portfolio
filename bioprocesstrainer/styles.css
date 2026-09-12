@@ -47,8 +47,9 @@ button { color: inherit; }
 .bpt-bottle { display: block; width: 25px; height: 60px; border: 2px solid #606060; border-radius: 4px 4px 8px 8px; background: linear-gradient(90deg, #888 0 12%, #fafafa 12% 68%, #a9a9a9 68%); }
 .bpt-bottle.ready { background: linear-gradient(90deg, #888 0 12%, #e8d9a0 12% 68%, #a9a9a9 68%); box-shadow: 0 0 0 2px #2c9a3a; }
 .bpt-gas-station { position: absolute; top: 26px; right: 25px; z-index: 2; width: 204px; border: 1px solid #aaa; background: #eaeaea; padding: 8px 12px; text-align: left; font-size: 11px; line-height: 21px; cursor: pointer; }
-.bpt-gas-station > span { position: absolute; top: -18px; left: -28px; }
-.bpt-gas-station div::before { content: '◉ ─ ◉'; margin-right: 10px; color: #777; }
+.bpt-gas-station > span:first-child { position: absolute; top: -18px; left: -28px; }
+.bpt-gas-reading { display: block; }
+.bpt-gas-reading::before { content: '◉ ─ ◉'; margin-right: 10px; color: #777; }
 .bpt-gas-station:hover, .bpt-gas-station:focus-visible { outline: 2px solid #007c7d; outline-offset: 2px; }
 .bpt-reactor-area { position: absolute; top: 188px; left: 43%; z-index: 2; display: flex; align-items: center; }
 .bpt-motor { position: absolute; top: -38px; left: 38px; z-index: 3; display: grid; width: 42px; height: 42px; place-items: center; border: 3px double #444; border-radius: 50%; background: #f8f8f8; font-weight: 700; cursor: pointer; }
@@ -59,7 +60,7 @@ button { color: inherit; }
 .bpt-scale { margin-left: 10px; font-size: 10px; line-height: 12px; }
 .bpt-bubbles { position: absolute; inset: 0; display: none; overflow: hidden; }.bpt-bubbles.active { display: block; }.bpt-bubbles i { position: absolute; bottom: 10px; width: 5px; height: 5px; border: 1px solid #7c7800; border-radius: 50%; animation: bubble 2.2s linear infinite; }.bpt-bubbles i:nth-child(1) { left: 25px; animation-delay: -.4s; }.bpt-bubbles i:nth-child(2) { left: 44px; animation-delay: -1.5s; }.bpt-bubbles i:nth-child(3) { left: 60px; animation-delay: -.9s; }.bpt-bubbles i:nth-child(4) { left: 70px; animation-delay: -1.9s; }.bpt-bubbles i:nth-child(5) { left: 35px; animation-delay: -2.1s; }
 .bpt-values { position: absolute; top: 120px; right: 35px; z-index: 2; display: grid; grid-template-columns: repeat(2, 78px); gap: 6px; }
-.bpt-values output { display: grid; min-height: 47px; place-items: center; border: 1px solid #7d7d7d; border-radius: 12px; background: #fff; font-size: 12px; line-height: 13px; }.bpt-values output.set { grid-column: 1 / -1; justify-self: end; width: 78px; background: #fff9c9; }.bpt-values b { font-size: 13px; }
+.bpt-values .bpt-reading { display: grid; min-height: 47px; place-items: center; border: 1px solid #7d7d7d; border-radius: 12px; background: #fff; font-size: 12px; line-height: 13px; }.bpt-values .bpt-reading.set { grid-column: 1 / -1; justify-self: end; width: 78px; background: #fff9c9; }.bpt-values b { font-size: 13px; }
 .bpt-product { position: absolute; right: 52px; bottom: 10px; z-index: 2; display: grid; grid-template-columns: 55px 68px; align-items: center; gap: 8px; font-size: 11px; }.bpt-product-vessel { position: relative; grid-row: span 2; width: 42px; height: 65px; overflow: hidden; border: 2px solid #777; border-radius: 0 0 16px 16px; background: linear-gradient(90deg, #999, #fff, #aaa); }.bpt-product-vessel i { position: absolute; right: 7px; bottom: 4px; left: 7px; height: 0; background: #d7b036; }.bpt-product > span:last-child { padding: 12px 5px; border: 1px solid #999; border-radius: 9px; background: #fff; }
 .bpt-sample-point { position: absolute; right: 385px; bottom: 92px; z-index: 3; display: flex; align-items: center; border: 0; background: transparent; font-size: 24px; cursor: pointer; }.bpt-sample-point span { margin-left: 7px; font-size: 11px; }
 .bpt-thermal { position: absolute; top: 270px; left: 270px; z-index: 2; display: grid; width: 82px; justify-items: center; border: 1px solid #8da4a6; background: #eef4f4; padding: 4px; color: #005d5e; font-size: 10px; line-height: 13px; }.bpt-thermal b { font-family: 'Courier New', monospace; }
@@ -81,12 +82,14 @@ button { color: inherit; }
 @media (prefers-reduced-motion: reduce) { .bpt-bubbles i { animation: none; } }
 @media (max-width: 900px) { .bpt-header { grid-template-columns: 240px 1fr 160px 170px; }.bpt-workspace { grid-template-columns: minmax(0, 1fr) 196px; } }
 @media (max-width: 640px) { .portfolio-return { position: absolute; }.bpt-dialog { max-height: calc(100vh - 24px); overflow-y: auto; }.controller-grid, .model-grid, .model-equation, .model-switches, .process-data-grid { grid-template-columns: 1fr; }.environment-switch { padding-left: 12px; }.gas-grid { gap: 4px; padding: 7px; } }
-@media (max-width: 1279px) {
+@media (min-width: 901px) and (max-width: 1279px) {
   .bpt-stage { overflow-x: hidden; padding: 48px 12px 16px; }
   .bpt-window { margin: 0; zoom: calc((100vw - 24px) / 1240px); }
   .bpt-header { grid-template-columns: 1.1fr 1fr .5fr 170px; }
   .bpt-workspace { grid-template-columns: minmax(700px, 1fr) 196px; }
 }
+
+.bpt-mobile-hint { display: none; }
 
 .bpt-time { padding: 7px 8px 5px; }
 .bpt-time > div { margin-bottom: 4px; font-size: 11px; }
@@ -267,14 +270,14 @@ body {
 }
 .bpt-gas-station:hover,
 .bpt-gas-station:focus-visible { outline-color: var(--bpt-blue); }
-.bpt-gas-station div::before { color: var(--bpt-blue); }
+.bpt-gas-reading::before { color: var(--bpt-blue); }
 .bpt-thermal { color: var(--bpt-ink-2); }
-.bpt-values output {
+.bpt-values .bpt-reading {
   border-color: rgb(6 26 51 / 22%);
   background: var(--bpt-white);
   box-shadow: 0 7px 16px rgb(6 26 51 / 12%);
 }
-.bpt-values output.set {
+.bpt-values .bpt-reading.set {
   border-color: rgb(255 210 28 / 72%);
   background: #fff9dc;
 }
@@ -573,7 +576,7 @@ body {
   transform: translate(-50%, -50%) rotate(-90deg);
 }
 .gas-grid input[type="range"]:disabled { cursor: default; opacity: .48; }
-.gas-channel output {
+.gas-channel .gas-output {
   width: calc(100% - 24px);
   margin: 0 12px 11px;
   border: 1px solid rgb(40 86 246 / 22%);
@@ -830,9 +833,71 @@ body {
   .trend-toolbar { flex-wrap: wrap; }
 }
 
-@media (max-width: 1279px) {
+@media (min-width: 901px) and (max-width: 1279px) {
   .bpt-stage { overflow-x: hidden; padding: 48px 12px 16px; }
   .bpt-window { margin: 0; zoom: calc((100vw - 24px) / 1240px); }
   .bpt-header { grid-template-columns: 1.1fr 1fr .5fr 170px; }
   .bpt-workspace { grid-template-columns: minmax(700px, 1fr) 196px; }
+}
+
+/* Responsive instrument reflow */
+@media (max-width: 900px) {
+  .portfolio-return { position: absolute; display: inline-flex; min-height: 44px; align-items: center; }
+  .bpt-stage { padding: 54px 10px 16px; overflow-x: hidden; }
+  .bpt-window { width: 100%; min-width: 0; min-height: 0; margin: 0; border-radius: 10px; zoom: 1; }
+  .bpt-header { grid-template-columns: minmax(0, 1fr) 118px; min-height: 104px; }
+  .bpt-brand { display: none; }
+  .bpt-header h1 { grid-column: 1; grid-row: 1; padding: 14px 14px 4px; font-size: clamp(24px, 7vw, 32px); }
+  .bpt-organism { grid-column: 1; grid-row: 2; padding: 0 14px 17px; font-size: 15px; }
+  .bpt-power { grid-column: 2; grid-row: 1 / span 2; min-width: 44px; min-height: 44px; padding: 22px 9px 0; }
+  .bpt-workspace { display: flex; min-height: 0; flex-direction: column; }
+  .bpt-sidebar { order: -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px; }
+  .bpt-time { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; border: 0; padding: 0; }
+  .bpt-time > div { grid-template-columns: 1fr; gap: 4px; margin: 0; }
+  .bpt-time dd { min-width: 0; }
+  .bpt-sidebar > .bpt-sidebar-group:not(.operations),
+  .bpt-sidebar-group.operations { grid-column: 1 / -1; }
+  .bpt-sidebar-group { border: 1px solid rgb(244 244 241 / 16%); border-radius: 8px; }
+  .bpt-sidebar-group.operations { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .bpt-sidebar-group.operations h2 { grid-column: 1 / -1; }
+  .bpt-sidebar button,
+  .bpt-exit,
+  .bpt-sidebar-group > button,
+  .bpt-sidebar-group.operations > button,
+  .bpt-speed-buttons button,
+  .bpt-run { min-height: 44px; }
+  .bpt-bottom-nav button,
+  .gas-channel-modes button,
+  .environment-switch button,
+  .model-mode-switch button,
+  .medium-grid > button,
+  .data-export-button { min-height: 44px; }
+  .dialog-close { width: 44px; height: 44px; }
+  .bpt-run,
+  .bpt-exit { width: auto; margin: 0; }
+  .bpt-process { min-height: 734px; max-width: 100%; overflow-x: auto; overflow-y: hidden; border-right: 0; overscroll-behavior-inline: contain; scroll-behavior: smooth; }
+  .bpt-mobile-hint {
+    position: sticky;
+    z-index: 8;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 34px;
+    align-items: center;
+    margin: 0;
+    border-bottom: 1px solid var(--bpt-line);
+    background: var(--bpt-signal);
+    padding: 0 12px;
+    color: var(--bpt-ink);
+    font: 700 9px/1.2 "Courier New", monospace;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .bpt-process-note,
+  .bpt-diagram,
+  .bpt-model-readout,
+  .bpt-statusline,
+  .bpt-bottom-nav { width: 1044px; }
+  .bpt-process-note { min-width: 1044px; }
+  .bpt-bottom-nav { right: auto; }
 }
